@@ -9,10 +9,10 @@
     <link rel="stylesheet" href="https://cdn.reflowhq.com/v2/toolkit.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
-    <link rel="stylesheet" href="assets/css/aos.min.css">
     <link rel="stylesheet" href="assets/css/animate.min.css">
-    
-
+    <link rel="stylesheet" href="assets/css/Projects-Grid-images.css">
+    <link rel="stylesheet" href="assets/css/products_and_grid.css">
+ 
 </head>
 
 <body>
@@ -21,89 +21,36 @@
             <div class="collapse navbar-collapse" id="navcol-1" style="padding-bottom: 0px;padding-left: 0px;padding-right: 0px;margin-right: 31px;">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="products.html">Products</a></li>
+                    <li class="nav-item dropdown show"><a class="dropdown-toggle nav-link" aria-expanded="true" data-bs-toggle="dropdown" href="products.html">Products</a>
+                        <div class="dropdown-menu show" data-bs-popper="none"><a class="dropdown-item" href="#">Nature&nbsp;</a><a class="dropdown-item" href="#">Sports</a><a class="dropdown-item" href="#">Animals</a></div>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="contacts.html">Contacts</a></li>
-                    <li class="nav-item"><a class="nav-link" href="aboutus.html">About us</a></li>
-                </ul> <a href="cart.html" class="btn btn-primary"> Cart <span>0</span> </a>
+                    <li class="nav-item"><a class="nav-link" href="#" style="text-align: center;">About us</a></li>
+                </ul><span data-reflow-type="view-cart" data-reflow-summary-type="dropdown" data-bss-hover-animate="bounce"><span>Cart</span></span>
             </div>
-            <div style="display: flex; justify-content: center; align-items: center;">
-              <a href="login.html" class="btn btn-primary" role="button">
-                <span style="color: #fdfdfd;">Log in</span>
-              </a>
-            </div>
+            <header></header><a class="btn btn-primary" role="button"><a href="login.html"><span style="color: rgb(255, 255, 255);">Log in now</span></a></a>
         </div>
     </nav>
-    <section class="py-5" style="background: #ffffff;">
-        <div class="container py-5">
-            <div class="row mb-4 mb-lg-5">
-                <div class="col">
-                    <div class="dropdown"><button class="btn btn-primary dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" type="button" style="background: rgb(255,255,255);"><span style="color: rgb(30, 29, 29); background-color: rgb(228, 226, 232);">filter</span></button>
-                        <div class="dropdown-menu"><a class="dropdown-item" href="#">nature</a><a class="dropdown-item" href="#">sports</a><a class="dropdown-item" href="#">animals</a></div>
-                    </div>
-                </div>
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <div data-reflow-type="product-search"></div>
-                </div>
-            </div>
-            <div class="row mx-auto">
-                <div class="col">
-                    <div data-reflow-type="product-list" data-reflow-layout="cards" data-reflow-order="date_desc" data-reflow-product-link="/product.html?product={id}" data-aos="fade" style="--bs-primary: rgb(127,55,244);--bs-primary-rgb: 127,55,244;"></div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="container">
+        <div id="productGrid"></div>
+    </div>    
     <footer class="bg-primary-gradient"></footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>
-    <script src="assets/js/aos.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/bold-and-bright.js"></script>
-<!-- ... (your HTML code) ... -->
-
-<script>
-    // Fetch products from the API endpoint and populate the product list
-    fetch('/api/products') // Replace with the actual API endpoint to fetch products
-        .then(response => response.json())
-        .then(products => {
-            console.log(products);
-            const productContainer = document.querySelector('[data-reflow-type="product-list"]');
-            products.forEach(product => {
-                const productElement = createProductElement(product);
-                productContainer.appendChild(productElement);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching products:', error);
-        });
-
-    // Create HTML element for each product and populate the content
-    function createProductElement(product) {
-        const productCard = document.createElement('div');
-        productCard.classList.add('card', 'mb-3');
-
-        // Create and set the card content based on your product schema
-        productCard.innerHTML = `
-            <img src="${product.image}" class="card-img-top" alt="${product.name}" onerror="imageLoadError(this)">
-            <div class="card-body">
-                <h5 class="card-title">${product.name}</h5>
-                <p class="card-text">${product.description}</p>
-                <p class="card-text"><strong>Price: $${product.price}</strong></p>
-                <p class="card-text">Rating: ${product.rating} (${product.numReviews} reviews)</p>
-                <p class="card-text">Availability: ${product.countInStock} in stock</p>
-            </div>
-        `;
-
-        return productCard;
-    }
-
-    // Handle image load errors by setting a fallback image
-    function imageLoadError(imgElement) {
-        imgElement.onerror = null;
-        imgElement.src = 'tiger.jpg'; // Replace with the URL of your fallback image
-        imgElement.alt = 'Image not available';
-    }
-</script>
-
+    <script src="assets/js/products.js"></script> 
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+

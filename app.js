@@ -59,8 +59,6 @@ app.get('/', function (req, res) {
 
 
 //////////ADDING DATA ------------------------------ DO NOT DELETE!!!!!!!!!!!!!!!!!!! ----------------------
-
-
 /*
  // Save the products array to the MongoDB collection
  Product.insertMany(productsData)
@@ -125,9 +123,6 @@ app.get('/api/products', async (req, res) => {
     console.log('hello')
   }
 });
-
-
-
 
 
 // Routes
