@@ -11,7 +11,7 @@ if (window.innerWidth < 768) {
 
 
 
-/*
+
 document.addEventListener('DOMContentLoaded', function() {
 
 	var hoverAnimationTriggerList = [].slice.call(document.querySelectorAll('[data-bss-hover-animate]'));
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }, false);
 
-*/
+/*
 function beforeUnloadListener(event) {
 	event.preventDefault();
 	return event.returnValue = 'Are you sure you want to exit?';
@@ -44,3 +44,4 @@ function beforeUnloadListener(event) {
   onAllChangesSaved(() => {
 	window.removeEventListener('beforeunload', beforeUnloadListener);
   });
+  */

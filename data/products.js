@@ -12,7 +12,7 @@ const products = [
     },
     {
       name: "Wild Tiger Portrait",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTr3lXRWvdi1HpFoZU1BlLbHUgbbTLfT3Wccw&usqp=CAU",
+      image: "https://hahacanvas.co.il/wp-content/uploads/2021/11/%D7%AA%D7%9E%D7%95%D7%A0%D7%95%D7%AA-%D7%99%D7%A4%D7%95%D7%AA-%D7%9C%D7%94%D7%93%D7%A4%D7%A1%D7%94-17.jpg",
       brand: "Wildlife Wonders",
       category: "Animal Wallpaper",
       price: 24.99,
@@ -21,6 +21,7 @@ const products = [
       numReviews: 42,
       description: "Add a touch of the wild to your space with this captivating tiger portrait wallpaper.",
     },
+    /*
     {
       name: "Soccer Action Shot",
       image: "soccer.jpg",
@@ -109,6 +110,7 @@ const products = [
       numReviews: 36,
       description: "Relax and unwind with the soothing view of this aerial beach wallpaper.",
     },
+    */
   ];
   
   module.exports = products;

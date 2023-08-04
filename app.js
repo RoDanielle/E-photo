@@ -56,7 +56,7 @@ app.get('/', function (req, res) {
 });
 
 
-/////////////////
+
 
 //////////ADDING DATA ------------------------------ DO NOT DELETE!!!!!!!!!!!!!!!!!!! ----------------------
 
@@ -73,7 +73,7 @@ app.get('/', function (req, res) {
  }).catch((error) => {
 console.error('Error connecting to MongoDB:', error);
 });
-
+/*
 // save the store locations to the MongoDB collection
  Location.insertMany(locationsData)
  .then(() => {
@@ -86,7 +86,7 @@ console.error('Error connecting to MongoDB:', error);
  }).catch((error) => {
 console.error('Error connecting to MongoDB:', error);
 });
-
+*/
 
 // google map
 
@@ -139,4 +139,5 @@ app.use('/views', express.static('views'));
 app.use('/services', express.static('services'));
 app.use('/views/assets', express.static('assets'));
 app.use('/views/assets/js', express.static('js'));
+app.use(express.static('public'));
 
