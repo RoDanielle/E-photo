@@ -61,6 +61,7 @@ app.get('/', function (req, res) {
 //////////ADDING DATA ------------------------------ DO NOT DELETE!!!!!!!!!!!!!!!!!!! ----------------------
 
 
+/*
  // Save the products array to the MongoDB collection
  Product.insertMany(productsData)
  .then(() => {
@@ -73,7 +74,7 @@ app.get('/', function (req, res) {
  }).catch((error) => {
 console.error('Error connecting to MongoDB:', error);
 });
-/*
+
 // save the store locations to the MongoDB collection
  Location.insertMany(locationsData)
  .then(() => {
