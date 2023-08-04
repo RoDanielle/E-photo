@@ -29,3 +29,51 @@
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 20px;
     }
+/* Search browser */
+/* Basic styling, aligned with card styles */
+.search-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow multiple items per row */
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    gap: 20px;
+}
+
+.search-container input,
+.search-container select,
+.search-container button {
+    margin: 5px;
+    flex: 1; /* Expand to take available space */
+    max-width: 100%; /* Avoid overflowing */
+}
+
+/* Adjust search button size to match card elements */
+.search-container button {
+    padding: 10px 20px;
+    border-radius: 8px;
+    background-color: hsl(285, 75%, 34%);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Apply same margin and padding as card */
+.search-container input,
+.search-container select {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.image-results {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px;
+}
+
+.image-results img {
+    max-width: 200px;
+    margin: 10px;
+}
