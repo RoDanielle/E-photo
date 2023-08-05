@@ -56,12 +56,16 @@
                 </div>
                 <div class="col-md-6 col-xl-4">
                     <div>
+                        <div id="messageDiv"></div>
                         <form class="p-3 p-xl-4" method="post" data-bs-theme="light" action="/submit-form" id="contactForm">
                             <div class="mb-3"><input class="form-control" type="text" id="name-1" name="name" placeholder="Name"></div>
-                            <div class="mb-3"><input class="form-control" type="email" id="email-1" name="email" placeholder="Email"></div>
+                            <div class="mb-3">
+                                <input class="form-control" type="email" id="email-1" name="email" placeholder="Email">
+                                <div id="email-error" class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
                             <div class="mb-3"><textarea class="form-control" id="message-1" name="message" rows="6" placeholder="Message"></textarea></div>
-                            <div><button class="btn btn-primary shadow d-block w-100" type="submit" style="background: rgb(127,55,244);">Send </button></div>
-                        </form>
+                            <div><button class="btn btn-primary shadow d-block w-100" type="submit" style="background: rgb(127,55,244);" onclick="validateForm()">Send</button></div>
+                        </form>                        
                     </div>
                 </div>
                 <div class="col-md-4 col-xl-4 d-flex justify-content-center justify-content-xl-start">
@@ -102,8 +106,6 @@
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/bold-and-bright.js"></script>
-
 </body>
 
 </html>

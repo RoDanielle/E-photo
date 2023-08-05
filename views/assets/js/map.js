@@ -26,18 +26,53 @@ function initMap() {
   }
   
 
-    // function for form 
-    document.addEventListener('DOMContentLoaded', function () {
-      const contactForm = document.getElementById('contactForm');
-  
-      contactForm.addEventListener('submit', function (event) {
-        event.preventDefault(); // Prevent default form submission
-  
-        // Clear the form fields
-        contactForm.reset();
-  
-        // Display a success message or perform any other action you like
-        // For example, you can show an alert or update the page with a success message
-        alert('Form has been successfully submitted!');
- });
+// function for form 
+document.addEventListener('DOMContentLoaded', function () {
+  const contactForm = document.getElementById('contactForm');
+  const messageDiv = document.getElementById('messageDiv');
+
+  contactForm.addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent default form submission
+
+      var name = document.getElementById("name-1").value;
+      var email = document.getElementById("email-1").value;
+      var message = document.getElementById("message-1").value;
+
+      // Email validation
+      var emailInput = document.getElementById("email-1");
+      var emailError = document.getElementById("email-error");
+      var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+      var isFormValid = true; // Initialize the flag
+
+      if (!emailPattern.test(emailInput.value)) {
+          emailInput.classList.add("is-invalid"); // Apply Bootstrap invalid style
+          emailError.style.display = "block";     // Show error message
+          isFormValid = false; // Set flag to false
+      } else {
+          emailInput.classList.remove("is-invalid"); // Remove Bootstrap invalid style
+          emailError.style.display = "none";         // Hide error message
+      }
+
+      if (name === "" || email === "" || message === "") {
+          // At least one of the fields is empty, show an error message on the page
+          messageDiv.innerHTML = '<p class="text-danger">Please fill in all fields before sending.</p>';
+          isFormValid = false; // Set flag to false
+      } else {
+          // All fields are filled, clear the error message
+          messageDiv.innerHTML = ''; // Clear the error message
+          contactForm.reset();
+          // Here, you can also include code to actually submit the form to your backend server if needed.
+      }
+
+      if (isFormValid) {
+        // Update the messageDiv with success message
+        messageDiv.innerHTML = '<p class="text-success">Message sent successfully!</p>';
+
+        // Clear the success message after two seconds
+        setTimeout(function() {
+            messageDiv.innerHTML = '';
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+  });
 });
