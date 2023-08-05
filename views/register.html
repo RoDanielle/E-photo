@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Sign up - E.Photo</title>
+    <title>Register - E.Photo</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.reflowhq.com/v2/toolkit.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
@@ -49,11 +49,11 @@
                                 </svg></div>
                             <form method="post" data-bs-theme="light">
                                 <div class="mb-3"><input class="form-control" type="text" id="First-Name" name="First Name" placeholder="First Name"></div>
-                                <div class="mb-3"><input class="form-control" type="text" name="Last Name" placeholder="Last Name"></div>
+                               
                                 <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email"></div>
                                 <div><input class="form-control" type="password" name="password" placeholder="Password"></div>
                                 <div></div>
-                            </form><button class="btn btn-primary shadow d-block w-100" type="submit" style="background: rgb(127,55,244);">Sign up</button>
+                            </form><button class="btn btn-primary shadow d-block w-100" type="submit" style="background: rgb(127,55,244);">Register</button>
                             <p class="text-muted">Already have an account?&nbsp;<a href="login.html">Log in</a></p>
                         </div>
                     </div>
@@ -61,6 +61,32 @@
             </div>
         </div>
     </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $("#registrationForm").submit(function(e) {
+      e.preventDefault();
+
+      const username = $("#username").val();
+      const email = $("#email").val();
+      const password = $("#password").val();
+
+      $.ajax({
+        type: "POST",
+        url: "/register",
+        data: { username, email, password },
+        success: function(response) {
+          console.log(response);
+          alert("Registration successful!");
+        },
+        error: function(error) {
+          console.error(error);
+          alert("Registration failed.");
+        }
+      });
+    });
+});
+</script>
     <footer class="bg-primary-gradient"></footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>

@@ -9,6 +9,15 @@ const mongoose = require('mongoose');
 //const Orders = require('./routes/R_order');
 const Products = require('./routes/products');
 const Locations = require('./routes/location');
+const Users = require('./routes/user');
+const LogIn = require('./routes/login');
+
+
+const passport=require("passport");
+const { loginCheck }=require("./auth/passport");
+loginCheck(passport);
+
+const users = [];
 
 const customEnv = require('custom-env');
 const path = require('path'); 
@@ -16,14 +25,19 @@ customEnv.env(process.env.NODE_ENV, './config');
 
 const Product = require('./models/product');
 const Location = require('./models/location');
+const User = require('./models/user');
+
 
 const productsData = require('./data/products');
 const locationsData = require('./data/location');
 //const importProducts = mongoose.model('Product', Product);?????
+const userData = require('./data/user');
+
 
 const app = express(); // Initialize the 'app' variable here
 //app.set('view engine', 'ejs'); // might not be neede (added when trying to fix the map)
 
+const session = require('express-session');
 
 
 // Mongo DB connection
@@ -44,6 +58,19 @@ const connectToMongoDB = async () => {
 
 // Call the function to connect to MongoDB
 connectToMongoDB();
+
+
+//BodyParsing: This built-in express middleware gives us the ability to process posted data and store it in the req.body.
+//app.use(express.urlencoded({extended: false}));
+
+app.use(session({
+  secret:'oneboy',
+  saveUninitialized: true,
+  resave: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.use(express.static(__dirname + '/views/'));
@@ -87,6 +114,28 @@ console.error('Error connecting to MongoDB:', error);
 });
 */
 
+/*
+// Save the users array to the MongoDB collection
+User.insertMany(userData)
+.then(() => {
+  console.log('User data saved to MongoDB');
+  //mongoose.disconnect(); // Close the connection after saving data
+})
+.catch((error) => {
+  console.error('Error saving user data to MongoDB:', error);
+  mongoose.disconnect(); // Close the connection on error
+}).catch((error) => {
+console.error('Error connecting to MongoDB:', error);
+});
+*/
+app.post('/register', (req, res) => {
+  const { username, email, password } = req.body;
+
+  // Insert user into the 'users' collection
+  user.push({ username, email, password });
+
+  res.status(200).send('User registered successfully.');
+});
 // google map
 
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
@@ -129,6 +178,8 @@ app.get('/api/products', async (req, res) => {
 //app.use( Orders);
 app.use( Products);
 app.use(Locations);
+app.use(Users);
+app.use(LogIn);
 app.use('/controllers', express.static('controllers'));
 app.use('/routes', express.static('routes'));
 app.use('/views', express.static('views'));
