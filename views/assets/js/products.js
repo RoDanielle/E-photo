@@ -1,5 +1,5 @@
         // Fetch products from the API endpoint and populate the product list
-        fetch('/api/products') // Replace with the actual API endpoint to fetch products
+        fetch('/api/store-products') // Replace with the actual API endpoint to fetch products
             .then(response => response.json())
             .then(products => {
                 console.log(products);
@@ -21,16 +21,18 @@
     
             // Create and set the card content based on your product schema
             productCard.innerHTML = `
+            <a href="product.html?id=${product._id}">
                 <img src="${product.image}" class="card-img-top" alt="${product.name}" onerror="imageLoadError(this)">
-                <div class="card-body">
-                    <h5 class="card-title">${product.name}</h5>
-                    <p class="card-text">${product.description}</p>
-                    <p class="card-text"><strong>Price: $${product.price}</strong></p>
-                    <p class="card-text">Rating: ${product.rating} (${product.numReviews} reviews)</p>
-                    <p class="card-text">Availability: ${product.countInStock} in stock</p>
-                    <button class="btn btn-primary" data-product-id="${product.id}">Add to Cart</button>
-                </div>
-            `;
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description}</p>
+                <p class="card-text"><strong>Price: $${product.price}</strong></p>
+                <p class="card-text">Rating: ${product.rating} (${product.numReviews} reviews)</p>
+                <p class="card-text">Availability: ${product.countInStock} in stock</p>
+                <button class="btn btn-primary" data-product-id="${product.id}">Add to Cart</button>
+            </div>
+        `;
 
             const addToCartButton = productCard.querySelector('.btn-primary');
             addToCartButton.addEventListener('click', () => addToCart(product));

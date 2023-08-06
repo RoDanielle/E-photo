@@ -6,6 +6,15 @@ const C_products = {
     return await S_products.getAll();
   },
 
+  getProductById: async (_id) => {
+    try {
+      return await S_products.getProductById(_id);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  },
+
   updateProduct: async (product) => {
     return await S_products.updateProduct(product);
   },

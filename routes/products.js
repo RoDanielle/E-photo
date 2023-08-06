@@ -1,9 +1,10 @@
-const  express = require('express');
-const  router = express.Router();
-const  C_products  = require('../controllers/products'); 
+const express = require('express');
+const router = express.Router();
+const C_products  = require('../controllers/products'); 
 const Products = require('../data/products'); // Import the products data
 const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
 
+// get all peoducts 
 router.get("/api/store-products", (req, res) => {
     C_products.getAll()
       .then((data) => {
@@ -15,6 +16,23 @@ router.get("/api/store-products", (req, res) => {
         res.status(500).json({ error: 'Failed to fetch store products' });
       });
   });
+
+ // Get details for a single product by ID
+router.get("/api/store-products/:productId", (req, res) => {
+  const productId = req.params.productId;
+  
+  C_products.getProductById(productId)
+    .then((product) => {
+      if (!product) {
+        return res.status(404).json({ error: 'Product not found' });
+      }
+      res.json(product);
+    })
+    .catch((error) => {
+      console.error('Error fetching product details:', error);
+      res.status(500).json({ error: 'Failed to fetch product details' });
+    });
+}); 
 
 //router.put("/api/store-products", adminAuthMiddleware, (req, res) => {
 router.put("/api/store-products", (req, res) => {

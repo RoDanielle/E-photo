@@ -90,7 +90,7 @@ app.get('/', function (req, res) {
 
 
 //////////ADDING DATA ------------------------------ DO NOT DELETE!!!!!!!!!!!!!!!!!!! ----------------------
-/*
+
 // save the store locations data to the MongoDB collection - using post 
 (async () => {
   try {
@@ -120,7 +120,7 @@ app.get('/', function (req, res) {
     console.error('Error adding initial products data:', error);
   }
 })();
-*/
+
 
 /*
 // Save the users array to the MongoDB collection
