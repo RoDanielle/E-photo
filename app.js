@@ -26,21 +26,23 @@ const Products = require('./routes/products');
 const R_Location = require('./routes/location');
 const Users = require('./routes/user');
 const LogIn = require('./routes/login');
+const ShoppingCart = require('./routes/shoppingCart');
 
 // --- models paths ---
 const Product = require('./models/product');
 const M_Location = require('./models/location');
 const User = require('./models/user');
+const Shopping_Cart = require('./models/shoppingCart');
 
 // --- data paths ---
 const productsData = require('./data/products');
 const D_location = require('./data/location');
-//const importProducts = mongoose.model('Product', Product);?????
 const userData = require('./data/user');
 
 // --- controllers paths ---
 const C_location = require('./controllers/location');
 const C_products = require('./controllers/products');
+const C_shoppingCart = require('./controllers/shoppingCart');
 
 
 // --- Mongo DB connection ---
@@ -77,6 +79,8 @@ app.use(passport.session());
 app.use(express.static(__dirname + '/views/'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
+//Analyst json data 
+//app.use.apply(bodyParser.json());
 app.use(express.json());
 app.use('/locations', R_Location);
 
@@ -190,6 +194,7 @@ app.get('/api/products', async (req, res) => {
 
 // Routes
 //app.use( Orders);
+app.use(ShoppingCart);
 app.use( Products);
 app.use(R_Location);
 app.use(Users);
