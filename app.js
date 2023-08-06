@@ -17,8 +17,6 @@ const passport=require("passport");
 const { loginCheck }=require("./auth/passport");
 loginCheck(passport);
 
-const users = [];
-
 const customEnv = require('custom-env');
 const path = require('path'); 
 customEnv.env(process.env.NODE_ENV, './config');
@@ -114,7 +112,7 @@ console.error('Error connecting to MongoDB:', error);
 });
 */
 
-/*
+
 // Save the users array to the MongoDB collection
 User.insertMany(userData)
 .then(() => {
@@ -127,15 +125,43 @@ User.insertMany(userData)
 }).catch((error) => {
 console.error('Error connecting to MongoDB:', error);
 });
-*/
+
+
+// testing - tring to enter data 
+/*
 app.post('/register', (req, res) => {
   const { username, email, password } = req.body;
 
   // Insert user into the 'users' collection
-  user.push({ username, email, password });
+  users.push({ username, email, password });
 
   res.status(200).send('User registered successfully.');
 });
+*/
+app.post('/register', async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    // Create a new user document
+    const newUser = new User({
+      username,
+      email,
+      password
+    });
+
+    // Save the user to the database
+    await newUser.save();
+
+    res.status(200).send('User registered successfully.');
+  } catch (error) {
+    console.error('Error registering user:', error);
+    res.status(500).send('An error occurred during registration.');
+  }
+});
+
+
+
+
 // google map
 
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
