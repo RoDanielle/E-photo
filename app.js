@@ -6,13 +6,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-//const Orders = require('./routes/R_order');
-const Products = require('./routes/products');
-const Locations = require('./routes/location');
-const Users = require('./routes/user');
-const LogIn = require('./routes/login');
-
-
 const passport=require("passport");
 const { loginCheck }=require("./auth/passport");
 loginCheck(passport);
@@ -21,25 +14,36 @@ const customEnv = require('custom-env');
 const path = require('path'); 
 customEnv.env(process.env.NODE_ENV, './config');
 
-const Product = require('./models/product');
-const Location = require('./models/location');
-const User = require('./models/user');
-
-
-const productsData = require('./data/products');
-const locationsData = require('./data/location');
-//const importProducts = mongoose.model('Product', Product);?????
-const userData = require('./data/user');
-
-const C_location = require('./controllers/location');
-
 const app = express(); // Initialize the 'app' variable here
 //app.set('view engine', 'ejs'); // might not be neede (added when trying to fix the map)
 
 const session = require('express-session');
 
 
-// Mongo DB connection
+// --- routes paths ---
+//const Orders = require('./routes/R_order');
+const Products = require('./routes/products');
+const R_Location = require('./routes/location');
+const Users = require('./routes/user');
+const LogIn = require('./routes/login');
+
+// --- models paths ---
+const Product = require('./models/product');
+const M_Location = require('./models/location');
+const User = require('./models/user');
+
+// --- data paths ---
+const productsData = require('./data/products');
+const D_location = require('./data/location');
+//const importProducts = mongoose.model('Product', Product);?????
+const userData = require('./data/user');
+
+// --- controllers paths ---
+const C_location = require('./controllers/location');
+const C_products = require('./controllers/products');
+
+
+// --- Mongo DB connection ---
 const database = process.env.CONNECTION_STRING // || 'mongodb://127.0.0.1:27017/proddb';
 
 const connectToMongoDB = async () => {
@@ -58,9 +62,6 @@ const connectToMongoDB = async () => {
 // Call the function to connect to MongoDB
 connectToMongoDB();
 
-
-
-
 //BodyParsing: This built-in express middleware gives us the ability to process posted data and store it in the req.body.
 //app.use(express.urlencoded({extended: false}));
 
@@ -73,28 +74,25 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.use(express.static(__dirname + '/views/'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-app.use('/locations', Locations);
+app.use('/locations', R_Location);
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
 
-
-
 //////////ADDING DATA ------------------------------ DO NOT DELETE!!!!!!!!!!!!!!!!!!! ----------------------
 
-// save the store locations to the MongoDB collection - using post 
+// save the store locations data to the MongoDB collection - using post 
 (async () => {
   try {
-    const existingData = await Location.find();
-    if (existingData.length === 0) {
-      await C_location.addLocationsFromData(locationsData);
+    const existinLocationgData = await M_Location.find();
+    if (existinLocationgData.length === 0) {
+      await C_location.addLocationsFromData(D_location);
       console.log('Initial location data added to the database');
     } else {
       console.log('Location Data already exists in the database');
@@ -104,20 +102,21 @@ app.get('/', function (req, res) {
   }
 })();
 
-/*
- // Save the products array to the MongoDB collection
- Product.insertMany(productsData)
- .then(() => {
-   console.log('Products data saved to MongoDB');
-   //mongoose.disconnect(); // Close the connection after saving data
- })
- .catch((error) => {
-   console.error('Error saving products data to MongoDB:', error);
-   mongoose.disconnect(); // Close the connection on error
- }).catch((error) => {
-console.error('Error connecting to MongoDB:', error);
-});
-*/
+// save the products data to the MongoDB collection - using post 
+(async () => {
+  try {
+    const existinProductData = await Product.find();
+    if (existinProductData.length === 0) {
+      await C_products.addProductsFromData(productsData);
+      console.log('Initial products data added to the database');
+    } else {
+      console.log('Products Data already exists in the database');
+    }
+  } catch (error) {
+    console.error('Error adding initial products data:', error);
+  }
+})();
+
 
 /*
 // Save the users array to the MongoDB collection
@@ -168,9 +167,7 @@ app.post('/register', async (req, res) => {
 });
 
 
-
-
-// google map
+// --- google map ---
 
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 console.log('Process Environment:', process.env); // delete after fixing
@@ -181,22 +178,6 @@ app.get('/contacts.html', (req, res) => {
   res.render('contacts', { encodedApiKey }); // change encodedApiKey to apiKey after fixing
 });
 
-/*
-console.log('API Key:', process.env.GOOGLE_MAPS_API_KEY); // Check if the API key is loaded correctly
-
-app.get('/api/google-maps-key', (req, res) => {
-  res.json({ apiKey: process.env.GOOGLE_MAPS_API_KEY });
-});
-
-
-// Route for serving contacts.html and injecting the API key
-app.get('/contacts.html', (req, res) => {
-  const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-  res.sendFile(path.join(__dirname,'views', 'contacts.html')
-    .replace('YOUR_GOOGLE_MAPS_API_KEY', apiKey));
-});
-
-*/
 
 app.get('/api/products', async (req, res) => {
   try {
@@ -207,11 +188,10 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-
 // Routes
 //app.use( Orders);
 app.use( Products);
-app.use(Locations);
+app.use(R_Location);
 app.use(Users);
 app.use(LogIn);
 app.use('/controllers', express.static('controllers'));

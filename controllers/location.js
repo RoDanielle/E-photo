@@ -1,5 +1,4 @@
 const StoreLocation = require('../models/location');
-
 const S_location = require("../services/location");
 
 const C_location = {
@@ -10,32 +9,37 @@ const C_location = {
     },
 
     updateLocation: async (location)=> {
-        return await S_location.updateBranch(location);
+        return await S_location.updateLocation(location);
     },
 
     getLocationByNameSearch: async (name)=> {
         if(name)
-            return await S_location.getBranchByNameSearch(name);
+            return await S_location.getLocationByNameSearch(name);
         return await S_location.getAll();
     },
 
     deleteLocation: async (_id)=> {
-        return await S_location.deleteBranch(_id);
+        return await S_location.deleteLocation(_id);
     },
 
-    /*
-    addLocation: async (name,lat,lng)=> {
-        try{
-            return await S_location.addBranch(name,lat,lng);
+    // manually 
+    addLocation: async (name, lat, lng) => {
+        try {
+          const newLocation = new StoreLocation({
+            name,
+            lat,
+            lng,
+          });
+          await newLocation.save();
+      
+          return { message: 'Location added successfully', location: newLocation };
+        } catch (e) {
+          console.error(e);
+          throw e;
         }
-        catch(e){
-            console.log(e);
-            res.json({error:e});
-        }
-    },
-    */
+      },
 
-
+    // from data file
     addLocationsFromData: async (locations) => {
         try {
           const insertPromises = locations.map(async (location) => {
@@ -57,7 +61,7 @@ const C_location = {
         }
       },
 
-      
+
     };
 
 

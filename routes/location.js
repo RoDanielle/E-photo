@@ -1,8 +1,10 @@
-// routes/R_location.js
+
 const express = require('express');
 const router = express.Router();
 const C_location = require('../controllers/location');
-const storeLocations = require('../data/location');
+const storeLocations = require('../data/location'); // Import the locations data
+const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
+
 
 router.get("/api/store-location", (req, res) => {
   C_location.getAll()
@@ -16,29 +18,34 @@ router.get("/api/store-location", (req, res) => {
     });
 });
 
-//router.put("/api/store-location", adminAuth, (req, res) => {
-router.put("/api/store-location", (req, res) => {
+// only admin
+router.put("/api/store-location", adminAuthMiddleware, (req, res) => {
     C_location.updateLocation(req.body).then((data) => {
         res.json(data);
     })
 });
 
-//router.delete("/api/store-location", adminAuth, (req, res) => {
-router.delete("/api/store-location", (req, res) => {
+// only admin
+router.delete("/api/store-location", adminAuthMiddleware, (req, res) => {
     C_location.deleteLocation(req.body._id).then((data) => {
         res.json(data);
     })
 });
 
-/*
-//router.post("/api/store-location", adminAuth, (req, res) => {
-router.post("/api/store-location", (req, res) => {
-    C_location.addLocation(req.body.name, req.body.lat, req.body.lng).then((data) => {
-        res.json(data);
-    })
-});
-*/
+// only admin
+router.post('/api/add-location', adminAuthMiddleware, async (req, res) => {
+    const { name, lat, lng } = req.body;
+  
+    try {
+      const newLocation = await C_location.addLocation(name, lat, lng);
+      res.json({ message: 'Location added successfully', location: newLocation });
+    } catch (error) {
+      console.error('Error adding location:', error);
+      res.status(500).json({ error: 'Failed to add location' });
+    }
+  });
 
+// Load locations from data when starting the server
 router.post('/api/add-locations', async (req, res) => {
     try {
       const result = await C_location.addLocationsFromData(storeLocations);
@@ -49,46 +56,6 @@ router.post('/api/add-locations', async (req, res) => {
     }
   });
   
-  
 
 module.exports = router;
  
-
-
-// admin - user 
-/*
-const express = require('express');
-const router = express.Router();
-//const adminAuth = require("../middleware/adminAuth"); // involve this with users and admin
-const C_location  = require('../controllers/C_location');
-
-
-router.get("/api/store-location", (req, res) => {
-    C_location.getAll().then((data) => {
-        res.json(data);
-    })
-});
-
-//router.put("/api/store-location", adminAuth, (req, res) => {
-router.put("/api/store-location", (req, res) => {
-    C_location.updateLocation(req.body).then((data) => {
-        res.json(data);
-    })
-});
-
-//router.delete("/api/store-location", adminAuth, (req, res) => {
-router.delete("/api/store-location", (req, res) => {
-    C_location.deleteLocation(req.body._id).then((data) => {
-        res.json(data);
-    })
-});
-
-//router.post("/api/store-location", adminAuth, (req, res) => {
-router.post("/api/store-location", (req, res) => {
-    C_location.addLocation(req.body.name, req.body.lat, req.body.lng).then((data) => {
-        res.json(data);
-    })
-});
-
-module.exports = router;
-*/
