@@ -47,10 +47,20 @@
             imgElement.alt = 'Image not available';
         }
 
-            // Function to handle adding a product to the cart
         function addToCart(product) {
-             // Implement your "Add to Cart" functionality here
-             // You can use the product information to add the item to the cart
-            // For example: update a cart object or make an API call
-             console.log(`Added ${product.name} to the cart.`);
-         }
+            console.log('Adding to cart:', product._id);
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ product_id: product._id }), // Use the correct property name
+            })
+            .then(response => response.json())
+            .then(cartProducts => {
+                console.log('Added to cart:', product._id);
+                console.log('Cart contents:', cartProducts);
+            })
+            .catch(error => {
+                console.error('Error adding to cart:', error);
+            })};

@@ -11,23 +11,23 @@ const C_cart = {
     }
   },
 
-  addToCart: async (req, res) => {
-    const { productId, quantity } = req.body;
-
+async addToCart(req, res) {
+    const { itemId, quantity } = req.body; // Use the correct property name
     try {
-      const updatedCart = await CartService.addToCart(productId, quantity);
-      res.json(updatedCart);
+        const cartProducts = await CartService.addToCart(itemId, quantity);
+        res.status(200).json(cartProducts);
     } catch (error) {
-      console.error('Error adding product to cart:', error);
-      res.status(500).json({ error: 'Failed to add product to cart' });
+        console.error('Error adding to cart:', error);
+        res.status(500).json({ error: 'Error adding to cart' });
     }
-  },
+},
+
 
   updateCartItemQuantity: async (req, res) => {
-    const { productId, quantity } = req.body;
+    const { itemId, quantity } = req.body;
 
     try {
-      const updatedCart = await CartService.updateCartItemQuantity(productId, quantity);
+      const updatedCart = await CartService.updateCartItemQuantity(itemId, quantity);
       res.json(updatedCart);
     } catch (error) {
       console.error('Error updating cart item quantity:', error);
@@ -36,10 +36,10 @@ const C_cart = {
   },
 
   removeFromCart: async (req, res) => {
-    const { productId } = req.body;
+    const { itemId } = req.body;
 
     try {
-      const updatedCart = await CartService.removeFromCart(productId);
+      const updatedCart = await CartService.removeFromCart(itemId);
       res.json(updatedCart);
     } catch (error) {
       console.error('Error removing product from cart:', error);

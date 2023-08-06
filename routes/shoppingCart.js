@@ -7,7 +7,7 @@ const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your a
 // Get the contents of the shopping cart
 router.get('/api/cart', async (req, res) => {
   try {
-    const cartContents = await C_cart.getCartContents();
+    const cartContents = await C_ShoppingCart.getCartContents();
     res.json(cartContents);
   } catch (error) {
     console.error('Error fetching cart contents:', error);
@@ -17,10 +17,10 @@ router.get('/api/cart', async (req, res) => {
 
 // Add a product to the shopping cart
 router.post('/api/cart/add', async (req, res) => {
-  const { productId, quantity } = req.body;
+  const { itemId, quantity } = req.body;
 
   try {
-    const updatedCart = await C_cart.addToCart(productId, quantity);
+    const updatedCart = await C_ShoppingCart.addToCart( itemId, quantity);
     res.json(updatedCart);
   } catch (error) {
     console.error('Error adding product to cart:', error);
@@ -30,10 +30,10 @@ router.post('/api/cart/add', async (req, res) => {
 
 // Update the quantity of a product in the shopping cart
 router.put('/api/cart/update', async (req, res) => {
-  const { productId, quantity } = req.body;
+  const { itemId, quantity } = req.body;
 
   try {
-    const updatedCart = await C_cart.updateCartItemQuantity(productId, quantity);
+    const updatedCart = await C_ShoppingCart.updateCartItemQuantity(itemId, quantity);
     res.json(updatedCart);
   } catch (error) {
     console.error('Error updating cart item quantity:', error);
@@ -43,10 +43,10 @@ router.put('/api/cart/update', async (req, res) => {
 
 // Remove a product from the shopping cart
 router.delete('/api/cart/remove', async (req, res) => {
-  const { productId } = req.body;
+  const { itemId } = req.body;
 
   try {
-    const updatedCart = await C_cart.removeFromCart(productId);
+    const updatedCart = await C_ShoppingCart.removeFromCart(itemId);
     res.json(updatedCart);
   } catch (error) {
     console.error('Error removing product from cart:', error);

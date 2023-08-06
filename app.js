@@ -80,7 +80,7 @@ app.use(express.static(__dirname + '/views/'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 //Analyst json data 
-//app.use.apply(bodyParser.json());
+//app.use(bodyParser.json());
 app.use(express.json());
 app.use('/locations', R_Location);
 
@@ -169,6 +169,7 @@ app.post('/register', async (req, res) => {
     res.status(500).send('An error occurred during registration.');
   }
 });
+
 
 
 // --- google map ---

@@ -10,7 +10,7 @@ const CartService = {
     }
   },
 
-  addToCart: async (productId, quantity) => {
+  addToCart: async (productId) => {
     try {
       const cart = await ShoppingBasket.findOne();
       cart.products.push(productId);
@@ -23,7 +23,7 @@ const CartService = {
 
   updateCartItemQuantity: async (productId, quantity) => {
     try {
-      // You might need to implement additional logic here if you want to update the quantity
+      // Implement your update quantity logic here
       const cart = await ShoppingBasket.findOne();
       return cart.products;
     } catch (error) {
