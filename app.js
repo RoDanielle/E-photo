@@ -31,6 +31,7 @@ const locationsData = require('./data/location');
 //const importProducts = mongoose.model('Product', Product);?????
 const userData = require('./data/user');
 
+const C_location = require('./controllers/location');
 
 const app = express(); // Initialize the 'app' variable here
 //app.set('view engine', 'ejs'); // might not be neede (added when trying to fix the map)
@@ -58,6 +59,8 @@ const connectToMongoDB = async () => {
 connectToMongoDB();
 
 
+
+
 //BodyParsing: This built-in express middleware gives us the ability to process posted data and store it in the req.body.
 //app.use(express.urlencoded({extended: false}));
 
@@ -75,6 +78,7 @@ app.use(express.static(__dirname + '/views/'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+app.use('/locations', Locations);
 
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
@@ -84,6 +88,22 @@ app.get('/', function (req, res) {
 
 
 //////////ADDING DATA ------------------------------ DO NOT DELETE!!!!!!!!!!!!!!!!!!! ----------------------
+
+// save the store locations to the MongoDB collection - using post 
+(async () => {
+  try {
+    const existingData = await Location.find();
+    if (existingData.length === 0) {
+      await C_location.addLocationsFromData(locationsData);
+      console.log('Initial location data added to the database');
+    } else {
+      console.log('Location Data already exists in the database');
+    }
+  } catch (error) {
+    console.error('Error checking or adding initial location data:', error);
+  }
+})();
+
 /*
  // Save the products array to the MongoDB collection
  Product.insertMany(productsData)
@@ -93,19 +113,6 @@ app.get('/', function (req, res) {
  })
  .catch((error) => {
    console.error('Error saving products data to MongoDB:', error);
-   mongoose.disconnect(); // Close the connection on error
- }).catch((error) => {
-console.error('Error connecting to MongoDB:', error);
-});
-
-// save the store locations to the MongoDB collection
- Location.insertMany(locationsData)
- .then(() => {
-   console.log('Locations data saved to MongoDB');
-  // mongoose.disconnect(); // Close the connection after saving data
- })
- .catch((error) => {
-   console.error('Error saving locations data to MongoDB:', error);
    mongoose.disconnect(); // Close the connection on error
  }).catch((error) => {
 console.error('Error connecting to MongoDB:', error);
@@ -138,6 +145,7 @@ app.post('/register', (req, res) => {
   res.status(200).send('User registered successfully.');
 });
 */
+
 app.post('/register', async (req, res) => {
   const { username, email, password } = req.body;
 
