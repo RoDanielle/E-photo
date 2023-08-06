@@ -3,13 +3,13 @@ const protectRoute = (req, res, next) =>{
       return next();
     }
     console.log('Please log in to continue');
-    res.redirect('/login');
+    res.redirect('../views/login');
   }
   const allowIf = (req, res, next) =>{
     if (!req.isAuthenticated()) {
       return next();
     }
-    res.redirect('/products');      
+    res.redirect('../views/products');      
   }
   module.exports = {
       protectRoute,

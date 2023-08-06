@@ -1,3 +1,4 @@
+const StoreUser = require('../models/user');
 const S_user = require('../services/user');
 
  
@@ -23,11 +24,39 @@ const deleteUser =  async (_id)=> {
 
  const addUser = async (name, email, password)=> {
   try{
-      return await S_user.addUser(name, email, password);
+    const newUser=new StoreUser({
+      name, 
+      email,
+      password,
+    });
+      await newUser.save();
+      return{message: 'User added successfully', user: newUser };
   }
-  catch(e){
-      console.log(e);
-      res.json({error:e});
+  catch (e) {
+    console.error(e);
+    throw e;
+  }
+}
+
+// from data file
+const addUserFromData= async (users) => {
+  try {
+    const insertPromises = users.map(async (user) => {
+      const { name, email, password } = user;
+      const newUser = new StoreUser({
+        name,
+        email,
+        password,
+      });
+      await newUser.save();
+    });
+
+    await Promise.all(insertPromises);
+
+    return { message: 'Users added from data successfully' };
+  } catch (e) {
+    console.error(e);
+    throw e;
   }
 }
 
@@ -37,4 +66,5 @@ module.exports = {
     getUserByNameSearch,
     deleteUser,
     addUser,
+    addUserFromData,
 }

@@ -3,6 +3,9 @@ const  express = require('express');
 const  router = express.Router();
 const  C_user  = require('../controllers/user'); 
 const { route } = require('./products');
+const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
+
+
 
 router.get("/api/store-user", (req, res) => {
     C_user.getAll()
@@ -40,17 +43,31 @@ router.post("/api/store-user", (req, res) => {
 });
 */
 
-router.post('/register', async (req, res) => {
-    const { username, email, password } = req.body;
+// only admin
+router.post('/api/add-user', adminAuthMiddleware, async (req, res) => {
+    const { name, email, password } = req.body;
   
     try {
       // Call the addUserToDB function from your user controller
-      await C_user.addUser(username, email, password);
-      res.send('Registration successful.');
+      const newUser= await C_user.addUser(name, email, password);
+      res.json({message: 'User added successfully', user:newUser});
     } catch (error) {
-      console.error(error);
-      res.status(500).send('Registration failed.');
-  }
+      console.error('Error adding user:', error);
+      res.status(500).json({ error: 'Failed to add user' });
+    }
   });
+
+// Load user from data when starting the server
+router.post('/api/add-user', async (req, res) => {
+  try {
+    const result = await C_user.addUserFromData(storeUsers);
+    res.json(result);
+  } catch (error) {
+    console.error('Error adding store users from data:', error);
+    res.status(500).json({ error: 'Failed to add store users from data' });
+  }
+});
+
+
 
 module.exports = router;
