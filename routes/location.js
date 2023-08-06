@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const C_location = require('../controllers/location');
+const storeLocations = require('../data/location');
 
 router.get("/api/store-location", (req, res) => {
   C_location.getAll()
@@ -29,12 +30,26 @@ router.delete("/api/store-location", (req, res) => {
     })
 });
 
+/*
 //router.post("/api/store-location", adminAuth, (req, res) => {
 router.post("/api/store-location", (req, res) => {
     C_location.addLocation(req.body.name, req.body.lat, req.body.lng).then((data) => {
         res.json(data);
     })
 });
+*/
+
+router.post('/api/add-locations', async (req, res) => {
+    try {
+      const result = await C_location.addLocationsFromData(storeLocations);
+      res.json(result);
+    } catch (error) {
+      console.error('Error adding store locations from data:', error);
+      res.status(500).json({ error: 'Failed to add store locations from data' });
+    }
+  });
+  
+  
 
 module.exports = router;
  
