@@ -78,6 +78,8 @@
         success: function(response) {
           console.log(response);
           alert("Registration successful!");
+           // Redirect the user to the products page
+         window.location.href = 'products.html'; 
         },
         error: function(error) {
           console.error(error);
@@ -87,6 +89,8 @@
     });
 });
 </script>
+
+
     <footer class="bg-primary-gradient"></footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>
