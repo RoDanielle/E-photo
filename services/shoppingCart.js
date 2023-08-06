@@ -10,10 +10,10 @@ const CartService = {
     }
   },
 
-  addToCart: async (productId) => {
+  addToCart: async (product) => {
     try {
       const cart = await ShoppingBasket.findOne();
-      cart.products.push(productId);
+      cart.products.push(product._id);
       await cart.save();
       return cart.products;
     } catch (error) {

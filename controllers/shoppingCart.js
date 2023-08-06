@@ -11,16 +11,15 @@ const C_cart = {
     }
   },
 
-async addToCart(req, res) {
-    const { itemId, quantity } = req.body; // Use the correct property name
+  addToCart: async (req, res) => {
     try {
-        const cartProducts = await CartService.addToCart(itemId, quantity);
-        res.status(200).json(cartProducts);
+      const cartProducts = await CartService.addToCart(req.product_id); // Use the correct property name
+      res.status(200).json(cartProducts);
     } catch (error) {
-        console.error('Error adding to cart:', error);
-        res.status(500).json({ error: 'Error adding to cart' });
+      console.error('Error adding to cart:', error);
+      res.status(500).json({ error: 'Error adding to cart' });
     }
-},
+  },
 
 
   updateCartItemQuantity: async (req, res) => {

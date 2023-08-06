@@ -17,10 +17,8 @@ router.get('/api/cart', async (req, res) => {
 
 // Add a product to the shopping cart
 router.post('/api/cart/add', async (req, res) => {
-  const { itemId, quantity } = req.body;
-
   try {
-    const updatedCart = await C_ShoppingCart.addToCart( itemId, quantity);
+    const updatedCart = await C_ShoppingCart.addToCart(req.body.product_id); // Use the correct property name
     res.json(updatedCart);
   } catch (error) {
     console.error('Error adding product to cart:', error);

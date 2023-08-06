@@ -48,19 +48,20 @@
         }
 
         function addToCart(product) {
-            console.log('Adding to cart:', product._id);
+           //console.log('Adding to cart:', product._id);
             fetch('/api/cart/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ product_id: product._id }), // Use the correct property name
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ product_id: product._id }), // Use the correct property name
             })
-            .then(response => response.json())
-            .then(cartProducts => {
+              .then(response => response.json())
+              .then(cartProducts => {
                 console.log('Added to cart:', product._id);
                 console.log('Cart contents:', cartProducts);
-            })
-            .catch(error => {
+              })
+              .catch(error => {
                 console.error('Error adding to cart:', error);
-            })};
+              });
+          }
