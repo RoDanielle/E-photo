@@ -112,7 +112,7 @@ console.error('Error connecting to MongoDB:', error);
 });
 */
 
-
+/*
 // Save the users array to the MongoDB collection
 User.insertMany(userData)
 .then(() => {
@@ -125,9 +125,9 @@ User.insertMany(userData)
 }).catch((error) => {
 console.error('Error connecting to MongoDB:', error);
 });
+*/
 
-
-// testing - tring to enter data 
+// ** testing - tring to enter data  try to play with that 
 /*
 app.post('/register', (req, res) => {
   const { username, email, password } = req.body;
