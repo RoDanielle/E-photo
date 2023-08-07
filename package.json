@@ -6,6 +6,7 @@
   "scripts": {
     "develop": "node app.js"
   },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "mongoose": "^7.4.1",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "ws": "^8.13.0"
   }
 }

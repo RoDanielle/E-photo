@@ -209,4 +209,29 @@ app.use('/views/assets/js', express.static('js'));
 app.use(express.static('public'));
 
 
+//web socket 
+const WebSocket = require('ws');
 
+const wss = new WebSocket.Server({ port: 4440 });
+
+wss.on('connection', (ws) => {
+  console.log('A new client connected');
+
+  ws.on('message', (message) => {
+    const data = JSON.parse(message);
+
+    if (data.type === 'message') {
+      wss.clients.forEach((client) => {
+        if (client !== ws && client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ type: 'message', data: data.data }));
+        }
+      });
+    }
+  });
+
+  ws.on('close', () => {
+    console.log('Client disconnected');
+  });
+});
+
+console.log('WebSocket server is running on port 4440');
