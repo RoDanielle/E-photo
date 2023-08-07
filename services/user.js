@@ -9,7 +9,6 @@ const S_user={
         });
         return await branch.save()
     },
-
     getUserByNameSearch: async (name) => {
         return await User.find({ name: {$regex: '^.*' + name + '.*$', $options: 'i'} });
     },

@@ -5,6 +5,28 @@ const bcrypt = require("bcryptjs");
 const registerView = (req, res) => {
     res.render("register", "../views/register" );
 };
+
+
+//Logging in Function
+const loginUser = (req, res) => {
+  const { email, password } = req.body;
+  //Required
+  if (!email || !password) {
+    console.log("Please fill in all the fields");
+    res.render("login", {
+      email,
+      password,
+    });
+  } else {
+    passport.authenticate("local", {
+      successRedirect: "/products",
+      failureRedirect: "/login",
+      failureFlash: true,
+    })(req, res);
+  }
+};
+
+
 //Post Request for Register
 const registerUser = (req, res) => {
   const { name, email, password} = req.body;
@@ -39,7 +61,7 @@ const registerUser = (req, res) => {
             newUser.password = hash;
             newUser
               .save()
-              .then(res.redirect("/login"))
+              .then(res.redirect("../views/login"))
               .catch((err) => console.log(err));
           })
         );
@@ -47,28 +69,14 @@ const registerUser = (req, res) => {
     });
   }
 };
+
+
+
 // For View 
 const loginView = (req, res) => {
     res.render("login", "../views/login" );
 };
-//Logging in Function
-  const loginUser = (req, res) => {
-    const { email, password } = req.body;
-    //Required
-    if (!email || !password) {
-      console.log("Please fill in all the fields");
-      res.render("login", {
-        email,
-        password,
-      });
-    } else {
-      passport.authenticate("local", {
-        successRedirect: "/products",
-        failureRedirect: "/login",
-        failureFlash: true,
-      })(req, res);
-    }
-  };
+
   module.exports =  {
     registerView,
     loginView,
