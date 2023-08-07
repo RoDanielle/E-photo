@@ -4,52 +4,70 @@ const  C_ShoppingCart  = require('../controllers/shoppingCart');
 //const Basket = require('../data/products'); // Import the products data -- > check later if i need this one . 
 const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
 
-// Get the contents of the shopping cart
-router.get('/api/cart', async (req, res) => {
+//admin can see all shopping carts 
+router.get("/api/cart", adminAuthMiddleware ,(req, res) => {
+  C_ShoppingCart.getAll()
+    .then((data) => {
+      console.log(data)
+      res.json(data);
+    })
+    .catch((error) => {
+      console.error('Error fetching Product  data:', error);
+      res.status(500).json({ error: 'Failed to fetch Products ' });
+    });
+});
+
+//only admin
+router.put("/api/cart", adminAuthMiddleware, (req, res) => {
+  C_ShoppingCart.updateCart(req.body).then((data) => {
+        res.json(data);
+    })
+});
+//for users 
+router.put("/api/cart", (req, res) => {
+  C_ShoppingCart.updateCart(req.body).then((data) => {
+        res.json(data);
+    })
+});
+
+// only admin
+router.delete("/api/cart", adminAuthMiddleware, (req, res) => {
+  C_ShoppingCart.deleteCart(req.body._id).then((data) => {
+        res.json(data);
+    })
+});
+// only users
+router.delete("/api/cart", (req, res) => {
+  C_ShoppingCart.deleteCart(req.body._id).then((data) => {
+        res.json(data);
+    })
+});
+
+// only admin -
+router.post('/api/cart/add', adminAuthMiddleware, async (req, res) => {
+  const { productIds } = req.body;
+
   try {
-    const cartContents = await C_ShoppingCart.getCartContents();
-    res.json(cartContents);
+    const newProduct = await C_ShoppingCart.addProductsToCart(productIds);
+    res.json({ message: 'Products added to cart successfully', products: newProduct });
   } catch (error) {
-    console.error('Error fetching cart contents:', error);
-    res.status(500).json({ error: 'Failed to fetch cart contents' });
+    console.error('Error adding products:', error);
+    res.status(500).json({ error: 'Failed to add products' });
   }
 });
 
-// Add a product to the shopping cart
+
+// Load locations from data when starting the server
 router.post('/api/cart/add', async (req, res) => {
-  try {
-    const updatedCart = await C_ShoppingCart.addToCart(req.body.product_id); // Use the correct property name
-    res.json(updatedCart);
-  } catch (error) {
-    console.error('Error adding product to cart:', error);
-    res.status(500).json({ error: 'Failed to add product to cart' });
-  }
-});
-
-// Update the quantity of a product in the shopping cart
-router.put('/api/cart/update', async (req, res) => {
-  const { itemId, quantity } = req.body;
-
-  try {
-    const updatedCart = await C_ShoppingCart.updateCartItemQuantity(itemId, quantity);
-    res.json(updatedCart);
-  } catch (error) {
-    console.error('Error updating cart item quantity:', error);
-    res.status(500).json({ error: 'Failed to update cart item quantity' });
-  }
-});
-
-// Remove a product from the shopping cart
-router.delete('/api/cart/remove', async (req, res) => {
-  const { itemId } = req.body;
-
-  try {
-    const updatedCart = await C_ShoppingCart.removeFromCart(itemId);
-    res.json(updatedCart);
-  } catch (error) {
-    console.error('Error removing product from cart:', error);
-    res.status(500).json({ error: 'Failed to remove product from cart' });
-  }
-});
+    try {
+      const result = await C_ShoppingCart.addProductsToCartFromData(Products);
+      res.json(result);
+    } catch (error) {
+      console.error('Error adding product to cart from data:', error);
+      res.status(500).json({ error: 'Failed to add product from data' });
+    }
+  });
+  
 
 module.exports = router;
+ 

@@ -47,14 +47,51 @@
             imgElement.alt = 'Image not available';
         }
 
+       /*
         function addToCart(product) {
-           //console.log('Adding to cart:', product._id);
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(product),
+            })
+            .then(response => response.json())
+            .then(responseData => {
+                // Check if the response contains a success message or not
+                if (responseData.message) {
+                    // Display a success message to the customer
+                    const successMessage = responseData.message;
+                    
+                    // Update the success message element's content and show it
+                    const successMessageElement = document.getElementById('success-message');
+                    successMessageElement.textContent = successMessage;
+                    successMessageElement.style.display = 'block';
+                    
+                    // You might also want to hide the message after a few seconds
+                    setTimeout(() => {
+                        successMessageElement.style.display = 'none';
+                    }, 3000); // Display for 3 seconds
+                } else {
+                    console.error('Error:', responseData.error);
+                }
+        
+                // ... (other code)
+            })
+            .catch(error => {
+                console.error('Error adding to cart:', error);
+            });
+        }
+        */
+
+        function addToCart(product) {
+           
             fetch('/api/cart/add', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ product_id: product._id }), // Use the correct property name
+              body: JSON.stringify(product), // Send the entire product object
             })
               .then(response => response.json())
               .then(cartProducts => {

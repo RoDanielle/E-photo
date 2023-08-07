@@ -1,50 +1,70 @@
+const CartSchema = require("../models/shoppingCart")
 const CartService = require('../services/shoppingCart');
 
-const C_cart = {
-  getCartContents: async (req, res) => {
-    try {
-      const cartContents = await CartService.getCartContents();
-      res.json(cartContents);
-    } catch (error) {
-      console.error('Error fetching cart contents:', error);
-      res.status(500).json({ error: 'Failed to fetch cart contents' });
-    }
+
+const C_location = {
+
+    // returns all Carts 
+    getAll: async ()=> {
+        return await CartService.getAll();
+    },
+
+    updateCart: async ()=> {
+        return await CartService.updateCart(Cart);
+    },
+/*
+    getCartByUserName: async (name)=> {
+        if(name)
+            return await CartService.getCartByUserName(name);
+        return await CartService.getAll();
+    },
+*/
+    deleteCart: async (_id)=> {
+        return await CartService.deleteCart(_id);
+    },
+
+    deleteCarts: async ()=> {
+      return await CartService.deleteCarts();
   },
 
-  addToCart: async (req, res) => {
-    try {
-      const cartProducts = await CartService.addToCart(req.product_id); // Use the correct property name
-      res.status(200).json(cartProducts);
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-      res.status(500).json({ error: 'Error adding to cart' });
-    }
-  },
+    deleteProduct: async (_id)=> {
+      return await CartService.deleteProduct(_id);
+    },
+
+    // manually 
+    addProductsToCart: async (productIds) => {
+      try {
+        const newBasket = new CartSchema({
+          products: productIds,
+        });
+        await newBasket.save();
+        
+        return { message: 'Products added to cart successfully', cart: newBasket };
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
+    },
+  
+    addProductsToCartFromData: async (productIdsArray) => {
+      try {
+        const insertPromises = productIdsArray.map(async (productIds) => {
+          const newBasket = new CartSchema({
+            products: productIds,
+          });
+          await newBasket.save();
+        });
+  
+        await Promise.all(insertPromises);
+  
+        return { message: 'Products added to carts from data successfully' };
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
+    },
+
+    };
 
 
-  updateCartItemQuantity: async (req, res) => {
-    const { itemId, quantity } = req.body;
-
-    try {
-      const updatedCart = await CartService.updateCartItemQuantity(itemId, quantity);
-      res.json(updatedCart);
-    } catch (error) {
-      console.error('Error updating cart item quantity:', error);
-      res.status(500).json({ error: 'Failed to update cart item quantity' });
-    }
-  },
-
-  removeFromCart: async (req, res) => {
-    const { itemId } = req.body;
-
-    try {
-      const updatedCart = await CartService.removeFromCart(itemId);
-      res.json(updatedCart);
-    } catch (error) {
-      console.error('Error removing product from cart:', error);
-      res.status(500).json({ error: 'Failed to remove product from cart' });
-    }
-  },
-};
-
-module.exports = C_cart;
+module.exports = C_location;
