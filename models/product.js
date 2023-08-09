@@ -39,6 +39,17 @@ const productSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    color:
+    {
+      type:String,
+      required: true,
+    },
+    popularity:
+    {
+      type:String,
+      required: true,
+    }
+
    /* store: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Store",

@@ -29,9 +29,9 @@ const C_products = {
     return await S_products.deleteProduct(_id);
   },
 
-  addProduct: async (name, image, brand, category, price, countInStock, rating, numReviews, description) => {
+  addProduct: async (name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity) => {
     try {
-      return await S_products.addProduct(name, image, brand, category, price, countInStock, rating, numReviews, description);
+      return await S_products.addProduct(name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity);
     } catch (e) {
       console.log(e);
       throw e;
@@ -41,7 +41,7 @@ const C_products = {
   addProductsFromData: async (products) => {
     try {
       const insertPromises = products.map(async (product) => {
-        const { name, image, brand, category, price, countInStock, rating, numReviews, description } = product;
+        const { name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity } = product;
         const newProduct = new StoreProduct({
           name,
           image,
@@ -52,6 +52,8 @@ const C_products = {
           rating,
           numReviews,
           description,
+          color,
+          popularity
         });
         await newProduct.save();
       });
