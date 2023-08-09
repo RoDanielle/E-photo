@@ -27,6 +27,7 @@ const R_Location = require('./routes/location');
 const Users = require('./routes/user');
 const LogIn = require('./routes/login');
 const ShoppingCart = require('./routes/shoppingCart');
+const weatherRoutes = require('./routes/weather');
 
 // --- models paths ---
 const Product = require('./models/product');
@@ -200,6 +201,7 @@ app.use( Products);
 app.use(R_Location);
 app.use(Users);
 app.use(LogIn);
+app.use(weatherRoutes);
 app.use('/controllers', express.static('controllers'));
 app.use('/routes', express.static('routes'));
 app.use('/views', express.static('views'));
@@ -207,6 +209,8 @@ app.use('/services', express.static('services'));
 app.use('/views/assets', express.static('assets'));
 app.use('/views/assets/js', express.static('js'));
 app.use(express.static('public'));
+
+
 
 
 //web socket 
