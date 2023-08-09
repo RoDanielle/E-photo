@@ -138,39 +138,6 @@ console.error('Error connecting to MongoDB:', error);
 });
 */
 
-// ** testing - tring to enter data  try to play with that 
-/*
-app.post('/register', (req, res) => {
-  const { username, email, password } = req.body;
-
-  // Insert user into the 'users' collection
-  users.push({ username, email, password });
-
-  res.status(200).send('User registered successfully.');
-});
-*/
-
-app.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
-
-  try {
-    // Create a new user document
-    const newUser = new User({
-      name,
-      email,
-      password
-    });
-
-    // Save the user to the database
-    await newUser.save();
-
-    res.status(200).send('User registered successfully.');
-  } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).send('An error occurred during registration.');
-  }
-});
-
 
 
 // --- google map ---
