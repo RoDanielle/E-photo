@@ -72,6 +72,8 @@
     <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/bold-and-bright.js"></script>
+
+    <!--after finishing move to a separate file-->
     <script>
     $(document).ready(function() {
         $("#registrationForm").submit(function(e) {
@@ -91,13 +93,10 @@
                             .removeClass("alert-danger")
                             .addClass("alert-success")
                             .text("Registration successful!")
-                            .removeClass("d-none");
-    
-                        alert("Registration successful!");
-    
+                            .removeClass("d-none");    
                         setTimeout(function() {
                             window.location.href = 'login.html';
-                        }, 3000);
+                        }, 2000);
                     } else if (response.message === 'Email already in use') {
                         console.log("Registration failed:", response.message);
                         $("#message")
