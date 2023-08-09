@@ -83,11 +83,3 @@ const loginView = (req, res) => {
     registerUser,
     loginUser,
 };
-
-
-
-
-
-
-
-
