@@ -1,6 +1,6 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt');
-const saltRounds = 10; // Number of salt rounds for bcrypt
+const saltRounds = 10; 
 
 const S_user={
     addUser: async (name, email, password)=> {
@@ -16,22 +16,26 @@ const S_user={
         return await User.find({ name: {$regex: '^.*' + name + '.*$', $options: 'i'} });
     },
 
-    getUserByEmailAndPass: async (email, password) => { // need to change this with messages we would like for login 
+    findUserByEmailAndPassword: async (email, password) => {
         const user = await User.findOne({ email });
-    
+        
         if (user) {
+            console.log("email found");
             const passwordMatches = await bcrypt.compare(password, user.password);
             
             if (passwordMatches) {
+                console.log("match found");
                 return user; // Successfully authenticated
             } else {
+                console.log("pass doesnt match");
                 return null; // Invalid password
             }
         } else {
+            console.log("email not found");
             return null; // User not found
         }
     },
-
+    
     checkIfEmailExists: async (email) => {
         const user = await User.findOne({ email });
         return user !== null;

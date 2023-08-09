@@ -91,13 +91,10 @@
                             .removeClass("alert-danger")
                             .addClass("alert-success")
                             .text("Registration successful!")
-                            .removeClass("d-none");
-    
-                        alert("Registration successful!");
-    
+                            .removeClass("d-none");    
                         setTimeout(function() {
                             window.location.href = 'login.html';
-                        }, 3000);
+                        }, 2000);
                     } else if (response.message === 'Email already in use') {
                         console.log("Registration failed:", response.message);
                         $("#message")

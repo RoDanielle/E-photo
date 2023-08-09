@@ -31,21 +31,22 @@ getUserByNameSearch : async (name)=> {
 }
 },
 
-findUserByEmailAndPassword: async (email, password) => { // change this according to the login logic we want
+findUserByEmailAndPassword: async (req, res) => {
+  const { email, password } = req.body; // Assuming you're getting email and password from the request body
   try {
-    const user = await S_user.getUserByEmailAndPass(email, password);
+    const user = await S_user.findUserByEmailAndPassword(email, password);
 
     if (user) {
       // User authenticated
       // You might want to return some useful information about the user here
-      return { message: 'User authenticated', user: user };
+      return res.json({ message: 'User authenticated', user: user });
     } else {
       // Invalid email or password
-      return { error: 'Invalid email or password' };
+      return res.json({ message: 'Invalid email or password' });
     }
   } catch (error) {
     console.error('Error finding user:', error);
-    return { error: 'An error occurred while finding user' };
+    return res.status(500).json({ message: 'An error occurred during login.' });
   }
 },
 
@@ -77,7 +78,7 @@ register: async (req, res) => {
       console.log("email check returned true");
       return res.json({ message: 'Email already in use' });
     }
-    console.log("endered creating user after email check");
+    console.log("enאered creating user after email check");
     await S_user.addUser(name, email, password);
     req.session.email = email;
     req.session.type = 'basic';

@@ -25,7 +25,6 @@ const session = require('express-session');
 const Products = require('./routes/products');
 const R_Location = require('./routes/location');
 const Users = require('./routes/user');
-const LogIn = require('./routes/login');
 const ShoppingCart = require('./routes/shoppingCart');
 const weatherRoutes = require('./routes/weather');
 
