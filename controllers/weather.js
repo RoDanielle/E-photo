@@ -1,7 +1,8 @@
+require('dotenv').config();
 const axios = require('axios');
 //https://openweathermap.org/city/5742126
+const API_KEY = process.env.API_KEY;
 
-const API_KEY = 'be12387faa5dc18ab59312146d313355';
 
 module.exports = {
   async getWeatherByLocation(req, res) {
