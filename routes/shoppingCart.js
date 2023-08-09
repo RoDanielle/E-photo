@@ -4,6 +4,7 @@ const  C_ShoppingCart  = require('../controllers/shoppingCart');
 //const Basket = require('../data/products'); // Import the products data -- > check later if i need this one . 
 const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
 
+
 //admin can see all shopping carts 
 router.get("/api/cart", adminAuthMiddleware ,(req, res) => {
   C_ShoppingCart.getAll()

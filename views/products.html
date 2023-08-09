@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/products_and_grid.css">
- 
+
+    <script src="../views/assets/js/auth.js"></script>
+
 </head>
 
 <body>
@@ -27,9 +29,9 @@
                 </ul> <a href="cart.html" class="btn btn-primary"> Cart <span>0</span> </a>
             </div>
             <div style="display: flex; justify-content: center; align-items: center;">
-              <a href="login.html" class="btn btn-primary" role="button">
-                <span style="color: #fdfdfd;">Log in</span>
-              </a>
+                <a id="authButton" class="btn btn-primary" role="button">
+                    <span style="color: #fdfdfd;"></span>
+                </a>
             </div>
         </div>
     </nav>
@@ -40,7 +42,6 @@
             <option value="nature">Nature</option>
             <option value="animal">Animals</option>
             <option value="sports">Sports</option>
-            <!-- Add more categories as needed -->
         </select>
         <select id="colorFilter">
             <option value="">All Colors</option>
@@ -49,7 +50,6 @@
             <option value="green">Green</option>
             <option value="white">White</option>
             <option value="orange">Orange</option>
-            <!-- Add more colors as needed -->
         </select>
         <select id="popularityFilter">
             <option value="">All Popularity</option>

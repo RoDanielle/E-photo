@@ -1,6 +1,24 @@
+        
+        /*
+        // Fetch products from the API endpoint and populate the product list
+        fetch('/api/store-products') // Replace with the actual API endpoint to fetch products
+            .then(response => response.json())
+            .then(products => {
+                console.log(products);
+                const productGrid = document.querySelector('#productGrid');
+                products.forEach(product => {
+                    const productElement = createProductElement(product);
+                    productGrid.appendChild(productElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+            });
+
+         */                         
 
 const products = [
-  
+
     {
       name: "Majestic Mountain Landscape",
       image: "https://hahacanvas.co.il/wp-content/uploads/2021/11/%D7%AA%D7%9E%D7%95%D7%A0%D7%95%D7%AA-%D7%99%D7%A4%D7%95%D7%AA-%D7%9C%D7%94%D7%93%D7%A4%D7%A1%D7%94-17.jpg",
@@ -27,7 +45,7 @@ const products = [
       color:"orange",
       popularity: "low"
     },
-  
+
     {
       name: "Soccer Action Shot",
       image: "https://static01.nyt.com/images/2015/07/01/sports/ctyUSSOCCER1/ctyUSSOCCER1-superJumbo.jpg",
@@ -119,7 +137,7 @@ const products = [
       color:"blue",
       popularity: "medium"
     },
-  
+
   ];
 document.addEventListener('DOMContentLoaded', () => {
     // Attach event listeners to filters and search button
@@ -201,11 +219,11 @@ function displayProducts(productsToShow) {
          .catch(error => {
              console.error('Error fetching products:', error);
          });
-        
-        
-        
-        
-    
+
+           
+
+
+
         // Create HTML element for each product and populate the content
         function createProductElement(product) {
             const productCard = document.createElement('div');

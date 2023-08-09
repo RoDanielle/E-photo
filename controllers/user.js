@@ -39,6 +39,8 @@ findUserByEmailAndPassword: async (req, res) => {
     if (user) {
       // User authenticated
       // You might want to return some useful information about the user here
+      req.session.isLoggedIn = true;
+      req.session.userId = user._id;
       return res.json({ message: 'User authenticated', user: user });
     } else {
       // Invalid email or password
@@ -78,7 +80,7 @@ register: async (req, res) => {
       console.log("email check returned true");
       return res.json({ message: 'Email already in use' });
     }
-    console.log("enאered creating user after email check");
+    console.log("enered creating user after email check");
     await S_user.addUser(name, email, password);
     req.session.email = email;
     req.session.type = 'basic';
