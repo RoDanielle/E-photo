@@ -8,7 +8,7 @@ module.exports = {
   async getWeatherByLocation(req, res) {
     try {
       const location = req.query.location; // Assuming the location is passed as a query parameter
-      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY_WEATHER}`;
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${API_KEY}`;
 
       const response = await axios.get(apiUrl);
       const weatherData = response.data;
