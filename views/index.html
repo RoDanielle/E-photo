@@ -35,8 +35,10 @@
     <!---ajax Weather app! daniel--->
     <h1>Weather App</h1>
     <form id="weatherForm">
-        <input type="text" id="locationInput" placeholder="Enter location">
-        <button type="submit">Get Weather</button>
+        <div class="input-group mb-3">
+            <input type="text" id="locationInput" class="form-control" placeholder="Enter location" aria-label="Enter location" aria-describedby="searchButton">
+            <button class="btn btn-primary" type="submit" id="searchButton">Get Weather</button>
+        </div>
     </form>
     <div id="weatherInfo"></div>
 
