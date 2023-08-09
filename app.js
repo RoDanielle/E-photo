@@ -27,6 +27,7 @@ const R_Location = require('./routes/location');
 const Users = require('./routes/user');
 const LogIn = require('./routes/login');
 const ShoppingCart = require('./routes/shoppingCart');
+const weatherRoutes = require('./routes/weather');
 
 // --- models paths ---
 const Product = require('./models/product');
@@ -96,8 +97,8 @@ app.get('/', function (req, res) {
   try {
     const existinLocationgData = await M_Location.find();
     if (existinLocationgData.length === 0) {
-      await C_location.addLocationsFromData(D_location);
-      console.log('Initial location data added to the database');
+      const result = await C_location.addLocationsFromData(D_location);
+      console.log(result.message);
     } else {
       console.log('Location Data already exists in the database');
     }
@@ -137,41 +138,6 @@ console.error('Error connecting to MongoDB:', error);
 });
 */
 
-// ** testing - tring to enter data  try to play with that 
-/*
-app.post('/register', (req, res) => {
-  const { username, email, password } = req.body;
-
-  // Insert user into the 'users' collection
-  users.push({ username, email, password });
-
-  res.status(200).send('User registered successfully.');
-});
-*/
-
-app.post('/register', async (req, res) => {
-  const { name, email, password } = req.body;
-
-  try {
-    // Create a new user document
-    const newUser = new User({
-      name,
-      email,
-      password
-    });
-
-    // Save the user to the database
-    await newUser.save();
-
-    res.status(200).send('User registered successfully.');
-  } catch (error) {
-    console.error('Error registering user:', error);
-    res.status(500).send('An error occurred during registration.');
-  }
-});
-
-
-
 // --- google map ---
 
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
@@ -200,6 +166,7 @@ app.use( Products);
 app.use(R_Location);
 app.use(Users);
 app.use(LogIn);
+app.use(weatherRoutes);
 app.use('/controllers', express.static('controllers'));
 app.use('/routes', express.static('routes'));
 app.use('/views', express.static('views'));

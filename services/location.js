@@ -1,31 +1,51 @@
-const Location = require("../models/location");
+const StoreLocation = require("../models/location");
 
 const S_location = {
 
-    addBranch: async (name, lat, lng)=> {
+    addLocation: async (name, lat, lng)=> {
 
-        const location = new Location({
+        const location = new StoreLocation({
             name,
             lat,
             lng
         });
-        return await branch.save()
+        return await location.save()
     },
 
+    addLocationsFromData: async (locations) => {
+        try {
+          const insertPromises = locations.map(async (location) => {
+            const { name, lat, lng } = location;
+            const newLocation = new StoreLocation({
+              name,
+              lat,
+              lng,
+            });
+            await newLocation.save();
+          });
+    
+          await Promise.all(insertPromises);
+          return { message: 'Locations added from data successfully' };
+        } catch (e) {
+          console.error(e);
+          throw e;
+        }
+      },
+
     getLocationByNameSearch: async (name) => {
-        return await Location.find({ name: {$regex: '^.*' + name + '.*$', $options: 'i'} });
+        return await StoreLocation.find({ name: {$regex: '^.*' + name + '.*$', $options: 'i'} });
     },
 
     updateLocation: async (location)=> {
-        return await Location.findOneAndUpdate({ _id: location._id }, location);
+        return await StoreLocation.findOneAndUpdate({ _id: location._id }, location);
     },
 
     deleteLocation: async (_id)=> {
-        return await Location.findOneAndDelete({ _id });
+        return await StoreLocation.findOneAndDelete({ _id });
     },
     
     getAll: async ()=> {
-        return await Location.find({})
+        return await StoreLocation.find({})
     },
 }
 

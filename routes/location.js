@@ -19,14 +19,14 @@ router.get("/api/store-location", (req, res) => {
 });
 
 // only admin
-router.put("/api/store-location", adminAuthMiddleware, (req, res) => {
+router.put("/", adminAuthMiddleware, (req, res) => {
     C_location.updateLocation(req.body).then((data) => {
         res.json(data);
     })
 });
 
 // only admin
-router.delete("/api/store-location", adminAuthMiddleware, (req, res) => {
+router.delete("/", adminAuthMiddleware, (req, res) => {
     C_location.deleteLocation(req.body._id).then((data) => {
         res.json(data);
     })
@@ -35,7 +35,6 @@ router.delete("/api/store-location", adminAuthMiddleware, (req, res) => {
 // only admin
 router.post('/api/add-location', adminAuthMiddleware, async (req, res) => {
     const { name, lat, lng } = req.body;
-  
     try {
       const newLocation = await C_location.addLocation(name, lat, lng);
       res.json({ message: 'Location added successfully', location: newLocation });
@@ -46,7 +45,7 @@ router.post('/api/add-location', adminAuthMiddleware, async (req, res) => {
   });
 
 // Load locations from data when starting the server
-router.post('/api/add-locations', async (req, res) => {
+router.post('/api/add-data-locations', async (req, res) => {
     try {
       const result = await C_location.addLocationsFromData(storeLocations);
       res.json(result);
@@ -56,6 +55,5 @@ router.post('/api/add-locations', async (req, res) => {
     }
   });
   
-
 module.exports = router;
  

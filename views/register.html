@@ -45,58 +45,76 @@
                 <div class="col-md-6 col-xl-4">
                     <div class="card">
                         <div class="card-body text-center d-flex flex-column align-items-center" style="margin-top: 27px;padding-top: 0px;padding-bottom: 0px;">
-                            <div class="bs-icon-xl bs-icon-circle bs-icon-primary shadow bs-icon my-4" style="background: rgb(127,55,244);"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person">
+                            <div class="bs-icon-xl bs-icon-circle bs-icon-primary shadow bs-icon my-4" style="background: rgb(127,55,244);">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person">
                                     <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z"></path>
-                                </svg></div>
-                                <form id="registrationForm" method="post" data-bs-theme="light">
-                                    <div class="mb-3"><input class="form-control" type="text" id="name" name="name" placeholder="Username"></div>
-                                    <div class="mb-3"><input class="form-control" type="email" id="email" name="email" placeholder="Email"></div>
-                                    <div><input class="form-control" type="password" id="password" name="password" placeholder="Password"></div>
-                                    <!-- Remove the empty div here -->
-                                    <button class="btn btn-primary shadow d-block w-100" type="submit" style="background: rgb(127,55,244);">Register</button>
-                                    <p class="text-muted">Already have an account?&nbsp;<a href="login.html">Log in</a></p>
-                                </form>
-                        </div>
+                                </svg>
+                            </div>
+                            <form id="registrationForm" method="post" data-bs-theme="light">
+                                <div class="mb-3"><input class="form-control" type="text" id="name" name="name" placeholder="Username" required></div>
+                                <div class="mb-3"><input class="form-control" type="email" id="email" name="email" placeholder="Email" required></div>
+                                <div><input class="form-control" type="password" id="password" name="password" placeholder="Password" required
+                                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
+                                       title="Password must be at least 8 characters long and include at least one letter and one number"></div>
+                                <button class="btn btn-primary shadow d-block w-100" type="submit" style="background: rgb(127,55,244);">Register</button>
+                                <p class="text-muted">Already have an account?&nbsp;<a href="login.html">Log in</a></p>
+                            </form>                                                       
+                            <div id="message" class="alert d-none"></div> 
+                        </div>                        
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  $(document).ready(function() {
-    $("#registrationForm").submit(function(e) {
-      e.preventDefault();
-
-      const name = $("#name").val();
-      const email = $("#email").val();
-      const password = $("#password").val();
-
-      $.ajax({
-        type: "POST",
-        url: "/register",
-        data: { name, email, password },
-        success: function(response) {
-          console.log(response);
-          alert("Registration successful!");
-           // Redirect the user to the products page
-         window.location.href = 'products.html'; 
-        },
-        error: function(error) {
-          console.error(error);
-          alert("Registration failed.");
-        }
-      });
-    });
-});
-</script>
-
-
     <footer class="bg-primary-gradient"></footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>
     <script src="assets/js/bs-init.js"></script>
     <script src="assets/js/bold-and-bright.js"></script>
+    <script>
+    $(document).ready(function() {
+        $("#registrationForm").submit(function(e) {
+            e.preventDefault();
+            const name = $("input[name='name']").val();
+            const email = $("input[name='email']").val();
+            const password = $("input[name='password']").val();
+            $.ajax({
+                type: "POST",
+                url: "register", 
+                data: { name, email, password },
+                success: function(response) {
+                    console.log("AJAX success:", response);
+                    if (response.message === 'Registered successfully') {
+                        console.log("Registration successful!");
+                        $("#message")
+                            .removeClass("alert-danger")
+                            .addClass("alert-success")
+                            .text("Registration successful!")
+                            .removeClass("d-none");
+    
+                        alert("Registration successful!");
+    
+                        setTimeout(function() {
+                            window.location.href = 'login.html';
+                        }, 3000);
+                    } else if (response.message === 'Email already in use') {
+                        console.log("Registration failed:", response.message);
+                        $("#message")
+                            .removeClass("alert-success")
+                            .addClass("alert-danger")
+                            .text("Registration failed: " + response.message)
+                            .removeClass("d-none");
+                    }
+                },
+                error: function(error) {
+                    console.log("AJAX error:", error);
+                }
+            });
+        });
+    });
+</script>
+        
 </body>
 
 </html>

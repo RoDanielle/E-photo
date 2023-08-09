@@ -1,4 +1,3 @@
-const StoreLocation = require('../models/location');
 const S_location = require("../services/location");
 
 const C_location = {
@@ -24,44 +23,25 @@ const C_location = {
 
     // manually 
     addLocation: async (name, lat, lng) => {
-        try {
-          const newLocation = new StoreLocation({
-            name,
-            lat,
-            lng,
-          });
-          await newLocation.save();
-      
-          return { message: 'Location added successfully', location: newLocation };
-        } catch (e) {
-          console.error(e);
-          throw e;
-        }
-      },
+      try {
+        const location = await S_location.addLocation(name, lat, lng);
+        return { message: 'Location added successfully', location: location };
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
+    },
 
     // from data file
     addLocationsFromData: async (locations) => {
         try {
-          const insertPromises = locations.map(async (location) => {
-            const { name, lat, lng } = location;
-            const newLocation = new StoreLocation({
-              name,
-              lat,
-              lng,
-            });
-            await newLocation.save();
-          });
-    
-          await Promise.all(insertPromises);
-    
-          return { message: 'Locations added from data successfully' };
-        } catch (e) {
-          console.error(e);
-          throw e;
-        }
+          const result =  await S_location.addLocationsFromData(locations);
+            return { message: result.message};
+          } catch (e) {
+            console.error(e);
+            throw e;
+          }
       },
-
-
     };
 
 
