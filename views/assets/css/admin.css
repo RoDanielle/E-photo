@@ -65,3 +65,63 @@ header {
     height: 300px;
     margin-top: 30px;
 }
+/* ... קוד ה-CSS שלך הנוכחי ... */
+
+/* Styling for the chart container */
+#chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+/* Styling for the SVG element */
+#chart {
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the bars in the chart */
+.bar {
+    fill: #924ea9;
+    transition: fill 0.2s;
+}
+
+.bar:hover {
+    fill: hsl(285, 48%, 49%);
+}
+
+/* Styling for the X and Y axes */
+.x-axis line,
+.y-axis line {
+    stroke: #ccc;
+}
+
+.x-axis path,
+.y-axis path {
+    display: none;
+}
+
+.x-axis text,
+.y-axis text {
+    fill: #555;
+    font-size: 12px;
+}
+
+/* Styling for the chart title */
+.chart-title {
+    text-anchor: middle;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* New styling for the bars with spacing */
+.bar {
+    fill: hsl(267, 100%, 50%);
+    transition: fill 0.2s;
+    margin-right: 5px;
+}
+
+/* ... קוד ה-CSS שלך הנוכחי ... */
