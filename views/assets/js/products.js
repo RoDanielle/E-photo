@@ -13,21 +13,6 @@
                        console.error('Error fetching products:', error);
              });
           
-          /*           
-            document.addEventListener('DOMContentLoaded', () => {
-                // Attach event listeners to filters and search button
-                const categoryFilter = document.querySelector('#categoryFilter');
-                const colorFilter = document.querySelector('#colorFilter');
-                const popularityFilter = document.querySelector('#popularityFilter');
-                const searchInput = document.querySelector('#searchInput');
-                const searchButton = document.querySelector('#searchButton');
-                
-                categoryFilter.addEventListener('change', filterProducts);
-                colorFilter.addEventListener('change', filterProducts);
-                popularityFilter.addEventListener('change', filterProducts);
-        
-            });
-            */
 
             document.addEventListener('DOMContentLoaded', () => {
                 // Fetch products from the API endpoint and display them
@@ -56,6 +41,7 @@
                     });
             });
 
+
             function filterAndDisplay(products) {
                 const selectedCategory = document.querySelector('#categoryFilter').value;
                 const selectedColor = document.querySelector('#colorFilter').value;
@@ -70,7 +56,7 @@
                 const searchResults = searchProducts(products, searchKeywords);
                 displayProducts(searchResults);
             }
-            
+           
 
             function filterProducts(products, selectedCategory, selectedColor, selectedPopularity) {
                 const filteredProducts = products.filter(product => {
@@ -94,80 +80,15 @@
                 return filteredProducts;
             }
             
-            function searchProducts() {
-                const searchKeywords = document.querySelector('#searchInput').value.toLowerCase();
+            function searchProducts(products, searchKeywords) {
                 const searchResults = products.filter(product => {
                     const keywordsInName = product.name.toLowerCase().includes(searchKeywords);
                     const keywordsInDescription = product.description.toLowerCase().includes(searchKeywords);
                     return keywordsInName || keywordsInDescription;
                 });
-            
-                // Clear previous products and display search results
-                clearProductGrid();
-                displayProducts(searchResults);
+                return searchResults;
             }
-            /*
-
-            function filterProducts() {
-                const selectedCategory = categoryFilter.value;
-                const selectedColor = colorFilter.value;
-                const selectedPopularity = popularityFilter.value;
-                const products = window.products;
-                const filteredProducts = products.filter(product => {
-                    let categoryMatch = true;
-                    let colorMatch = true;
-                    let popularityMatch = true;
-            
-                    if (selectedCategory && selectedCategory !== '') {
-                        categoryMatch = product.category === selectedCategory;
-                    }
-                    if (selectedColor && selectedColor !== '') {
-                        colorMatch = product.color === selectedColor;
-                    }
-                    if (selectedPopularity && selectedPopularity !== '') {
-                        popularityMatch = product.popularity === selectedPopularity;
-                    }
-            
-                    return categoryMatch && colorMatch && popularityMatch;
-                });
-                // Clear previous products and display filtered products
-                clearProductGrid();
-                displayProducts(filteredProducts);
-            }
-
-
-            function searchImages() {
-                console.log('Search button clicked');
-                const searchKeywords = searchInput.value.toLowerCase();
-            
-                const searchResults = products.filter(product => {
-                    const keywordsInName = product.name.toLowerCase().includes(searchKeywords);
-                    const keywordsInDescription = product.description.toLowerCase().includes(searchKeywords);
-                    return keywordsInName || keywordsInDescription;
-                });
-            
-                // Clear previous products and display search results
-                clearProductGrid();
-                displayProducts(searchResults);
-            }
-
-
-            function clearProductGrid() {
-                const productGrid = document.querySelector('#productGrid');
-                productGrid.innerHTML = '';
-            }
-            
-*/
-/*
-            function displayProducts(productsToShow) {
-                const productGrid = document.querySelector('#productGrid');
-                productsToShow.forEach(product => {
-                    const productElement = createProductElement(product);
-                    productGrid.appendChild(productElement);
-                });
-            }
-            
-  */   
+   
             function displayProducts(productsToShow) {
                 const productGrid = document.querySelector('#productGrid');
                 productGrid.innerHTML = '';
