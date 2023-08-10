@@ -15,10 +15,7 @@ const path = require('path');
 customEnv.env(process.env.NODE_ENV, './config');
 
 const app = express(); // Initialize the 'app' variable here
-//app.set('view engine', 'ejs'); // might not be neede (added when trying to fix the map)
-
 const session = require('express-session');
-
 
 // --- routes paths ---
 //const Orders = require('./routes/R_order');
@@ -27,11 +24,12 @@ const R_Location = require('./routes/location');
 const Users = require('./routes/user');
 const ShoppingCart = require('./routes/shoppingCart');
 const weatherRoutes = require('./routes/weather');
+const authRoutes = require('./routes/authRoutes');
 
 // --- models paths ---
 const Product = require('./models/product');
 const M_Location = require('./models/location');
-const User = require('./models/user');
+//const User = require('./models/user');
 const Shopping_Cart = require('./models/shoppingCart');
 
 // --- data paths ---
@@ -67,11 +65,16 @@ connectToMongoDB();
 //BodyParsing: This built-in express middleware gives us the ability to process posted data and store it in the req.body.
 //app.use(express.urlencoded({extended: false}));
 
+
+// settion - do not delete 
+const sessKey = process.env.SESSION_KEY
 app.use(session({
-  secret:'oneboy',
-  saveUninitialized: true,
-  resave: true
+  secret: sessKey,
+  resave: false, // Set to false to save only if changes were made
+  saveUninitialized: true
 }));
+
+app.use(authRoutes);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -157,6 +160,7 @@ app.get('/api/products', async (req, res) => {
     console.log('hello')
   }
 });
+
 
 // Routes
 //app.use( Orders);
