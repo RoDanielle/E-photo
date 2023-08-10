@@ -32,26 +32,19 @@ getUserByNameSearch : async (name)=> {
 },
 
 findUserByEmailAndPassword: async (req, res) => {
-  const { email, password } = req.body; // Assuming you're getting email and password from the request body
+  const { email, password } = req.body;
   try {
     const user = await S_user.findUserByEmailAndPassword(email, password);
-
     if (user) {
-      // User authenticated
-      // You might want to return some useful information about the user here
-      req.session.isLoggedIn = true;
-      req.session.userId = user._id;
-      return res.json({ message: 'User authenticated', user: user });
+      return res.json({ message: 'User found', user: user });
     } else {
-      // Invalid email or password
-      return res.json({ message: 'Invalid email or password' });
+      return res.json({ message: 'User not found - Invalid email or password' });
     }
-  } catch (error) {
-    console.error('Error finding user:', error);
-    return res.status(500).json({ message: 'An error occurred during login.' });
+  } catch (e) {
+    console.error("Error finding user by email and password:", e);
+    return res.status(500).json({ message: 'An error occurred during search.' });
   }
 },
-
 
 findUserByEmail : async (email) => {
   try {
@@ -97,9 +90,33 @@ register: async (req, res) => {
     res.status(500).json({ message: 'An error occurred during registration.' });
   
   }
-}
-}
+},
 
+login: async (req, res) => {
+  const { email, password } = req.body; 
+  try {
+    const user = await S_user.findUserByEmailAndPassword(email, password);
+
+    if (user) {
+      req.session.isLoggedIn = true;
+      req.session.userId = user._id;
+      return res.json({ message: 'User authenticated', user: user });
+    } else {
+      return res.json({ message: 'Invalid email or password' });
+    }
+  } catch (error) {
+    console.error('Error finding user:', error);
+    return res.status(500).json({ message: 'An error occurred during login.' });
+  }
+},
+
+logout: async (req, res) => {
+  await req.session.destroy(() => {
+      res.json({ message: "Logged out successfully." });
+  });
+
+}
+}
 module.exports = C_user;
 
 

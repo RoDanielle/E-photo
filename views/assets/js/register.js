@@ -6,7 +6,7 @@ $(document).ready(function() {
         const password = $("input[name='password']").val();
         $.ajax({
             type: "POST",
-            url: "register", // something is wrong with the path when i try to us this in the html 
+            url: "register", 
             data: { name, email, password },
             success: function(response) {
                 console.log("AJAX success:", response);

@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Clear the success message after two seconds
         setTimeout(function() {
             messageDiv.innerHTML = '';
-        }, 2000); // 2000 milliseconds = 2 seconds
+        }, 2000); 
     }
   });
 });
