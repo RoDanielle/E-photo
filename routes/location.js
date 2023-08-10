@@ -2,7 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const C_location = require('../controllers/location');
-const storeLocations = require('../data/location'); // Import the locations data
+const storeLocations = require('../data/location'); 
 const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
 
 

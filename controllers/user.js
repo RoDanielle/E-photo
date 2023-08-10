@@ -46,24 +46,6 @@ findUserByEmailAndPassword: async (req, res) => {
   }
 },
 
-login: async (req, res) => {
-  const { email, password } = req.body; 
-  try {
-    const user = await S_user.findUserByEmailAndPassword(email, password);
-
-    if (user) {
-      req.session.isLoggedIn = true;
-      req.session.userId = user._id;
-      return res.json({ message: 'User authenticated', user: user });
-    } else {
-      return res.json({ message: 'Invalid email or password' });
-    }
-  } catch (error) {
-    console.error('Error finding user:', error);
-    return res.status(500).json({ message: 'An error occurred during login.' });
-  }
-},
-
 findUserByEmail : async (email) => {
   try {
     if(email)
@@ -107,6 +89,24 @@ register: async (req, res) => {
   
     res.status(500).json({ message: 'An error occurred during registration.' });
   
+  }
+},
+
+login: async (req, res) => {
+  const { email, password } = req.body; 
+  try {
+    const user = await S_user.findUserByEmailAndPassword(email, password);
+
+    if (user) {
+      req.session.isLoggedIn = true;
+      req.session.userId = user._id;
+      return res.json({ message: 'User authenticated', user: user });
+    } else {
+      return res.json({ message: 'Invalid email or password' });
+    }
+  } catch (error) {
+    console.error('Error finding user:', error);
+    return res.status(500).json({ message: 'An error occurred during login.' });
   }
 },
 

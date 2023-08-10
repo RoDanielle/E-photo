@@ -37,7 +37,6 @@ router.delete("/api/store-user", (req, res) => {
 
 router.post('/register', C_user.register);
 router.post('/login',  C_user.login);
-//router.post('/login', authMiddleware, C_user.findUserByEmailAndPassword);
 //router.post('/logout', authMiddleware, C_user.logout);
 router.post('/logout', C_user.logout);
 

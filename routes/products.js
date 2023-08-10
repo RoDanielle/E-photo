@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const C_products  = require('../controllers/products'); 
-const Products = require('../data/products'); // Import the products data
+const Products = require('../data/products'); 
 const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
 
 // get all peoducts 
