@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.reflowhq.com/v2/toolkit.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-light navbar-expand-md sticky-top navbar-shrink py-3" id="mainNav">
+            <div class="container"><a class="navbar-brand d-flex align-items-center" href=""><img src="assets/img/logo3.jpg" width="172" height="82"></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navcol-1" style="padding-bottom: 0px;padding-left: 0px;padding-right: 0px;margin-right: 31px;">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                        <li class="nav-item"><a class="nav-link" href="contacts.html">Contacts</a></li>
+                        <li class="nav-item"><a class="nav-link" href="aboutus.html">About us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="WebSockt.html">Start Chat !</a></li>
+
+                    </ul> <a href="cart.html" class="btn btn-primary"> Cart <span>0</span> </a>
+                </div>
+                <div id="authButtonContainer" style="display: flex; justify-content: center; align-items: center;">
+                  <a href="login.html" id="authButton" class="btn btn-primary" role="button">
+                    <span style="color: #fdfdfd;">Log in</span>
+                  </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="content">
+        <div class="facebook-post-form">
+            <!-- Facebook post form section -->
+        </div>
+    </div>
+    <div class="headLine">
+        <h3>All Registers</h3>
+    </div>
+    <form class="d-flex" role="search" id="searh_form">
+        <div class="container text-center">
+            <div class="row g-3 m-1 " id="userTable">
+                <!-- User table section -->
+            </div>
+        </div>
+        
+        <!-- ... קוד ה-HTML הנוכחי ... -->
+        
+        <script>
+            // Fetch user data from MongoDB using an API endpoint
+            async function fetchUserData() {
+                const response = await fetch('/api/store-user'); // Replace with your API endpoint
+                const data = await response.json();
+                return data;
+            }
+        
+            // Function to render the user table
+            function renderUserTable(data) {
+                const tableContainer = d3.select('#userTable');
+                const table = tableContainer.append('table').attr('class', 'table');
+                
+                // Table header
+                const thead = table.append('thead').append('tr');
+                thead.append('th').text('ID');
+                thead.append('th').text('Username');
+                thead.append('th').text('Email');
+                thead.append('th').text('Actions');
+        
+                // Table body
+                const tbody = table.append('tbody');
+                data.forEach(user => {
+                    const row = tbody.append('tr');
+                    row.append('td').text(user._id); // Assuming the user document has _id field
+                    row.append('td').text(user.username);
+                    row.append('td').text(user.email);
+                    const actionsCell = row.append('td');
+                    const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
+                    deleteButton.on('click', () => deleteUser(user._id)); // Call a function to delete the user
+                });
+            }
+
+
+            
+        
+            // Function to delete a user
+            async function deleteUser(userId) {
+        const response = await fetch(`/api/store-user`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ _id: userId })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            // Reload the user table after successful deletion
+            const userData = await fetchUserData();
+            d3.select('#userTable').selectAll('*').remove(); // Clear existing table
+            renderUserTable(userData);
+        } else {
+            console.error('Failed to delete user.');
+        }
+    }
+
+        
+            // Entry point: Fetch user data and render the user table
+            async function init() {
+                const userData = await fetchUserData();
+                renderUserTable(userData);
+
+
+
+
+
+            }
+        
+            init(); // Initialize the script when the page loads
+        </script>
+    </form>
+    <div class="container text-center">
+        <div class="row g-3 m-1 " id="cards">
+            <!-- User cards section -->
+        </div>
+    </div>
+    <!-- Modal for user deletion -->
+    <div class="modal fade" id="staticXbuttonOnUsers" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <!-- User deletion modal content -->
+    </div>
+
+    <div class="headLine">
+        <h3>Data Purchases</h3>
+    </div>
+    <div class="container text-center">
+        <div class="row g-3 m-1 " id="cards">
+            <!-- Course cards section -->
+        </div>
+    </div>
+    <!-- Modal for course deletion -->
+    <div class="modal fade" id="staticXbuttonOnCourses" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <!-- Course deletion modal content -->
+    </div>
+
+    <div class="headLine">
+        <h3>Popular photos</h3>
+    </div>
+    <form class="d-flex" role="search" id="searh_form">
+ 
+    </form>
+    <div class="container text-center">
+        <div class="row g-3 m-1 " id="cards">
+            <!-- Branch cards section -->
+        </div>
+    </div>
+    <!-- Modal for branch deletion -->
+    <div class="modal fade" id="staticXbuttonOnBranches" tabindex="-1" aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <!-- Branch deletion modal content -->
+    </div>
+
+    <!-- Data visualization section -->
+    <div style="display: flex; flex-wrap: wrap; margin-top: 50px; justify-content: space-between;">
+        <div id="my_dataviz1"></div>
+        <div id="my_dataviz2"></div>
+        <div id="my_dataviz3"></div>
+    </div>
+
+    <footer>
+        <!-- Your footer content here -->
+    </footer>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="assets/js/admin.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

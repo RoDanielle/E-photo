@@ -1,0 +1,67 @@
+/* Add your custom CSS styles here */
+
+/* Styling for the header section */
+header {
+    background-color: #f8f9fa;
+    padding: 20px 0;
+}
+
+/* Styling for the navigation bar */
+.navbar {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for the navigation links in the navbar */
+.nav-link {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Styling for the active navigation link */
+.nav-item.active .nav-link {
+    color: #007bff;
+}
+
+/* Styling for the content section */
+.content {
+    padding: 20px;
+}
+
+/* Styling for the headline sections */
+.headLine {
+    margin-top: 30px;
+    text-align: center;
+}
+
+/* Styling for the search forms */
+#searh_form {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Styling for the search input */
+.form-control {
+    width: 80%;
+}
+
+/* Styling for the user cards section */
+#cards {
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Styling for the delete modal */
+.modal-dialog {
+    max-width: 400px;
+    margin: 1.75rem auto;
+}
+
+/* Styling for the data visualization section */
+#my_dataviz1,
+#my_dataviz2,
+#my_dataviz3 {
+    width: 30%;
+    height: 300px;
+    margin-top: 30px;
+}
