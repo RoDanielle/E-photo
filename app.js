@@ -94,7 +94,7 @@ app.get('/', function (req, res) {
 
 //////////ADDING DATA ------------------------------ DO NOT DELETE!!!!!!!!!!!!!!!!!!! ----------------------
 
-// save the store locations data to the MongoDB collection - using post 
+// save the store locations data to the MongoDB collection 
 (async () => {
   try {
     const existinLocationgData = await M_Location.find();
@@ -109,7 +109,7 @@ app.get('/', function (req, res) {
   }
 })();
 
-// save the products data to the MongoDB collection - using post 
+// save the products data to the MongoDB collection
 (async () => {
   try {
     const existinProductData = await Product.find();
@@ -126,8 +126,8 @@ app.get('/', function (req, res) {
 
 
 /*
-// Save the users array to the MongoDB collection
-User.insertMany(userData)
+//Save the users array to the MongoDB collection
+Product.insertMany(productsData)
 .then(() => {
   console.log('User data saved to MongoDB');
   //mongoose.disconnect(); // Close the connection after saving data
@@ -141,7 +141,6 @@ console.error('Error connecting to MongoDB:', error);
 */
 
 // --- google map ---
-
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 console.log('Process Environment:', process.env); // delete after fixing
 const encodedApiKey = encodeURIComponent(apiKey); // delete after fixing
