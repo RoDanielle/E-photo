@@ -16,7 +16,7 @@ const S_user={
         return await User.find({ name: {$regex: '^.*' + name + '.*$', $options: 'i'} });
     },
 
-    findUserByEmailAndPassword: async (email, password) => {
+    findUserByEmailAndPassword: async (email, password) => { // log in function
         const user = await User.findOne({ email });
         
         if (user) {
