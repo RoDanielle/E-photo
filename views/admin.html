@@ -84,7 +84,7 @@
                 data.forEach(user => {
                     const row = tbody.append('tr');
                     row.append('td').text(user._id); // Assuming the user document has _id field
-                    row.append('td').text(user.username);
+                    row.append('td').text(user.name);
                     row.append('td').text(user.email);
                     const actionsCell = row.append('td');
                     const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
