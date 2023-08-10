@@ -97,9 +97,18 @@ register: async (req, res) => {
     res.status(500).json({ message: 'An error occurred during registration.' });
   
   }
-}
-}
+},
+logout: async (req, res) => {
+  await req.session.destroy(() => {
+      res.json({ message: "Logged out successfully." });
+  });
 
+
+
+
+
+}
+}
 module.exports = C_user;
 
 

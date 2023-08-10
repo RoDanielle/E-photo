@@ -126,8 +126,8 @@ app.get('/', function (req, res) {
 
 
 /*
-// Save the users array to the MongoDB collection
-User.insertMany(userData)
+//Save the users array to the MongoDB collection
+Product.insertMany(productsData)
 .then(() => {
   console.log('User data saved to MongoDB');
   //mongoose.disconnect(); // Close the connection after saving data
@@ -139,7 +139,6 @@ User.insertMany(userData)
 console.error('Error connecting to MongoDB:', error);
 });
 */
-
 // --- google map ---
 
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
