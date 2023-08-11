@@ -1,37 +1,39 @@
-/* Add your custom CSS styles here */
-
 /* Styling for the header section */
 header {
-    background-color: #f8f9fa;
+    background-color: #f4f7fa;
     padding: 20px 0;
 }
 
 /* Styling for the navigation bar */
 .navbar {
-    background-color: #fff;
+    background-color: #f9d3d3;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Styling for the navigation links in the navbar */
-.nav-link {
-    color: #333;
-    font-weight: bold;
-}
-
-/* Styling for the active navigation link */
-.nav-item.active .nav-link {
-    color: #007bff;
-}
-
-/* Styling for the content section */
-.content {
-    padding: 20px;
 }
 
 /* Styling for the headline sections */
 .headLine {
+    background-color: hsl(264, 57%, 87%);
+    padding: 30px; /* Increased padding for a more interesting background */
     margin-top: 30px;
     text-align: center;
+}
+
+/* Styling for the filtered text */
+.filtered-text {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease-in-out;
+    column-count: 2;
+    font-family: "YourFontName", sans-serif;
+    border-radius: 10px;
+    background: linear-gradient(45deg, hsl(249, 85%, 82%), hsl(283, 52%, 71%)); /* Gradient background */
+    color: #000000; /* White text color for better contrast */
+}
+
+
+
+/* Styling for the content section */
+.content {
+    padding: 20px;
 }
 
 /* Styling for the search forms */
@@ -65,7 +67,6 @@ header {
     height: 300px;
     margin-top: 30px;
 }
-/* ... קוד ה-CSS שלך הנוכחי ... */
 
 /* Styling for the chart container */
 #chart-container {
@@ -73,24 +74,24 @@ header {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f8f9fa;
+    background-color: hwb(0 100% 0%);
 }
 
 /* Styling for the SVG element */
 #chart {
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Styling for the bars in the chart */
 .bar {
-    fill: #924ea9;
+    fill:  rgb(199, 255, 190);
     transition: fill 0.2s;
 }
 
 .bar:hover {
-    fill: hsl(285, 48%, 49%);
+    fill: rgb(199, 255, 190);
 }
 
 /* Styling for the X and Y axes */
@@ -119,9 +120,30 @@ header {
 
 /* New styling for the bars with spacing */
 .bar {
-    fill: hsl(267, 100%, 50%);
+    fill: hsl(287, 44%, 41%);
     transition: fill 0.2s;
     margin-right: 5px;
 }
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
 
-/* ... קוד ה-CSS שלך הנוכחי ... */
+.point {
+    margin: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.point p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333333;
+}
+
+.point strong {
+    color: #007bff;
+}

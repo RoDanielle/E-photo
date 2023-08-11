@@ -46,7 +46,7 @@
         </div>
     </div>
     <div class="headLine">
-        <h3>All Registers</h3>
+        <h2 class="filtered-text">All Registers</h2>
     </div>
     <form class="d-flex" role="search" id="searh_form">
         <div class="container text-center">
@@ -123,75 +123,96 @@
             init(); // Initialize the script when the page loads
         </script>
     </form>
+   
+       
+<div class="headLine">
+    <h2 class="filtered-text" >Product Availability - Scatter Plot</h2>
+</div>
+<div id="scatter-plot-container" class="text-center">
+    <svg id="scatter-plot"></svg>
+</div>
 
-    <div class="container">
-        <div class="headLine">
-            <h3>Product Availability - Scatter Plot</h3>
-        </div>
-        <div id="scatter-plot-container" class="text-center">
-            <svg id="scatter-plot"></svg>
-        </div>
-    </div>
+<script>
+    // Load data from the server (Product availability data)
+    d3.json("http://localhost:3330/api/products", function (error, data) {
+        if (error) throw error;
 
-    <script>
-        // Load data from the server (Product availability data)
-        d3.json("http://localhost:3330/api/products", function (error, data) {
-            if (error) throw error;
+        const products = data.map(item => ({ name: item.name, countInStock: item.countInStock }));
 
-            const products = data.map(item => ({ name: item.name, countInStock: item.countInStock }));
+        // Create scales for X and Y values for the Scatter Plot
+        const scatterPlotWidth = 1300;
+        const scatterPlotHeight = 1000;
 
-            // Create scales for X and Y values for the Scatter Plot
-            const scatterPlotWidth = 1300;
-            const scatterPlotHeight = 1000;
-            
-            const xScaleScatterPlot = d3.scaleLinear()
-                .domain([0, d3.max(products, product => product.countInStock)])
-                .range([0, scatterPlotWidth]);
-            
-            const yScaleScatterPlot = d3.scaleLinear()
-                .domain([0, d3.max(products, product => product.countInStock)])
-                .range([scatterPlotHeight, 0]);
+        const xScaleScatterPlot = d3.scaleLinear()
+            .domain([0, d3.max(products, product => product.countInStock)])
+            .range([0, scatterPlotWidth]);
 
-            // Create SVG for the Scatter Plot
-            const svgScatterPlot = d3.select("#scatter-plot")
-                .attr("width", scatterPlotWidth)
-                .attr("height", scatterPlotHeight);
+        const yScaleScatterPlot = d3.scaleLinear()
+            .domain([0, d3.max(products, product => product.countInStock)])
+            .range([scatterPlotHeight, 0]);
 
-            const chartGroupScatterPlot = svgScatterPlot.append("g")
-                .attr("transform", `translate(40, 20)`);
+        // Create SVG for the Scatter Plot
+        const svgScatterPlot = d3.select("#scatter-plot")
+            .attr("width", scatterPlotWidth)
+            .attr("height", scatterPlotHeight);
 
-            // Create X and Y axes for the Scatter Plot
-            const xAxisScatterPlot = d3.axisBottom(xScaleScatterPlot);
-            const yAxisScatterPlot = d3.axisLeft(yScaleScatterPlot);
+        const chartGroupScatterPlot = svgScatterPlot.append("g")
+            .attr("transform", `translate(40, 20)`);
 
-            chartGroupScatterPlot.append("g")
-                .attr("class", "x-axis")
-                .attr("transform", `translate(0, ${scatterPlotHeight})`)
-                .call(xAxisScatterPlot);
+        // Create X and Y axes for the Scatter Plot
+        const xAxisScatterPlot = d3.axisBottom(xScaleScatterPlot);
+        const yAxisScatterPlot = d3.axisLeft(yScaleScatterPlot);
 
-            chartGroupScatterPlot.append("g")
-                .attr("class", "y-axis")
-                .call(yAxisScatterPlot);
+        chartGroupScatterPlot.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", `translate(0, ${scatterPlotHeight})`)
+            .call(xAxisScatterPlot);
 
-            // Create circles for the Scatter Plot
-            chartGroupScatterPlot.selectAll(".circle")
-                .data(products)
-                .enter().append("circle")
-                .attr("class", "circle")
-                .attr("cx", product => xScaleScatterPlot(product.countInStock))
-                .attr("cy", product => yScaleScatterPlot(product.countInStock))
-                .attr("r", 5);
-        });
-    </script>
+        chartGroupScatterPlot.append("g")
+            .attr("class", "y-axis")
+            .call(yAxisScatterPlot);
 
+        // Create circles for the Scatter Plot
+        chartGroupScatterPlot.selectAll(".circle")
+            .data(products)
+            .enter().append("circle")
+            .attr("class", "circle")
+            .attr("cx", product => xScaleScatterPlot(product.countInStock))
+            .attr("cy", product => yScaleScatterPlot(product.countInStock))
+            .attr("r", 5);
+
+        // Add text labels to the circles
+        chartGroupScatterPlot.selectAll(".text-label")
+            .data(products)
+            .enter().append("text")
+            .attr("class", "text-label")
+            .attr("x", product => xScaleScatterPlot(product.countInStock) + 7)
+            .attr("y", product => yScaleScatterPlot(product.countInStock) - 7)
+            .text(product => product.name);
+
+    });
+</script>
     
 
     <div class="headLine">
-        <h3>Cost Measures</h3>
+        <h2 class="filtered-text">Cost Measures</h2>
     </div>
+    <div class="point">
+        <p><strong>Point 1:</strong> It's important to meticulously track the overall costs of products, including production,
+            shipping, and marketing expenses, to ensure that prices and profits are achieved in a profitable and competitive
+            manner.</p>
+    </div>
+
+    <div class="point">
+        <p><strong>Point 2:</strong> Managers can utilize profit and loss graph analysis to identify areas with potential for
+            improvement. Particularly, focusing on products that deliver higher profitability and exploring ways to boost
+            sales while reducing variable costs.</p>
+    </div>
+    
     <div id="chart-container" class="text-center">
         <svg id="chart"></svg>
     </div>
+   
     <script>
   // Define the dimensions of the SVG canvas
 const width = 1800; // גודל ה-SVG גדל ל-800
