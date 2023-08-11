@@ -55,8 +55,7 @@
             </div>
         </div>
         
-        <!-- ... קוד ה-HTML הנוכחי ... -->
-        
+    
         <script>
             // Fetch user data from MongoDB using an API endpoint
             async function fetchUserData() {
@@ -119,43 +118,76 @@
             async function init() {
                 const userData = await fetchUserData();
                 renderUserTable(userData);
-
-
-
-
-
             }
         
             init(); // Initialize the script when the page loads
         </script>
     </form>
-    <div class="container text-center">
-        <div class="row g-3 m-1 " id="cards">
-            <!-- User cards section -->
+
+    <div class="container">
+        <div class="headLine">
+            <h3>Product Availability - Scatter Plot</h3>
+        </div>
+        <div id="scatter-plot-container" class="text-center">
+            <svg id="scatter-plot"></svg>
         </div>
     </div>
-    <!-- Modal for user deletion -->
-    <div class="modal fade" id="staticXbuttonOnUsers" tabindex="-1" aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
-        <!-- User deletion modal content -->
-    </div>
+
+    <script>
+        // Load data from the server (Product availability data)
+        d3.json("http://localhost:3330/api/products", function (error, data) {
+            if (error) throw error;
+
+            const products = data.map(item => ({ name: item.name, countInStock: item.countInStock }));
+
+            // Create scales for X and Y values for the Scatter Plot
+            const scatterPlotWidth = 1300;
+            const scatterPlotHeight = 1000;
+            
+            const xScaleScatterPlot = d3.scaleLinear()
+                .domain([0, d3.max(products, product => product.countInStock)])
+                .range([0, scatterPlotWidth]);
+            
+            const yScaleScatterPlot = d3.scaleLinear()
+                .domain([0, d3.max(products, product => product.countInStock)])
+                .range([scatterPlotHeight, 0]);
+
+            // Create SVG for the Scatter Plot
+            const svgScatterPlot = d3.select("#scatter-plot")
+                .attr("width", scatterPlotWidth)
+                .attr("height", scatterPlotHeight);
+
+            const chartGroupScatterPlot = svgScatterPlot.append("g")
+                .attr("transform", `translate(40, 20)`);
+
+            // Create X and Y axes for the Scatter Plot
+            const xAxisScatterPlot = d3.axisBottom(xScaleScatterPlot);
+            const yAxisScatterPlot = d3.axisLeft(yScaleScatterPlot);
+
+            chartGroupScatterPlot.append("g")
+                .attr("class", "x-axis")
+                .attr("transform", `translate(0, ${scatterPlotHeight})`)
+                .call(xAxisScatterPlot);
+
+            chartGroupScatterPlot.append("g")
+                .attr("class", "y-axis")
+                .call(yAxisScatterPlot);
+
+            // Create circles for the Scatter Plot
+            chartGroupScatterPlot.selectAll(".circle")
+                .data(products)
+                .enter().append("circle")
+                .attr("class", "circle")
+                .attr("cx", product => xScaleScatterPlot(product.countInStock))
+                .attr("cy", product => yScaleScatterPlot(product.countInStock))
+                .attr("r", 5);
+        });
+    </script>
+
+    
 
     <div class="headLine">
-        <h3>Data Purchases</h3>
-    </div>
-    <div class="container text-center">
-        <div class="row g-3 m-1 " id="cards">
-            <!-- Course cards section -->
-        </div>
-    </div>
-    <!-- Modal for course deletion -->
-    <div class="modal fade" id="staticXbuttonOnCourses" tabindex="-1" aria-labelledby="staticBackdropLabel"
-        aria-hidden="true">
-        <!-- Course deletion modal content -->
-    </div>
-
-    <div class="headLine">
-        <h3>Popular photos</h3>
+        <h3>Cost Measures</h3>
     </div>
     <div id="chart-container" class="text-center">
         <svg id="chart"></svg>
@@ -224,9 +256,6 @@ d3.json("http://localhost:3330/api/products", function(error, data) {
 
     </script>
     
-
-
-        </script>
     </form>
     <div class="container text-center">
         <div class="row g-3 m-1 " id="cards">
