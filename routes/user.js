@@ -40,4 +40,5 @@ router.post('/login',  C_user.login);
 //router.post('/logout', authMiddleware, C_user.logout);
 router.post('/logout', C_user.logout);
 
+
 module.exports = router;

@@ -73,7 +73,7 @@
 
     <!--after finishing move to a separate file-->
     <script>
-$(document).ready(function() {
+      $(document).ready(function() {
   // Function to update the login/logout button based on user's login status
   function updateAuthButton(isLoggedIn) {
     const authButton = $("#authButton");
@@ -117,7 +117,14 @@ $(document).ready(function() {
             .text("Log In successful!")
             .removeClass("d-none");
           setTimeout(function() {
-            window.location.href = 'products.html';
+            const isAdmin = response.user.isManager; // Use response.user.isManager to check admin status
+            if (isAdmin) {
+              // Redirect to admin page
+              window.location.href = 'admin.html';
+            } else {
+              // Redirect to regular user page
+              window.location.href = 'products.html';
+            }
           }, 2000);
         } else {
           console.log("Log In failed:", response.message);
@@ -149,6 +156,7 @@ $(document).ready(function() {
     });
   });
 });
+
     </script>
 </body>
 

@@ -100,6 +100,7 @@ login: async (req, res) => {
     if (user) {
       req.session.isLoggedIn = true;
       req.session.userId = user._id;
+      req.session.type = user.isManager ? 'admin' : 'basic';
       return res.json({ message: 'User authenticated', user: user });
     } else {
       return res.json({ message: 'Invalid email or password' });
