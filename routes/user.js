@@ -40,5 +40,14 @@ router.post('/login',  C_user.login);
 //router.post('/logout', authMiddleware, C_user.logout);
 router.post('/logout', C_user.logout);
 
+/*
+router.get('/admin/dashboard', requireLogin, adminAuth, (req, res) => {
+  // If the user passes both requireLogin and adminAuth checks,
+  // they are both logged in and an admin.
+  
+  // You can render your admin dashboard here or send data related to admin functionality.
+  res.render('admin_dashboard');
+});
+*/
 
 module.exports = router;
