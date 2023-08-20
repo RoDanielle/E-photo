@@ -189,9 +189,21 @@ wss.on('connection', (ws) => {
     const data = JSON.parse(message);
 
     if (data.type === 'message') {
+      // Check for automatic response
+      const autoResponse = createAutoResponse(data.data);
+      if (autoResponse) {
+        ws.send(JSON.stringify({
+          type: 'message',
+          data: autoResponse,
+          sender: 'ADMIN',
+          autoResponse: true
+        }));
+      }
+
+      // Broadcast the message to other clients
       wss.clients.forEach((client) => {
         if (client !== ws && client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ type: 'message', data: data.data }));
+          client.send(JSON.stringify({ type: 'message', data: data.data, sender: 'OTHER' }));
         }
       });
     }
@@ -203,3 +215,21 @@ wss.on('connection', (ws) => {
 });
 
 console.log('WebSocket server is running on port 4440');
+
+function createAutoResponse(message) {
+
+  if (message.toLowerCase().includes('order')) {
+      return 'You can place an order through our website or contact us for assistance with your order.';
+  } else if (message.toLowerCase().includes('product')) {
+      return 'We offer a wide range of products in our store!';
+  } else if (message.toLowerCase().includes('shipping')) {
+      return 'We provide fast and convenient shipping services nationwide!';
+  } else if (message.toLowerCase().includes('cancel order')) {
+      return 'To cancel an order, please contact us and provide additional details.';
+  } else {
+      return null; // No automatic response for the given message
+  }
+}
+
+
+

@@ -4,6 +4,9 @@ const axios = require('axios');
 const API_KEY = process.env.API_KEY_WEATHER;
 
 
+
+
+
 module.exports = {
   async getWeatherByLocation(req, res) {
     try {
@@ -12,6 +15,19 @@ module.exports = {
 
       const response = await axios.get(apiUrl);
       const weatherData = response.data;
+
+      console.log('Weather Data:', weatherData); // Add this line to print the weather data to the console
+
+      const temperature = weatherData.main.temp;
+      console.log('Weather temperature:', temperature);
+
+      if (temperature < 273) {
+        weatherData.additionalInfo = 'It\'s freezing cold! Get cozy with some warm drinks.';
+      } else if (temperature > 300) {
+        weatherData.additionalInfo = 'It\'s extremely hot! Enjoy some nature pictures.';
+      } else {
+        weatherData.additionalInfo = 'The weather is pleasant. Consider engaging in outdoor activities or observing animals.';
+      }
 
       res.status(200).json(weatherData);
     } catch (error) {

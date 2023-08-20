@@ -1,0 +1,16 @@
+.message {
+    display: inline-block;
+    padding: 10px 20px; /* ניתן לשנות את הערכים לפי הגודל הרצוי */
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.my-message {
+    background-color: #DCF8C6;
+    text-align: right;
+}
+
+.other-message {
+    background-color: #EAEAEA;
+    text-align: left;
+}
