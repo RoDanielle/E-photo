@@ -12,6 +12,7 @@ catch (e) {
 }
 },
 
+
 updateUser :  async (user)=> {
   try{
     return await S_user.updateUser(user);

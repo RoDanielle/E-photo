@@ -53,20 +53,11 @@ body {
     text-align: left;
 }
 
-/* Add custom font using font-face */
-@font-face {
-    font-family: "YourFontName";
-    src: url("path-to-your-font.ttf");
-}
 
 body {
     font-family: "YourFontName", Arial, sans-serif;
 }
 
-/* Add border-radius to buttons */
-.btn {
-    border-radius: 5px;
-}
 
 /* Styling for the gradient footer */
 .bg-primary-gradient {

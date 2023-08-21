@@ -10,14 +10,14 @@ const shoppingBasketSchema = new Schema(
       }
     ],
     // You can include other fields like the owner's ID, bill total, etc.
-    // owner: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'User', // Reference to the User model
-    // },
-    // bill: {
-    //   type: Number,
-    //   default: 0,
-    // },
+     owner: {
+       type: Schema.Types.ObjectId,
+       ref: 'User', // Reference to the User model
+     },
+     bill: {
+       type: Number,
+       default: 0,
+     },
   },
   {
     timestamps: true,

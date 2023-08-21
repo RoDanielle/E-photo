@@ -15,17 +15,21 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: "Password is required",
     },
+    description: {
+      type: String,
+      default: "Passionate traveler and explorer, capturing moments from around the world through my lens",
+    },
     
-    /*
     location: {     
       type: String,    
       default: "Tel Aviv",
       },
+      
      date: {
        type: Date,
        default: Date.now,
      },
-     */
+     
     isManager: {
       type: Boolean,
       required: true,
@@ -39,6 +43,12 @@ const userSchema = new mongoose.Schema(
       default: 0,
     }
     */
+
+    userShoppingBasket: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ShoppingBasket',
+    },
+
   },
   {
     timestamps: true,
