@@ -21,7 +21,17 @@ if (userConsent) {
             const ctx = canvas.getContext("2d");
 
             ctx.font = "30px Arial";
-            ctx.strokeText(user.name, 30, 60); // השתמש בשם המשתמש מהגוף של התשובה מהשרת
+            const nameWidth = ctx.measureText(user.name).width; // מדידת רוחב השם
+            const xPosition = (canvas.width - nameWidth) / 2; // מיקום אופקי מרכזי לשם
+
+            ctx.strokeText(user.name, xPosition, 60); // שם המשתמש
+
+           
+            ctx.font = "20px Arial";
+            const signatureWidth = ctx.measureText("Signature").width; // מדידת רוחב הטקסט
+            const xSignaturePosition = (canvas.width - signatureWidth) / 2 - 20; // מיקום אופקי שמאלי לטקסט
+
+            ctx.fillText("Signature:", xSignaturePosition, 30); // הטקסט "Signature"
         })
         .catch(error => console.error('Error fetching user:', error));
 }

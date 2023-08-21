@@ -7,15 +7,15 @@ body {
 
 /* Styling for the user profile */
 .user-profile {
-    background-color: #f4f7fa; /* Light Blue */
+    background-color: hsl(209, 51%, 91%); /* Light Blue */
     padding: 20px;
 }
 
 /* Style the profile header */
 .profile-header {
-    background-color: hsl(269, 67%, 86%); /* Light Pink */
+    background: linear-gradient(45deg, hsl(205, 90%, 80%), rgb(160, 98, 185));
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px #ffffff;
     text-align: center;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -61,6 +61,7 @@ body {
 
 /* Styling for the gradient footer */
 .bg-primary-gradient {
-    background: linear-gradient(45deg, hsl(249, 85%, 82%), hsl(283, 52%, 71%));
-    height: 50px;
+   
+    background: linear-gradient(45deg, rgb(53, 160, 209), rgb(160, 98, 185));
+    height: 70px;
 }
