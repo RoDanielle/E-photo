@@ -12,6 +12,14 @@ catch (e) {
 }
 },
 
+getUserById: async (_id) => {
+  try {
+    return await S_user.getUserById(_id);
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
+},
 
 updateUser :  async (user)=> {
   try{

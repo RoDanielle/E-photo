@@ -39,28 +39,30 @@
 
    <div class="user-profile">
     <div class="profile-header text-center">
-        <h1 class="profile-title" id="profileTitle"></h1>
-        <p class="profile-subtitle" id="profileSubtitle"></p>
+        <h1 class="profile-title" id="user-name">{{ userProfile.name }}</h1>
+        <p class="profile-subtitle" id="user-subtitle">{{ userProfile.description }}</p>
     </div>
     <div class="profile-details text-center">
         <h2>About Me</h2>
-        <p id="aboutMe"></p>
+        <p id="aboutMe">{{ userProfile.description }}</p>
+        <canvas id="userCanvas" width="200" height="100" style="border:1px solid #5e6cd6;"></canvas>
         <h2>Contact Information</h2>
-        <p id="email"></p>
-        <p id="location"></p>
+        <p id="email">{{ userProfile.email }}</p>
+        <p id="location">{{ userProfile.location }}</p>
     </div>
     <div class="profile-buttons text-center">
         <a href="#" class="btn btn-primary">View Shopping History</a>
     </div>
 </div>
-   
-    <footer class="bg-primary-gradient"></footer>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>
-    <script src="assets/js/bs-init.js"></script>
-    <script src="assets/js/bold-and-bright.js"></script>
-    <script src="assets/js/userProfile.js"></script> 
 
+
+  <footer class="bg-primary-gradient"></footer>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>
+  <script src="assets/js/bs-init.js"></script>
+  <script src="assets/js/bold-and-bright.js"></script>
+  <script src="assets/js/user.js"></script>
 </body>
 
 </html>
