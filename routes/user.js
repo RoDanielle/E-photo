@@ -36,18 +36,6 @@ router.delete("/api/store-user", (req, res) => {
     });
 
 
-    router.get('/profile', authMiddleware, async (req, res) => {
-      try {
-          // Assuming that you have a function to fetch user profile data based on the logged-in user's ID
-          const userData = await fetchUserProfile(req.user.id); // Change this line to fetch user profile data
-  
-          // Render the profile page with user data
-          res.render('profile', { userData }); // Change 'profile' to the appropriate template name
-      } catch (error) {
-          console.error('Error fetching user profile:', error);
-          res.status(500).json({ error: 'Failed to fetch user profile' });
-      }
-  });
 
 
 router.post('/register', C_user.register);

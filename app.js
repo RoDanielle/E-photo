@@ -29,7 +29,7 @@ const authRoutes = require('./routes/authRoutes');
 // --- models paths ---
 const Product = require('./models/product');
 const M_Location = require('./models/location');
-const User = require('./models/user');
+//const User = require('./models/user');
 const Shopping_Cart = require('./models/shoppingCart');
 
 // --- data paths ---
@@ -125,9 +125,9 @@ app.get('/', function (req, res) {
 })();
 
 
-
+/*
 //Save the users array to the MongoDB collection
-User.insertMany(userData)
+Product.insertMany(productsData)
 .then(() => {
   console.log('User data saved to MongoDB');
   //mongoose.disconnect(); // Close the connection after saving data
@@ -138,7 +138,7 @@ User.insertMany(userData)
 }).catch((error) => {
 console.error('Error connecting to MongoDB:', error);
 });
-
+*/
 
 // --- google map ---
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
@@ -230,6 +230,3 @@ function createAutoResponse(message) {
       return null; // No automatic response for the given message
   }
 }
-
-
-
