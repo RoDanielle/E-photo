@@ -1,3 +1,9 @@
+/*
+In order to add users to Mongo before the protection, it is necessary to enter them through registration through the website and not through the server itself, 
+we need to have an ADMIN type user, and a few more generic users, we will use this file for the purpose of documenting - users and their passwords .
+The passwords in Mongo are with HASH.
+*/
+
 const users = [
     {
       name: "Dana Levi",

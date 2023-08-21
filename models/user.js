@@ -1,3 +1,8 @@
+/*
+The code defines a Mongoose schema and model for storing user information within an application. 
+This schema outlines the structure and attributes of a user document that will be stored in a MongoDB database.
+*/
+
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
