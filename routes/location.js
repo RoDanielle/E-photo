@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const C_location = require('../controllers/location');
@@ -9,7 +8,6 @@ const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your a
 router.get("/api/store-location", (req, res) => {
   C_location.getAll()
     .then((data) => {
-      console.log(data)
       res.json(data);
     })
     .catch((error) => {
@@ -56,4 +54,3 @@ router.post('/api/add-data-locations', async (req, res) => {
   });
   
 module.exports = router;
- 

@@ -68,6 +68,38 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// --- google map ---
+const fs = require('fs'); // Import the 'fs' module
+
+// Middleware to inject the Google Maps API key
+app.use('/', (req, res, next) => {
+  if (req.url === '/contacts.html') {
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Corrected variable name
+    const filePath = './views/contacts.html'; // Update with the correct file path
+
+    // Check if the file exists
+    if (fs.existsSync(filePath)) {
+      // Read the contacts.html file with utf8 encoding
+      fs.readFile(filePath, 'utf8', (err, data) => {
+        if (err) {
+          console.error('Error reading HTML file:', err);
+          res.status(500).send('Error reading HTML file.');
+        } else {
+          // Replace the placeholder with the actual API key
+          const modifiedData = data.replace('API_KEY_PLACEHOLDER', apiKey);
+          // Log the modified data (for debugging purposes)
+          res.send(modifiedData);
+        }
+      });
+    } else {
+      console.error('HTML file does not exist:', filePath);
+      res.status(404).send('HTML file not found.');
+    }
+  } else {
+    next();
+  }
+});
+
 // Set up static assets and middleware
 app.use(express.static(__dirname + '/views/'));
 app.use(cors());
@@ -142,16 +174,8 @@ app.use('/views/assets', express.static('assets'));
 app.use('/views/assets/js', express.static('js'));
 app.use(express.static('public'));
 
-// --- google map ---
-const apiKey = process.env.GOOGLE_MAPS_API_KEY;
-console.log('Process Environment:', process.env); // delete after fixing
-const encodedApiKey = encodeURIComponent(apiKey); // delete after fixing
-console.log('API Key enco:', encodedApiKey); // Check if the API key is loaded correctly - delete after fixing
-console.log('API Key:', apiKey); // Check if the API key is loaded correctly
-app.get('/contacts.html', (req, res) => {
-  res.render('contacts', { encodedApiKey }); // change encodedApiKey to apiKey after fixing
-});
 
+/*
 app.get('/api/products', async (req, res) => {
   try {
     const products = await M_Product.find(); // Using the getAll function from C_products controller
@@ -160,6 +184,7 @@ app.get('/api/products', async (req, res) => {
     console.log('hello')
   }
 });
+*/
 
 
 // --- web socket - autoResponse ---
