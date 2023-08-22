@@ -1,3 +1,8 @@
+/*
+The code defines a Mongoose schema and model for storing information about products within an e-commerce application. 
+This schema outlines the structure and attributes of a product document that will be stored in a MongoDB database.
+*/
+
 const mongoose = require("mongoose");
 
 const productSchema = new mongoose.Schema(

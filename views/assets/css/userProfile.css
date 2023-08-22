@@ -1,0 +1,67 @@
+/* Set the background color */
+body {
+    background-color: #f0f0f0; /* Light Gray */
+    margin: 0;
+    padding: 0;
+}
+
+/* Styling for the user profile */
+.user-profile {
+    background-color: hsl(209, 51%, 91%); /* Light Blue */
+    padding: 20px;
+}
+
+/* Style the profile header */
+.profile-header {
+    background: linear-gradient(45deg, hsl(205, 90%, 80%), rgb(160, 98, 185));
+    padding: 20px;
+    box-shadow: 0 2px 4px #ffffff;
+    text-align: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-title {
+    font-size: 36px;
+    font-weight: bold;
+    color: hwb(0 0% 100% / 0.827); /* Blue */
+    margin: 10px 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    transition: color 0.3s ease-in-out;
+}
+
+.profile-subtitle {
+    font-size: 18px;
+    color: hsl(204, 17%, 11%); /* Gray */
+    margin: 0;
+    transition: font-size 0.3s ease-in-out;
+}
+
+/* Style the profile details */
+.profile-details {
+    background-color: #ffffff; /* White */
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    column-count: 2;
+}
+
+/* Style the buttons */
+.profile-buttons {
+    margin-top: 20px;
+    text-align: left;
+}
+
+
+body {
+    font-family: "YourFontName", Arial, sans-serif;
+}
+
+
+/* Styling for the gradient footer */
+.bg-primary-gradient {
+   
+    background: linear-gradient(45deg, rgb(53, 160, 209), rgb(160, 98, 185));
+    height: 70px;
+}

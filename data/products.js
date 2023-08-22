@@ -1,3 +1,7 @@
+/*
+Information about the store products is collected from here into Mongo
+*/
+
 const products = [
 
   {

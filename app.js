@@ -1,47 +1,45 @@
+// Importing required modules and setting up environment variables
 const dotenv = require('dotenv');
 dotenv.config({ path: './config/.env' });
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-
 const passport=require("passport");
 const { loginCheck }=require("./auth/passport");
 loginCheck(passport);
-
 const customEnv = require('custom-env');
 const path = require('path'); 
 customEnv.env(process.env.NODE_ENV, './config');
 
-const app = express(); // Initialize the 'app' variable here
+// Initialize Express app
+const app = express(); 
 const session = require('express-session');
 
 // --- routes paths ---
-//const Orders = require('./routes/R_order');
-const Products = require('./routes/products');
+//const R_Orders = require('./routes/R_order');
+const R_AuthRoutes = require('./routes/authRoutes');
+const R_Products = require('./routes/products');
 const R_Location = require('./routes/location');
-const Users = require('./routes/user');
-const ShoppingCart = require('./routes/shoppingCart');
-const weatherRoutes = require('./routes/weather');
-const authRoutes = require('./routes/authRoutes');
+const R_Users = require('./routes/user');
+const R_ShoppingCart = require('./routes/shoppingCart');
+const R_Weather = require('./routes/weather');
 
 // --- models paths ---
-const Product = require('./models/product');
+//const M_User = require('./models/user');
+//const M_ShoppingCart = require('./models/shoppingCart');
+const M_Product = require('./models/product');
 const M_Location = require('./models/location');
-//const User = require('./models/user');
-const Shopping_Cart = require('./models/shoppingCart');
-
-// --- data paths ---
-const productsData = require('./data/products');
-const D_location = require('./data/location');
-const userData = require('./data/user');
 
 // --- controllers paths ---
+//const C_shoppingCart = require('./controllers/shoppingCart');
 const C_location = require('./controllers/location');
 const C_products = require('./controllers/products');
-const C_shoppingCart = require('./controllers/shoppingCart');
 
+// --- data paths ---
+//const userData = require('./data/user');
+const productsData = require('./data/products');
+const locationData = require('./data/location');
 
 // --- Mongo DB connection ---
 const database = process.env.CONNECTION_STRING // || 'mongodb://127.0.0.1:27017/proddb';
@@ -58,48 +56,39 @@ const connectToMongoDB = async () => {
     console.error('Error connecting to MongoDB:', error);
   }
 };
-
-// Call the function to connect to MongoDB
 connectToMongoDB();
 
-//BodyParsing: This built-in express middleware gives us the ability to process posted data and store it in the req.body.
-//app.use(express.urlencoded({extended: false}));
-
-
-// settion - do not delete 
+// Set up session and authentication
 const sessKey = process.env.SESSION_KEY
 app.use(session({
   secret: sessKey,
   resave: false, // Set to false to save only if changes were made
   saveUninitialized: true
 }));
-
-app.use(authRoutes);
-
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Set up static assets and middleware
 app.use(express.static(__dirname + '/views/'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 //Analyst json data 
 //app.use(bodyParser.json());
-app.use(express.json());
-app.use('/locations', R_Location);
 
+// Serve index.html
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
 
-//////////ADDING DATA ------------------------------ DO NOT DELETE!!!!!!!!!!!!!!!!!!! ----------------------
-
-// save the store locations data to the MongoDB collection 
+// Automatically add location data if not already present
+//locations  
 (async () => {
   try {
     const existinLocationgData = await M_Location.find();
     if (existinLocationgData.length === 0) {
-      const result = await C_location.addLocationsFromData(D_location);
+      const result = await C_location.addLocationsFromData(locationData);
       console.log(result.message);
     } else {
       console.log('Location Data already exists in the database');
@@ -108,11 +97,10 @@ app.get('/', function (req, res) {
     console.error('Error checking or adding initial location data:', error);
   }
 })();
-
-// save the products data to the MongoDB collection
+//products
 (async () => {
   try {
-    const existinProductData = await Product.find();
+    const existinProductData = await M_Product.find();
     if (existinProductData.length === 0) {
       await C_products.addProductsFromData(productsData);
       console.log('Initial products data added to the database');
@@ -123,11 +111,9 @@ app.get('/', function (req, res) {
     console.error('Error adding initial products data:', error);
   }
 })();
-
-
+//users
 /*
-//Save the users array to the MongoDB collection
-Product.insertMany(productsData)
+R_Users.insertMany(userData)
 .then(() => {
   console.log('User data saved to MongoDB');
   //mongoose.disconnect(); // Close the connection after saving data
@@ -140,6 +126,22 @@ console.error('Error connecting to MongoDB:', error);
 });
 */
 
+// Routes
+//app.use(R_Orders);
+app.use(R_AuthRoutes);
+app.use(R_ShoppingCart);
+app.use(R_Products);
+app.use(R_Location);
+app.use(R_Users);
+app.use(R_Weather);
+app.use('/controllers', express.static('controllers'));
+app.use('/routes', express.static('routes'));
+app.use('/views', express.static('views'));
+app.use('/services', express.static('services'));
+app.use('/views/assets', express.static('assets'));
+app.use('/views/assets/js', express.static('js'));
+app.use(express.static('public'));
+
 // --- google map ---
 const apiKey = process.env.GOOGLE_MAPS_API_KEY;
 console.log('Process Environment:', process.env); // delete after fixing
@@ -150,10 +152,9 @@ app.get('/contacts.html', (req, res) => {
   res.render('contacts', { encodedApiKey }); // change encodedApiKey to apiKey after fixing
 });
 
-
 app.get('/api/products', async (req, res) => {
   try {
-    const products = await Product.find(); // Using the getAll function from C_products controller
+    const products = await M_Product.find(); // Using the getAll function from C_products controller
     res.json(products);
   } catch (error) {
     console.log('hello')
@@ -161,45 +162,46 @@ app.get('/api/products', async (req, res) => {
 });
 
 
-// Routes
-//app.use( Orders);
-app.use(ShoppingCart);
-app.use( Products);
-app.use(R_Location);
-app.use(Users);
-app.use(weatherRoutes);
-app.use('/controllers', express.static('controllers'));
-app.use('/routes', express.static('routes'));
-app.use('/views', express.static('views'));
-app.use('/services', express.static('services'));
-app.use('/views/assets', express.static('assets'));
-app.use('/views/assets/js', express.static('js'));
-app.use(express.static('public'));
-
-
-//web socket 
+// --- web socket - autoResponse ---
 const WebSocket = require('ws');
 
 const wss = new WebSocket.Server({ port: 4440 });
+console.log('WebSocket server is running on port 4440');
 
 wss.on('connection', (ws) => {
   console.log('A new client connected');
-
   ws.on('message', (message) => {
     const data = JSON.parse(message);
-
     if (data.type === 'message') {
-      wss.clients.forEach((client) => {
-        if (client !== ws && client.readyState === WebSocket.OPEN) {
-          client.send(JSON.stringify({ type: 'message', data: data.data }));
-        }
-      });
+      // Check for automatic response
+      const autoResponse = createAutoResponse(data.data);
+      if (autoResponse) {
+        ws.send(JSON.stringify({
+          type: 'message',
+          data: autoResponse,
+          sender: 'ADMIN',
+          autoResponse: true
+        }));
+      }
     }
   });
-
   ws.on('close', () => {
     console.log('Client disconnected');
   });
 });
 
-console.log('WebSocket server is running on port 4440');
+//autoResponse 
+function createAutoResponse(message) {
+
+  if (message.toLowerCase().includes('order')) {
+      return 'You can place an order through our website or contact us for assistance with your order.';
+  } else if (message.toLowerCase().includes('product')) {
+      return 'We offer a wide range of products in our store!';
+  } else if (message.toLowerCase().includes('shipping')) {
+      return 'We provide fast and convenient shipping services nationwide!';
+  } else if (message.toLowerCase().includes('cancel order')) {
+      return 'To cancel an order, please contact us and provide additional details.';
+  } else {
+      return null; // No automatic response for the given message
+  }
+}
