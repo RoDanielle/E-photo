@@ -117,12 +117,12 @@
                           <p class="card-text"><strong>Price: $${product.price}</strong></p>
                           <p class="card-text">Rating: ${product.rating} (${product.numReviews} reviews)</p>
                           <p class="card-text">Availability: ${product.countInStock} in stock</p>
-                          <button class="btn btn-primary" data-product-id="${product.id}">Add to Cart</button>
+                          <button class="btn btn-primary add-to-cart-button" data-product='${JSON.stringify(product)}'>Add to Cart</button>
                       </div>
                   `;
           
-                      const addToCartButton = productCard.querySelector('.btn-primary');
-                      addToCartButton.addEventListener('click', () => addToCart(product));
+                  const addToCartButton = productCard.querySelector('.add-to-cart-button');
+                  addToCartButton.addEventListener('click', () => addToCart(product));
               
                       return productCard;
                   }
@@ -135,27 +135,38 @@
                   }
           
                 
-
-
                   function addToCart(product) {
-                     
-                      fetch('/api/cart/add', {
-                        method: 'POST',
-                        headers: {
-                          'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(product), // Send the entire product object
-                      })
+                    // Check if the user is logged in
+                    fetch("/checkLoggedIn")
                         .then(response => response.json())
-                        .then(cartProducts => {
-                          console.log('Added to cart:', product._id);
-                          console.log('Cart contents:', cartProducts);
+                        .then(data => {
+                            const isLoggedIn = data.isLoggedIn;
+                            if (isLoggedIn) {
+                                // User is logged in, proceed to add to cart
+                                fetch('/api/cart/add', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(product),
+                                })
+                                .then(response => response.json())
+                                .then(cartProducts => {
+                                    console.log('Added to cart:', product._id);
+                                    console.log('Cart contents:', cartProducts);
+                                })
+                                .catch(error => {
+                                    console.error('Error adding to cart:', error);
+                                });
+                            } else {
+                                // User is not logged in, show a message
+                                alert('Please log in first to add to cart.');
+                            }
                         })
                         .catch(error => {
-                          console.error('Error adding to cart:', error);
+                            console.error("Error checking session:", error);
                         });
-                    }
-
+                }
 
                      /*
                   function addToCart(product) {
