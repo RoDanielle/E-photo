@@ -202,6 +202,6 @@ function createAutoResponse(message) {
   } else if (message.toLowerCase().includes('cancel order')) {
       return 'To cancel an order, please contact us and provide additional details.';
   } else {
-      return null; // No automatic response for the given message
+      return "Please contact us at the following email address: e.photocont@gmail.com , with the relevant order details. Thank you";
   }
 }
