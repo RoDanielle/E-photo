@@ -142,7 +142,7 @@
 
 <script>
     // Load data from the server (Product availability data)
-    d3.json("http://localhost:3330/api/products", function (error, data) {
+    d3.json("http://localhost:3330/api/store-products", function (error, data) {
         if (error) throw error;
 
         const products = data.map(item => ({ name: item.name, countInStock: item.countInStock }));
@@ -249,7 +249,7 @@ const chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
 // Load data from MongoDB
-d3.json("http://localhost:3330/api/products", function(error, data) {
+d3.json("http://localhost:3330/api/store-products", function(error, data) {
     if (error) throw error;
 
     // Create an array of product names and their corresponding prices
