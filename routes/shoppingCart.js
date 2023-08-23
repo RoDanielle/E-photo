@@ -58,6 +58,7 @@ router.post('/api/cart/add', adminAuthMiddleware, async (req, res) => {
 });
 
 
+/*
 // Load locations from data when starting the server
 router.post('/api/cart/add', async (req, res) => {
     try {
@@ -68,6 +69,10 @@ router.post('/api/cart/add', async (req, res) => {
       res.status(500).json({ error: 'Failed to add product from data' });
     }
   });
+  */
+
+
+  
   
 
 module.exports = router;
