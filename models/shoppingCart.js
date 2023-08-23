@@ -14,12 +14,13 @@ const shoppingBasketSchema = new Schema(
         ref: 'Product', // Reference to the Product model
       }
     ],
-    /*
+    
     // You can include other fields like the owner's ID, bill total, etc.
      owner: {
        type: Schema.Types.ObjectId,
        ref: 'User', // Reference to the User model
      },
+     /*
      bill: {
        type: Number,
        default: 0,

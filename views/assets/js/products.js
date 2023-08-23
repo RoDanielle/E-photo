@@ -171,7 +171,7 @@
                           console.error('Error adding to cart:', error);
                       });
                   }
-                  */
+                 
 
 
                   function addToCart(product) {
@@ -224,7 +224,7 @@
                     });
                   }
 
-/*
+ */
                   function addToCart(product) {
                     // Check if the user is logged in
                     fetch("/checkLoggedIn")
@@ -240,7 +240,10 @@
                                     },
                                     body: JSON.stringify(product),
                                 })
-                                .then(response => response.json())
+                                .then(response => {
+                                    console.log(response);
+                                    return response.json();
+                                })
                                 .then(cartProducts => {
                                     console.log('Added to cart:', product._id);
                                     console.log('Cart contents:', cartProducts);
@@ -257,7 +260,7 @@
                             console.error("Error checking session:", error);
                         });
                 }
-                */
+               
 
 
 

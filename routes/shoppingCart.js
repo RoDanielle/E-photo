@@ -44,6 +44,7 @@ router.delete("/api/cart", (req, res) => {
     })
 });
 
+/*
 // only admin -
 router.post('/api/cart/add', adminAuthMiddleware, async (req, res) => {
   const { productIds } = req.body;
@@ -56,20 +57,18 @@ router.post('/api/cart/add', adminAuthMiddleware, async (req, res) => {
     res.status(500).json({ error: 'Failed to add products' });
   }
 });
+*/
 
-
-/*
-// Load locations from data when starting the server
-router.post('/api/cart/add', async (req, res) => {
-    try {
-      const result = await C_ShoppingCart.addProductsToCartFromData(Products);
-      res.json(result);
-    } catch (error) {
-      console.error('Error adding product to cart from data:', error);
-      res.status(500).json({ error: 'Failed to add product from data' });
-    }
-  });
-  */
+router.post('/api/cart/add', (req, res) => {
+  C_ShoppingCart.addToCart(req.body._id)
+    .then(data => {
+      res.json(data);
+    })
+    .catch(error => {
+      console.error('Error add to cart:', error);
+      res.status(500).json({ error: 'An error occurred while adding the cart' });
+    });
+});
 
 
   

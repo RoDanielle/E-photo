@@ -1,8 +1,8 @@
-const CartSchema = require("../models/shoppingCart")
+const ShoppingBasket = require("../models/shoppingCart")
 const CartService = require('../services/shoppingCart');
 
 
-const C_location = {
+const C_shoppingCart = {
 
     // returns all Carts 
     getAll: async ()=> {
@@ -31,40 +31,50 @@ const C_location = {
       return await CartService.deleteProduct(_id);
     },
 
-    // manually 
-    addProductsToCart: async (productIds) => {
+    addToCart: async (req, res) => {
       try {
-        const newBasket = new CartSchema({
-          products: productIds,
-        });
-        await newBasket.save();
-        
-        return { message: 'Products added to cart successfully', cart: newBasket };
-      } catch (e) {
-        console.error(e);
-        throw e;
+        console.log('Request body:', req.body);
+        const { productId } = req.body;
+  
+        // מצא את היוזר המחובר
+        const loggedInUser = await User.findById(req.user._id);
+  
+        if (!loggedInUser) {
+          return res.status(404).json({ error: 'User not found' });
+        }
+  
+        // מצא את העגלה של היוזר
+        let userCart = await ShoppingBasket.findOne({ owner: loggedInUser._id });
+  
+        if (!userCart) {
+          // אם אין עגלה, יצור עגלה חדשה ושיוך ליוזר
+          userCart = new ShoppingBasket({ owner: loggedInUser._id, products: [productId] });
+          await userCart.save();
+  
+          // שיוך העגלה ליוזר
+          loggedInUser.userShoppingBasket = userCart._id;
+          await loggedInUser.save();
+        } else {
+          // אחרת, הוסף את המוצר לרשימת המוצרים בעגלה
+          userCart.products.push(productId);
+          await userCart.save();
+        }
+  
+        // שלח תשובה בהצלחה
+        res.json({ message: 'Product added to cart successfully' });
+      } catch (error) {
+        console.error('Error adding product to cart:', error);
+        res.status(500).json({ error: 'An error occurred while adding the product to the cart' });
       }
     },
-  
-    addProductsToCartFromData: async (productIdsArray) => {
-      try {
-        const insertPromises = productIdsArray.map(async (productIds) => {
-          const newBasket = new CartSchema({
-            products: productIds,
-          });
-          await newBasket.save();
-        });
-  
-        await Promise.all(insertPromises);
-  
-        return { message: 'Products added to carts from data successfully' };
-      } catch (e) {
-        console.error(e);
-        throw e;
-      }
-    },
-
-    };
 
 
-module.exports = C_location;
+
+
+  }
+
+
+module.exports = C_shoppingCart;
+
+
+
