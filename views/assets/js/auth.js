@@ -1,3 +1,8 @@
+/*
+Overall, the code manages the user interface where it redisplays or hides the relevant buttons while verifying the current state of the user's login by contacting the server
+*/
+
+
 // Function to update the login/logout button based on user's login status
 function updateAuthButton(isLoggedIn) {
   const authButton = document.getElementById("authButton"); // login/logout button

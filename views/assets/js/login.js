@@ -1,3 +1,7 @@
+/*
+Ajax code describing the process of connecting to the user's account on the html-login page.
+*/
+
 $(document).ready(function() {
     // Function to update the login/logout button based on user's login status
     function updateAuthButton(isLoggedIn) {

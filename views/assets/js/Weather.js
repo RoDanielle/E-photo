@@ -1,6 +1,6 @@
-
-
-
+/*
+Pulling the information about the weather and displaying them on the screen
+*/
 
 const weatherForm = document.getElementById('weatherForm');
 const locationInput = document.getElementById('locationInput');
@@ -20,7 +20,7 @@ if (data.additionalInfo) {
 
 weatherInfo.innerHTML = `
   <h2>Weather in ${data.name}</h2>
-  <p>Temperature: ${data.main.temp}°C</p>
+  <p>Temperature: ${data.main.temp/10}°C</p>
   <p>Weather: ${data.weather[0].description}</p>
   ${additionalInfo}
 `;
