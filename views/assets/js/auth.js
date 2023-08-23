@@ -7,7 +7,7 @@ Overall, the code manages the user interface where it redisplays or hides the re
 function updateAuthButton(isLoggedIn) {
   const authButton = document.getElementById("authButton"); // login/logout button
   const myAccountButton = document.querySelector('a[href="userProfile.html"]'); //  My Account button
-  const cartButton = document.querySelector('a[href="cart.html"]'); // cart button
+  const cartButton = document.getElementById("cartButton"); // cart button
 
   if (isLoggedIn) {
     authButton.removeAttribute("href"); // Remove href attribute for logout

@@ -23,8 +23,6 @@ fetch(`/api/store-products/${productId}`)
         // Get the "Add to Cart" button element
         const addToCartButton = document.querySelector('.add-to-cart-button');
 
-
-
         // Attach click event listener to the "Add to Cart" button
         addToCartButton.addEventListener('click', () => {
             console.log('Add to Cart button clicked');
@@ -49,21 +47,4 @@ fetch(`/api/store-products/${productId}`)
     })
     .catch(error => console.error('Error fetching product:', error));
 
-// Function to add product to cart -- use the one used for all products page or make one this the same logic, need to make changes
-function addToCart(product) {
-    fetch('/api/cart/add', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(product),
-    })
-        .then(response => response.json())
-        .then(cartProducts => {
-            console.log('Added to cart:', product._id);
-            console.log('Cart contents:', cartProducts);
-        })
-        .catch(error => {
-            console.error('Error adding to cart:', error);
-        });
-}
+    

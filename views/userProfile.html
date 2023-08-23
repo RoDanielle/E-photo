@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/video.css">
     <link rel="stylesheet" href="assets/css/userProfile.css">
+    <link rel="stylesheet" href="assets/css/cart.css">
 
     <script src="../views/assets/js/auth.js"></script>
 
@@ -29,7 +30,7 @@
                     <li class="nav-item"><a class="nav-link" href="WebSockt.html">Start Chat !</a></li>
                 </ul>
                 <a href="userProfile.html" class="btn btn-primary" style="display: none;"> My Account</a>
-                <a href="cart.html" class="btn btn-primary" style="display: none; margin-left: 10px;"> Cart <span>0</span> </a>
+                <a href="#" class="btn btn-primary" id="cartButton" style="display: none; margin-left: 10px;"> Cart <span id="cartQuantity"></span> </a>
             </div>
             <div style="display: flex; justify-content: center; align-items: center;">
                 <a id="authButton" class="btn btn-primary" role="button">
@@ -38,7 +39,10 @@
             </div>
         </div>
    </nav>
-
+   <aside id="shopping-cart" class="shopping-cart">
+    <h3>Shopping Cart</h3>
+    <ul id="cart-items"></ul>
+    </aside>
    <div class="user-profile">
     <div class="profile-header text-center">
         <h1 class="profile-title" id="user-name">{{ userProfile.name }}</h1>
@@ -65,6 +69,7 @@
   <script src="assets/js/bs-init.js"></script>
   <script src="assets/js/bold-and-bright.js"></script>
   <script src="assets/js/user.js"></script>
+  <script src="assets/js/cart.js"></script>
 </body>
 
 </html>
