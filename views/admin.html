@@ -47,6 +47,8 @@
     <aside id="shopping-cart" class="shopping-cart">
         <h3>Shopping Cart</h3>
         <ul id="cart-items"></ul>
+        <p id="cartTotal"></p>
+        <button id="payButton">Pay</button>
     </aside>
     <div class="content">
         <div class="facebook-post-form">
@@ -63,6 +65,7 @@
             </div>
         </div>
         
+          
     
         <script>
             // Fetch user data from MongoDB using an API endpoint
@@ -96,6 +99,7 @@
                     deleteButton.on('click', () => deleteUser(user._id)); // Call a function to delete the user
                 });
             }
+            
 
 
             
@@ -200,6 +204,25 @@
 
     });
 </script>
+
+<div class="headLine">
+    <h2 class="filtered-text">Add Product</h2>
+</div>
+<form id="addProductForm">
+    <input type="text" id="name" placeholder="Product Name" required>
+    <input type="text" id="image" placeholder="Image URL" required>
+    <input type="text" id="brand" placeholder="Brand" required>
+    <input type="text" id="category" placeholder="Category" required>
+    <input type="number" id="price" placeholder="Price" required>
+    <input type="number" id="countInStock" placeholder="Count In Stock" required>
+    <input type="number" id="rating" placeholder="Rating" required>
+    <input type="number" id="numReviews" placeholder="Number Of Reviews" required>
+    <input type="text" id="description" placeholder="Description" required>
+    <input type="text" id="color" placeholder="Color" required>
+    <input type="text" id="popularity" placeholder="Popularity" required>
+    <button type="submit">Add Product</button>
+  </form>
+
     
 
     <div class="headLine">

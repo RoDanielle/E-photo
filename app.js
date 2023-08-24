@@ -130,6 +130,22 @@ app.get('/', function (req, res) {
   }
 })();
 //products
+/*
+// adding a product from admin 
+app.post("/api/add-product", async (req, res) => {
+  try {
+    const existinProductData = await M_Product.find();
+    if (existinProductData.length === 0) {
+      await C_products.addProduct(productsData);
+      console.log('Initial products data added to the database');
+    } else {
+      console.log('Products Data already exists in the database');
+    }
+  } catch (error) {
+    console.error('Error adding initial products data:', error);
+  }
+});
+*/
 (async () => {
   try {
     const existinProductData = await M_Product.find();
@@ -175,7 +191,7 @@ app.use('/views/assets/js', express.static('js'));
 app.use(express.static('public'));
 
 
-/*
+
 app.get('/api/products', async (req, res) => {
   try {
     const products = await M_Product.find(); // Using the getAll function from C_products controller
@@ -184,7 +200,6 @@ app.get('/api/products', async (req, res) => {
     console.log('hello')
   }
 });
-*/
 
 
 // --- web socket - autoResponse ---

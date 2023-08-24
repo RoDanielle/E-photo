@@ -75,6 +75,3 @@ const C_shoppingCart = {
 
 
 module.exports = C_shoppingCart;
-
-
-
