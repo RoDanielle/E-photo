@@ -1,3 +1,4 @@
+
 // Function to update the navigation bar based on user's login and admin status
 function updateNavbar(isLoggedIn, isAdmin) {
   const storeInfoNavItem = document.getElementById("storeInfoNavItem");
@@ -22,112 +23,68 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 });
 
-  // Add an event listener for form submission
-  document.getElementById("addProductForm").addEventListener("submit", async function(event) {
-    event.preventDefault(); // Prevent the default form submission behavior
-   
-    
-    const formData = new FormData(event.target);
-    
-    //console.log("Form Data:",formData);
-    //console.log("Form Data name:", formData.get("name"));
-  
-    const productData = {
-      name: formData.get("name"),
-      image:formData.get("image"),
-      brand:formData.get("brand"),
-      category:formData.get("category"),
-      price: parseFloat(formData.get("price")),
-      countInStock:parseInt(formData.get("countInStock")),
-      rating: parseFloat(formData.get("rating")),
-      numReviews:parseInt(formData.get("numReviews")),
-      description: formData.get("description"),
-      color: formData.get("color"),
-      popularity: formData.get("popularity"),
-    };
-    await addProduct(productData);
-     // Clear the form fields after successful product addition
-  event.target.reset();
-  });
-  
-   // Call a function to add the product using an API endpoint
-  /*
-   await addProduct(
-    productData.name,
-    productData.image,
-    productData.brand,
-    productData.category,
-    productData.price,
-    productData.countInStock,
-    productData.rating,
-    productData.numReviews,
-    productData.description,
-    productData.color,
-    productData.popularity
-  );
-  */
-   
-   
+// Add an event listener for form submission - add new product 
+document.getElementById("addProductForm").addEventListener("submit", async function(event) {
+  event.preventDefault(); // Prevent the form from submitting normally
 
-  
-  async function addProduct(productData) {
-    try {
-      const authToken = 'your-admin-auth-token'; // Replace with the actual admin authentication token
+  // Get values from form fields
+  const name = document.getElementById("name").value;
+  const image = document.getElementById("image").value;
+  const brand = document.getElementById("brand").value;
+  const category = document.getElementById("category").value;
+  const price = parseFloat(document.getElementById("price").value);
+  const countInStock = parseInt(document.getElementById("countInStock").value);
+  const rating = parseFloat(document.getElementById("rating").value);
+  const numReviews = parseInt(document.getElementById("numReviews").value);
+  const description = document.getElementById("description").value;
+  const color = document.getElementById("color").value;
+  const popularity = document.getElementById("popularity").value;
 
-      const response = await fetch("/api/store-products", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${authToken}`, // Include admin authentication token here
-        },
-        body: JSON.stringify(productData)
-      });
-  
-      const data = await response.json();
-      if (data.success) {
-        // Update the product list on the admin page
-      await updateProductList();
-      } else {
-        console.error("Failed to add product.");
-      }
-    } catch (error) {
-      console.error("Error adding product:", error);
-    }
-  }
-/*
-// Function to update the product list on the admin page
-async function updateProductList() {
+  const productData = {
+    name,
+    image,
+    brand,
+    category,
+    price,
+    countInStock,
+    rating,
+    numReviews,
+    description,
+    color,
+    popularity
+  };
+
+  // Call the addProduct function with the extracted data
+ await addProduct(productData, event);
+
+});
+
+// add a new product to mongoDB
+async function addProduct(productData, event) {
+  console.log("inside addProduct");
   try {
-    const products = await fetchProducts(); // Fetch the updated list of products
-    const productListElement = document.getElementById("productList");
-
-    // Clear existing list
-    productListElement.innerHTML = "";
-
-    // Render the updated product list
-    products.forEach(product => {
-      const productItem = document.createElement("div");
-      productItem.textContent = product.name; // Customize this to display relevant product information
-      productListElement.appendChild(productItem);
+    const response = await fetch("/api/store-products", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(productData)
     });
+    const data = await response.json();
+    console.log("log:", data)
+    if (data.message === 'Product added successfully') {
+      console.log("Product added successfully!");
+      // Reset the form after successful product addition
+      event.target.reset();
+      } else {
+      console.error("Failed to add product.");
+    }
   } catch (error) {
-    console.error("Error updating product list:", error);
+    console.error("Error adding product:", error);
   }
 }
 
-// Function to fetch the list of products from the server
-async function fetchProducts() {
-  try {
-    const response = await fetch("/api/store-products");
-    const products = await response.json();
-    return products;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
-}
-*/
-//Registers
+//Registered users 
   // Fetch user data from MongoDB using an API endpoint
   async function fetchUserData() {
     const response = await fetch('/api/store-user'); // Replace with your API endpoint
@@ -161,9 +118,6 @@ function renderUserTable(data) {
 }
 
 
-
-
-
 // Function to delete a user
 async function deleteUser(userId) {
 const response = await fetch(`/api/store-user`, {
@@ -185,7 +139,6 @@ console.error('Failed to delete user.');
 }
 }
 
-
 // Entry point: Fetch user data and render the user table
 async function init() {
     const userData = await fetchUserData();
@@ -193,10 +146,6 @@ async function init() {
 }
 
 init(); // Initialize the script when the page loads
-
-
-
-
 
 //D3
 // Load data from the server (Product availability data)
@@ -319,3 +268,6 @@ d3.json("http://localhost:3330/api/store-products", function(error, data) {
         .attr("width", xScale.bandwidth())
         .attr("height", product => innerHeight - yScale(product.price));
 });
+
+
+

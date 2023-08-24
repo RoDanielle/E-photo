@@ -114,7 +114,7 @@ app.get('/', function (req, res) {
 });
 
 
-// Automatically add location data if not already present
+// Automatically add locations and products data if not already present
 //locations  
 (async () => {
   try {
@@ -130,21 +130,7 @@ app.get('/', function (req, res) {
   }
 })();
 //products
-/*
-// Define a route to handle POST requests to add a product
-app.post('/api/store-products', async (req, res) => {
-  const productData = req.body; // Assuming the product data is sent in the request body
-  try {
-    const result = await C_products.addProduct(productData); // Call your controller's addProduct function
-    res.json({ success: true, message: result.message });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-*/
-
-// adding a product from admin 
-app.post("/api/store-products", async (req, res) => {
+app.post("/api/store-products/bulk", async (req, res) => {
   try {
     const existinProductData = await M_Product.find();
     if (existinProductData.length === 0) {
@@ -158,21 +144,7 @@ app.post("/api/store-products", async (req, res) => {
   }
 });
 
-/*
-(async () => {
-  try {
-    const existinProductData = await M_Product.find();
-    if (existinProductData.length === 0) {
-      await C_products.addProductsFromData(productsData);
-      console.log('Initial products data added to the database');
-    } else {
-      console.log('Products Data already exists in the database');
-    }
-  } catch (error) {
-    console.error('Error adding initial products data:', error);
-  }
-})();
-*/
+
 //users
 /*
 R_Users.insertMany(userData)

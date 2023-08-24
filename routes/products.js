@@ -17,7 +17,6 @@ router.get("/api/store-products", (req, res) => {
       });
   });
 
-
  // Get details for a single product by ID
 router.get("/api/store-products/:productId", (req, res) => {
   const productId = req.params.productId;
@@ -35,14 +34,12 @@ router.get("/api/store-products/:productId", (req, res) => {
     });
 }); 
 
-
 //router.put("/api/store-products", adminAuthMiddleware, (req, res) => {
 router.put("/api/store-products", (req, res) => {
     C_products.update(req.body).then((data) => {
         res.json(data);
     })
 });
-
 
 //router.delete("/api/store-products", adminAuthMiddleware, (req, res) => {
     router.delete("/api/store-products", (req, res) => {
@@ -54,10 +51,10 @@ router.put("/api/store-products", (req, res) => {
 
 // Add a single product manually
 router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
-    const { name, image, brand, category, price, countInStock, rating, numReviews, description } = req.body;
+    const { name, image, brand, category, price, countInStock, rating, numReviews, description, color,popularity} = req.body;
   
     try {
-      const newProduct = await C_products.addProduct(name, image, brand, category, price, countInStock, rating, numReviews, description);
+      const newProduct = await C_products.addProduct(name, image, brand, category, price, countInStock, rating, numReviews, description, color,popularity);
       res.json({ message: 'Product added successfully', product: newProduct });
     } catch (error) {
       console.error('Error adding product:', error);
@@ -65,8 +62,6 @@ router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
     }
   });
   
-  router.post('/addProduct', C_products.addProduct);
-
   // Add products from data file
   router.post('/api/store-products/bulk', adminAuthMiddleware, async (req, res) => {
     try {
@@ -78,7 +73,13 @@ router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
     }
   });
 
-  router.get("/api/store-products", (req, res) => {
+
+  /*
+ // NOYAS WORK - ASK HERE IS NEEDED 
+  router.post('/addProduct', C_products.addProduct);
+
+
+    router.get("/api/store-products", (req, res) => {
     const productName = req.session.productName;
     
     C_products.getProductByNameSearch(productName)
@@ -93,4 +94,6 @@ router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch product details' });
       });
   });
+  */
+
 module.exports = router;
