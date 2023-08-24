@@ -172,7 +172,7 @@
                       });
                   }
                  
-
+ /*
 
                   function addToCart(product) {
                     // Check if the user is logged in
@@ -224,7 +224,7 @@
                     });
                   }
 
- */
+*/
                   function addToCart(product) {
                     // Check if the user is logged in
                     fetch("/checkLoggedIn")
@@ -261,7 +261,6 @@
                         });
                 }
                
-
 
 
                 
