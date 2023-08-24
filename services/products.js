@@ -22,7 +22,7 @@ const S_Product = {
     getProductByNameSearch: async (name) => {
         return await Product.find({ name: {$regex: '^.*' + name + '.*$', $options: 'i'} });
     },
-   /*
+   
     getProductById: async (productId) => {
         try {
           // Query the database to retrieve the product by its ID
@@ -34,7 +34,7 @@ const S_Product = {
           throw error;
         }
       },    
-*/
+
     updateProduct: async (product)=> {
         return await Product.findOneAndUpdate({ _id: product._id }, product);
     },
