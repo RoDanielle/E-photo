@@ -57,6 +57,8 @@ async function handleLogout() {
         if (loginMessage) {
           loginMessage.textContent = "You have been logged out successfully.";
         }
+        // Clear shopping cart from local storage
+        localStorage.removeItem('cart');
       } else {
         console.error("Logout failed.");
       }
