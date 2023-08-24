@@ -1,3 +1,7 @@
+/*
+The code for this use for a subscription function that exists in and describes what happens when you enter an email into the appropriate box in HTML
+*/
+
 function subscribe() {
     var subscriptionMessage = document.getElementById("subscription-message");
     var errorMessage = document.getElementById("error-message");

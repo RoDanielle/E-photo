@@ -1,3 +1,7 @@
+/*
+google map - html - contancts
+*/
+
 // Function to initialize the Google Map
 function initMap() {
   fetch('/api/store-location')

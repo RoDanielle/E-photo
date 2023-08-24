@@ -1,5 +1,10 @@
+/*
+ this code snippet uses jQuery to handle form submission using AJAX. It sends user registration data to the server, 
+ receives a response, and updates the UI accordingly based on the success or failure of the registration process.
+*/
 $(document).ready(function() {
-    $("#registrationForm").submit(function(e) {
+    $("#registrationForm").submit(function(e) //This code attaches a submit event listener to the form with the id "registrationForm". When the form is submitted, the provided function is executed. 
+    {
         e.preventDefault();
         const name = $("input[name='name']").val();
         const email = $("input[name='email']").val();

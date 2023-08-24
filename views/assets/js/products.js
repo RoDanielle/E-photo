@@ -1,3 +1,4 @@
+
         // Fetch products from the API endpoint and populate the product list
         fetch('/api/store-products') // Replace with the actual API endpoint to fetch products
         .then(response => response.json())
@@ -134,39 +135,6 @@
                       imgElement.alt = 'Image not available';
                   }
           
-                
-                  function addToCart(product) {
-                    // Check if the user is logged in
-                    fetch("/checkLoggedIn")
-                        .then(response => response.json())
-                        .then(data => {
-                            const isLoggedIn = data.isLoggedIn;
-                            if (isLoggedIn) {
-                                // User is logged in, proceed to add to cart
-                                fetch('/api/cart/add', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                    },
-                                    body: JSON.stringify(product),
-                                })
-                                .then(response => response.json())
-                                .then(cartProducts => {
-                                    console.log('Added to cart:', product._id);
-                                    console.log('Cart contents:', cartProducts);
-                                })
-                                .catch(error => {
-                                    console.error('Error adding to cart:', error);
-                                });
-                            } else {
-                                // User is not logged in, show a message
-                                alert('Please log in first to add to cart.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error checking session:", error);
-                        });
-                }
 
                      /*
                   function addToCart(product) {
@@ -203,5 +171,97 @@
                           console.error('Error adding to cart:', error);
                       });
                   }
-                  */
-  
+                 
+
+
+                  function addToCart(product) {
+                    // Check if the user is logged in
+                    fetch("/checkLoggedIn", {
+                        method: 'POST', // Change the method to POST
+                        headers: {
+                          'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(product),
+                    })
+                    .then(response => {
+                        if (!response.ok){
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const isLoggedIn = data.isLoggedIn;
+
+                        if(isLoggedIn) {
+                            // User is logged in, proceed to add to cart
+                            fetch('/api/card/add' , {
+                                 method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(product),
+                            })
+                            .then(response => {
+                                if (!response.ok){
+                                    throw new Error('Network response was not ok');
+                                }
+                                return response.json();
+                            })
+                            .then(cartProducts => {
+                                console.log('Added to cart:', product._id);
+                                console.log('Cart contents:', cartProducts);  
+                            })
+                            .catch (error => {
+                                console.error('Error adding to cart:', error);
+                            });
+                        } else {
+                            // User is not logged in, show a message
+                            alert('Please log in first to add to cart.');  
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error checking session:", error);
+                    });
+                  }
+
+ */
+                  function addToCart(product) {
+                    // Check if the user is logged in
+                    fetch("/checkLoggedIn")
+                        .then(response => response.json())
+                        .then(data => {
+                            const isLoggedIn = data.isLoggedIn;
+                            if (isLoggedIn) {
+                                // User is logged in, proceed to add to cart
+                                fetch('/api/cart/add', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(product),
+                                })
+                                .then(response => {
+                                    console.log(response);
+                                    return response.json();
+                                })
+                                .then(cartProducts => {
+                                    console.log('Added to cart:', product._id);
+                                    console.log('Cart contents:', cartProducts);
+                                })
+                                .catch(error => {
+                                    console.error('Error adding to cart:', error);
+                                });
+                            } else {
+                                // User is not logged in, show a message
+                                alert('Please log in first to add to cart.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error checking session:", error);
+                        });
+                }
+               
+
+
+
+                

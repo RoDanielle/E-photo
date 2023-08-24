@@ -1,0 +1,29 @@
+
+.shopping-cart {
+    position: fixed;
+    top: 0;
+    right: -300px; /* Initially hidden */
+    width: 300px;
+    height: 100%;
+    background-color: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    padding: 20px;
+    transition: right 0.3s ease-in-out;
+    z-index: 200; /* Increase the z-index to make the cart appear above the navbar */
+}
+
+.shopping-cart h3 {
+    margin-top: 0;
+    
+}
+
+.shopping-cart.show {
+    right: 0; /* Show the shopping cart */
+}
+
+/* Override Bootstrap's sticky navbar styles */
+.navbar.navbar-shrink {
+    position: static; /* Remove the sticky positioning */
+    z-index: 100; /* Ensure the navbar is behind the cart */
+}

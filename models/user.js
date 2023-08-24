@@ -48,12 +48,12 @@ const userSchema = new mongoose.Schema(
       default: 0,
     }
     */
-/*
+
     userShoppingBasket: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'ShoppingBasket',
     },
-*/
+
   },
   {
     timestamps: true,
