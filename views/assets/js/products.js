@@ -123,8 +123,33 @@
                   `;
           
                   const addToCartButton = productCard.querySelector('.add-to-cart-button');
-                  addToCartButton.addEventListener('click', () => addToCart(product));
+                 
               
+
+                  addToCartButton.addEventListener('click', () => {
+                    console.log('Add to Cart button clicked');
+                
+                    // Fetch user login status
+                    fetch("/checkLoggedIn")
+                        .then(response => response.json())
+                        .then(data => {
+                            const isLoggedIn = data.isLoggedIn;
+                            console.log('User logged in:', isLoggedIn);
+                            
+                            if (isLoggedIn) {
+                                // User is logged in, proceed to add to cart
+                                addToCart(product);
+                            } else {
+                                // User is not logged in, show a message
+                                alert('Please log in first to add to cart.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error checking session:", error);
+                        });
+                });
+                
+
                       return productCard;
                   }
               
@@ -224,7 +249,8 @@
                     });
                   }
 
-*/
+
+
                   function addToCart(product) {
                     // Check if the user is logged in
                     fetch("/checkLoggedIn")
@@ -261,6 +287,8 @@
                         });
                 }
                
+
+*/
 
 
                 
