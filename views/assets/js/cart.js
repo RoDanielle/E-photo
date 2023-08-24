@@ -17,22 +17,31 @@ function updateShoppingCart(cartData) {
     const cartItemsList = document.getElementById('cart-items');
     cartItemsList.innerHTML = '';
 
-    let totalQuantity = 0; // Initialize total quantity
+    let totalQuantity = 0;
+    let totalPrice = 0;
 
     for (const productId in cartData) {
         const cartItem = document.createElement('li');
         const product = cartData[productId];
-        cartItem.textContent = `${product.name} - $${product.price} (Quantity: ${product.quantity})`;
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.addEventListener('click', () => removeFromCart(productId)); // Pass productId here
+        
+        cartItem.textContent = `${product.name} - $${product.price} (Quantity: ${product.quantity}) `;
+        cartItem.appendChild(removeButton);
+        
         cartItemsList.appendChild(cartItem);
 
-        totalQuantity += product.quantity; // Increment total quantity
+        totalQuantity += product.quantity;
+        totalPrice += product.price * product.quantity;
     }
 
-    // Update the cart button's quantity
     const cartQuantityElement = document.getElementById('cartQuantity');
     cartQuantityElement.textContent = totalQuantity.toString();
+    
+    const totalField = document.getElementById('cartTotal');
+    totalField.textContent = `Total: $${totalPrice}`;
 }
-
 // Function to add product to cart
 function addToCart(product) {
     // Retrieve existing cart data from local storage
@@ -55,3 +64,23 @@ function addToCart(product) {
     // Update the shopping cart UI
     updateShoppingCart(existingCart);
 }
+
+function removeFromCart(productId) {
+    const existingCart = JSON.parse(localStorage.getItem('cart')) || {};
+    if (existingCart[productId]) {
+        if (existingCart[productId].quantity > 1) {
+            existingCart[productId].quantity--;
+        } else {
+            delete existingCart[productId];
+        }
+        localStorage.setItem('cart', JSON.stringify(existingCart));
+        updateShoppingCart(existingCart);
+    }
+}
+
+
+const payButton = document.getElementById('payButton');
+payButton.addEventListener('click', () => {
+    // Perform payment action here
+    alert('Payment functionality will be added later.');
+});
