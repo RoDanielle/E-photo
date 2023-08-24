@@ -106,7 +106,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 //Analyst json data 
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 // Serve index.html
 app.get('/', function (req, res) {
@@ -131,8 +131,20 @@ app.get('/', function (req, res) {
 })();
 //products
 /*
+// Define a route to handle POST requests to add a product
+app.post('/api/store-products', async (req, res) => {
+  const productData = req.body; // Assuming the product data is sent in the request body
+  try {
+    const result = await C_products.addProduct(productData); // Call your controller's addProduct function
+    res.json({ success: true, message: result.message });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+*/
+
 // adding a product from admin 
-app.post("/api/add-product", async (req, res) => {
+app.post("/api/store-products", async (req, res) => {
   try {
     const existinProductData = await M_Product.find();
     if (existinProductData.length === 0) {
@@ -145,7 +157,8 @@ app.post("/api/add-product", async (req, res) => {
     console.error('Error adding initial products data:', error);
   }
 });
-*/
+
+/*
 (async () => {
   try {
     const existinProductData = await M_Product.find();
@@ -159,6 +172,7 @@ app.post("/api/add-product", async (req, res) => {
     console.error('Error adding initial products data:', error);
   }
 })();
+*/
 //users
 /*
 R_Users.insertMany(userData)

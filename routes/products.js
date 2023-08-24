@@ -17,6 +17,7 @@ router.get("/api/store-products", (req, res) => {
       });
   });
 
+
  // Get details for a single product by ID
 router.get("/api/store-products/:productId", (req, res) => {
   const productId = req.params.productId;
@@ -34,6 +35,7 @@ router.get("/api/store-products/:productId", (req, res) => {
     });
 }); 
 
+
 //router.put("/api/store-products", adminAuthMiddleware, (req, res) => {
 router.put("/api/store-products", (req, res) => {
     C_products.update(req.body).then((data) => {
@@ -41,12 +43,14 @@ router.put("/api/store-products", (req, res) => {
     })
 });
 
+
 //router.delete("/api/store-products", adminAuthMiddleware, (req, res) => {
     router.delete("/api/store-products", (req, res) => {
-        C_products.deleteproduct(req.body._id).then((data) => {
+        C_products.deleteProduct(req.body._id).then((data) => {
             res.json(data);
         })
     });
+
 
 // Add a single product manually
 router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
@@ -61,6 +65,8 @@ router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
     }
   });
   
+  router.post('/addProduct', C_products.addProduct);
+
   // Add products from data file
   router.post('/api/store-products/bulk', adminAuthMiddleware, async (req, res) => {
     try {
@@ -72,4 +78,19 @@ router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
     }
   });
 
+  router.get("/api/store-products", (req, res) => {
+    const productName = req.session.productName;
+    
+    C_products.getProductByNameSearch(productName)
+      .then((product) => {
+        if (!product) {
+          return res.status(404).json({ error: 'product not found' });
+        }
+        res.json(product);
+      })
+      .catch((error) => {
+        console.error('Error fetching product details:', error);
+        res.status(500).json({ error: 'Failed to fetch product details' });
+      });
+  });
 module.exports = router;
