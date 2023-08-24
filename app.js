@@ -74,7 +74,7 @@ const fs = require('fs'); // Import the 'fs' module
 // Middleware to inject the Google Maps API key
 app.use('/', (req, res, next) => {
   if (req.url === '/contacts.html') {
-    const apiKey = process.env.GOOGLE_MAPS_API_KEY; // Corrected variable name
+    const apiKey = process.env.GOOGLE_MAPS_API_KEY; 
     const filePath = './views/contacts.html'; // Update with the correct file path
 
     // Check if the file exists

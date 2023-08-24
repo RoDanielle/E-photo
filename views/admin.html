@@ -15,6 +15,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="assets/css/admin.css">
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="assets/css/cart.css">
     <script src="../views/assets/js/auth.js"></script>
 </head>
 
@@ -28,20 +29,25 @@
                         <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
                         <li class="nav-item"><a class="nav-link" href="contacts.html">Contacts</a></li>
                         <li class="nav-item"><a class="nav-link" href="aboutus.html">About us</a></li>
-                        <li class="nav-item"><a class="nav-link" href="WebSockt.html">Start Chat !</a></li>
-                        <li class="nav-item"><a class="nav-link" href="admin.html">Stor info</a></li>
-                    </ul> 
+                        <li class="nav-item"><a class="nav-link" href="WebSockt.html">Start Chat!</a></li>
+                        <li class="nav-item" id="storeInfoNavItem"><a class="nav-link active" href="admin.html">Store Info</a></li>
+                    </ul>
                     <a href="userProfile.html" class="btn btn-primary" style="display: none;"> My Account</a>
-                    <a href="cart.html" class="btn btn-primary" style="display: none; margin-left: 10px;"> Cart <span>0</span> </a>
+                    <a href="#" class="btn btn-primary" id="cartButton" style="display: none; margin-left: 10px;"> Cart <span id="cartQuantity"></span> </a>
                 </div>
-                <div id="authButtonContainer" style="display: flex; justify-content: center; align-items: center;">
-                  <a href="login.html" id="authButton" class="btn btn-primary" role="button">
-                    <span style="color: #fdfdfd;">Log in</span>
-                  </a>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <a id="authButton" class="btn btn-primary" role="button">
+                        <span style="color: #fdfdfd;"></span>
+                    </a>
                 </div>
             </div>
         </nav>
+        
     </header>
+    <aside id="shopping-cart" class="shopping-cart">
+        <h3>Shopping Cart</h3>
+        <ul id="cart-items"></ul>
+    </aside>
     <div class="content">
         <div class="facebook-post-form">
             <!-- Facebook post form section -->
@@ -57,6 +63,7 @@
             </div>
         </div>
         
+          
     
         <script>
             // Fetch user data from MongoDB using an API endpoint
@@ -90,6 +97,7 @@
                     deleteButton.on('click', () => deleteUser(user._id)); // Call a function to delete the user
                 });
             }
+            
 
 
             
@@ -136,7 +144,7 @@
 
 <script>
     // Load data from the server (Product availability data)
-    d3.json("http://localhost:3330/api/products", function (error, data) {
+    d3.json("http://localhost:3330/api/store-products", function (error, data) {
         if (error) throw error;
 
         const products = data.map(item => ({ name: item.name, countInStock: item.countInStock }));
@@ -194,6 +202,25 @@
 
     });
 </script>
+
+<div class="headLine">
+    <h2 class="filtered-text">Add Product</h2>
+</div>
+<form id="addProductForm">
+    <input type="text" id="name" placeholder="Product Name" required>
+    <input type="text" id="image" placeholder="Image URL" required>
+    <input type="text" id="brand" placeholder="Brand" required>
+    <input type="text" id="category" placeholder="Category" required>
+    <input type="number" id="price" placeholder="Price" required>
+    <input type="number" id="countInStock" placeholder="Count In Stock" required>
+    <input type="number" id="rating" placeholder="Rating" required>
+    <input type="number" id="numReviews" placeholder="Number Of Reviews" required>
+    <input type="text" id="description" placeholder="Description" required>
+    <input type="text" id="color" placeholder="Color" required>
+    <input type="text" id="popularity" placeholder="Popularity" required>
+    <button type="submit">Add Product</button>
+  </form>
+
     
 
     <div class="headLine">
@@ -243,7 +270,7 @@ const chartGroup = svg.append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
 // Load data from MongoDB
-d3.json("http://localhost:3330/api/products", function(error, data) {
+d3.json("http://localhost:3330/api/store-products", function(error, data) {
     if (error) throw error;
 
     // Create an array of product names and their corresponding prices
@@ -305,6 +332,7 @@ d3.json("http://localhost:3330/api/products", function(error, data) {
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="assets/js/admin.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="assets/js/cart.js"></script>
 </body>
 
 </html>

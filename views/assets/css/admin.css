@@ -147,3 +147,25 @@ body {
 .point strong {
     color: #007bff;
 }
+
+/* Style for the form container */
+#addProductForm {
+    width: 300px;
+    margin: 0 auto;
+  }
+  
+  /* Style for input fields */
+  input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  /* Style for the submit button */
+  button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
