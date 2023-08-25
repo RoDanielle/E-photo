@@ -3,12 +3,7 @@ const StoreProduct = require('../models/product');
 
 const C_products = {
   getAll: async () => {
-    try {
-      return await S_products.getAll();
-  }
-  catch (e) {
-      console.log(e);
-  }
+    return await S_products.getAll();
   },
 
   getProductById: async (_id) => {
@@ -21,49 +16,27 @@ const C_products = {
   },
 
   updateProduct: async (product) => {
-    try{
-      return await S_products.updateProduct(product);
-    }
-    catch (e){
-      console.log(e);
-    }
+    return await S_products.updateProduct(product);
   },
 
   getProductByNameSearch: async (name) => {
-    try {
     if (name)
       return await S_products.getProductByNameSearch(name);
     return await S_products.getAll();
-  } catch (e) {
-    console.log(e);
-}},
+  },
 
   deleteProduct: async (_id) => {
-    try{
-      return await S_products.deleteProduct(_id);
-    }catch (e) {
-      console.log(e);
-  }},
+    return await S_products.deleteProduct(_id);
+  },
 
-  addProduct: async (req, res) =>{
-    const  {name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity} = req.body;
+  addProduct: async (name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity) => {
     try {
-      const existingProduct=await S_products.checkIfProductExists(name);
-      if(existingProduct){
-        console.log("name check returned true");
-        return res.json({ message: 'Product is already in data base' });
-      }
-      await S_products.addProduct(name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity);
-      req.session.name=name;
-      req.session.type = 'basic';
-      res.json({ message: 'add product successfully' });
-    } catch (error) {
-      console.log('Error add product:', error.message, error);
-      console.error('Error add product:', error.message, error);
+      return await S_products.addProduct(name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity);
+    } catch (e) {
+      console.log(e);
       throw e;
     }
   },
-  
 
   addProductsFromData: async (products) => {
     try {
@@ -92,6 +65,11 @@ const C_products = {
       console.error(e);
       throw e;
     }
+  },
+
+  checkIfProductExists: async (name) => {
+    const product = await Product.findOne({ name });
+    return product !== null;
   },
 };
 
