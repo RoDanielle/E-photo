@@ -34,11 +34,27 @@ router.get("/api/store-products/:productId", (req, res) => {
     });
 }); 
 
+/*
 //router.put("/api/store-products", adminAuthMiddleware, (req, res) => {
 router.put("/api/store-products", (req, res) => {
     C_products.update(req.body).then((data) => {
         res.json(data);
     })
+});
+*/
+
+
+router.put("/api/store-products/:productId", adminAuthMiddleware, async (req, res) => {
+  const productId = req.params.productId;
+  const updatedProductData = req.body;
+
+  try {
+      const updatedProduct = await C_products.updateProduct(productId, updatedProductData);
+      res.json({ message: 'Product updated successfully', product: updatedProduct });
+  } catch (error) {
+      console.error('Error updating product:', error);
+      res.status(500).json({ error: 'Failed to update product' });
+  }
 });
 
 //router.delete("/api/store-products", adminAuthMiddleware, (req, res) => {

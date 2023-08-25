@@ -15,9 +15,21 @@ const C_products = {
     }
   },
 
+  updateProduct: async (productId, updatedProductData) => {
+    try {
+        const updatedProduct = await S_products.updateProduct(productId, updatedProductData);
+        return updatedProduct;
+    } catch (e) {
+        console.log(e);
+        throw e;
+    }
+  },
+
+  /*
   updateProduct: async (product) => {
     return await S_products.updateProduct(product);
   },
+  */
 
   getProductByNameSearch: async (name) => {
     if (name)

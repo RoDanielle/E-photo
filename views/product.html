@@ -12,6 +12,41 @@
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/cart.css">
     <script src="../views/assets/js/auth.js"></script>
+
+    <style>
+        #editForm {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    
+        #editForm input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+    
+        #editForm button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+    
+        #editForm button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
@@ -50,11 +85,26 @@
             </div>
             <div class="product-info">
                 <h2 id="product-name">Product Name</h2>
+                <form id="editForm">
+                    <input type="text" id="editedName" placeholder="Edited Name">
+                    <input type="text" id="editedImage" placeholder="Edited Image">
+                    <input type="text" id="editedBrand" placeholder="Edited Brand">
+                    <input type="text" id="editedCategory" placeholder="Edited Category">
+                    <input type="number" id="editedPrice" placeholder="Edited Price">
+                    <input type="number" id="editedCountInStock" placeholder="Edited CountInStock">
+                    <input type="number" id="editedRating" placeholder="Edited Rating">
+                    <input type="number" id="editedNumReviews" placeholder="Edited NumReviews">
+                    <input type="text" id="editedDescription" placeholder="Edited Description">
+                    <input type="text" id="editedColor" placeholder="Edited Color">
+                    <input type="text" id="editedPopularity" placeholder="Edited Popularity">
+                    <button type="button" class="btn btn-primary" id="saveButton">Save</button>
+                </form>
                 <p id="product-description">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
                 <p id="product-price">Price: $XX.XX</p>
                 <p id="product-rating">Rating: <span id="rating-value">4.7</span></p>
                 <p id="product-availability">Availability: <span id="availability-status">In Stock</span></p>
                 <button class="btn btn-primary add-to-cart-button">Add to Cart</button>
+                <button class="btn btn-primary edit-button">Edit</button>
             </div>
         </div>
     </div>
@@ -67,6 +117,7 @@
     <script src="assets/js/product.js"></script>
     <script src="assets/js/cart.js"></script>
     <script src="assets/js/font-face.js"></script>
+
 </body>
 
 </html>

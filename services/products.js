@@ -34,11 +34,24 @@ const S_Product = {
           console.error('Error fetching product by ID:', error);
           throw error;
         }
-      },    
+      },
+      
+    updateProduct: async (productId, updatedProductData) => {
+        try {
+            // Find the product by its ID and update its fields
+            const updatedProduct = await Product.findByIdAndUpdate(productId, updatedProductData, { new: true });
 
+            return updatedProduct;
+        } catch (e) {
+            console.error(e);
+            throw e;
+        }
+    },  
+    /*
     updateProduct: async (product)=> {
         return await Product.findOneAndUpdate({ _id: product._id }, product);
     },
+    */
 
     deleteProduct: async (_id)=> {
         return await Product.findOneAndDelete({ _id });
