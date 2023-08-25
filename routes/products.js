@@ -56,7 +56,7 @@ router.put("/api/store-products/:productId", adminAuthMiddleware, async (req, re
       res.status(500).json({ error: 'Failed to update product' });
   }
 });
-
+/*
 //router.delete("/api/store-products", adminAuthMiddleware, (req, res) => {
     router.delete("/api/store-products", (req, res) => {
         C_products.deleteProduct(req.body._id).then((data) => {
@@ -64,7 +64,21 @@ router.put("/api/store-products/:productId", adminAuthMiddleware, async (req, re
         })
     });
 
+*/
 
+router.delete('/api/store-products/:productId', async (req, res) => {
+  const productId = req.params.productId;
+  try {
+    const deletedProduct = await C_products.findByIdAndDelete(productId);
+    if (deletedProduct) {
+      res.json({ success: true, message: 'Product deleted successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'Product not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error deleting product' });
+  }
+});
 // Add a single product manually
 router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
     const { name, image, brand, category, price, countInStock, rating, numReviews, description, color,popularity} = req.body;
