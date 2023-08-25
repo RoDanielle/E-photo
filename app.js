@@ -130,11 +130,11 @@ app.get('/', function (req, res) {
   }
 })();
 //products
-app.post("/api/store-products/bulk", async (req, res) => {
+(async () => {
   try {
     const existinProductData = await M_Product.find();
     if (existinProductData.length === 0) {
-      await C_products.addProduct(productsData);
+      await C_products.addProductsFromData(productsData);
       console.log('Initial products data added to the database');
     } else {
       console.log('Products Data already exists in the database');
@@ -142,7 +142,7 @@ app.post("/api/store-products/bulk", async (req, res) => {
   } catch (error) {
     console.error('Error adding initial products data:', error);
   }
-});
+})();
 
 
 //users
