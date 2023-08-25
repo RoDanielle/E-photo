@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema(
             type: Number,
             unique: true,
         },
-        usersOrder: {
+        idUserOrdered: {
             type: String,
         },
         date: {
