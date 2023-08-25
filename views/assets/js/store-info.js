@@ -243,3 +243,50 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
           .attr("width", xScale.bandwidth())
           .attr("height", product => innerHeight - yScale(product.price));
   });
+
+
+
+
+  const productsTable = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
+
+async function fetchProductData() {
+  const response = await fetch('/api/products');
+  const data = await response.json();
+  return data;
+}
+
+async function renderProductsTable() {
+  const productData = await fetchProductData();
+  productData.forEach(product => {
+    const row = productsTable.insertRow();
+    const nameCell = row.insertCell(0);
+    const imageCell = row.insertCell(1);
+    const brandCell = row.insertCell(2);
+    const categoryCell = row.insertCell(3);
+    const countInStockCell = row.insertCell(4);
+    const ratingCell = row.insertCell(5);
+    const numReviewsCell = row.insertCell(6);
+    const descriptionCell = row.insertCell(7);
+    const colorCell = row.insertCell(8);
+    const popularityCell = row.insertCell(9);
+    const actionsCell = row.insertCell(10);
+
+
+
+    nameCell.textContent = product.name;
+    imageCell.textContent = product.image;
+    brandCell.textContent = product.brand;
+    categoryCell.textContent = product.category;
+    countInStockCell.textContent = product.countInStock;
+    ratingCell.textContent = product.rating;
+    numReviewsCell.textContent = product.numReviews;
+    descriptionCell.textContent = product.description;
+    colorCell.textContent = product.color;
+    popularityCell.textContent = product.popularity;
+    
+
+    // Add more cells and data here as needed
+  });
+}
+
+renderProductsTable();
