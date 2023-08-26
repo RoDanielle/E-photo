@@ -1,205 +1,205 @@
 // Add an event listener for form submission - add new product 
 document.getElementById("addProductForm").addEventListener("submit", async function(event) {
-  event.preventDefault(); // Prevent the form from submitting normally
-
-  // Get values from form fields
-  const name = document.getElementById("name").value;
-  const image = document.getElementById("image").value;
-  const brand = document.getElementById("brand").value;
-  const category = document.getElementById("category").value;
-  const price = parseFloat(document.getElementById("price").value);
-  const countInStock = parseInt(document.getElementById("countInStock").value);
-  const rating = parseFloat(document.getElementById("rating").value);
-  const numReviews = parseInt(document.getElementById("numReviews").value);
-  const description = document.getElementById("description").value;
-  const color = document.getElementById("color").value;
-  const popularity = document.getElementById("popularity").value;
-
-  const productData = {
-    name,
-    image,
-    brand,
-    category,
-    price,
-    countInStock,
-    rating,
-    numReviews,
-    description,
-    color,
-    popularity
-  };
-
-  // Call the addProduct function with the extracted data
- await addProduct(productData, event);
-
-});
-
-// add a new product to mongoDB
-async function addProduct(productData, event) {
-  console.log("inside addProduct");
-  try {
-    const response = await fetch("/api/store-products", {
-      method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(productData)
-    });
-    const data = await response.json();
-    console.log("log:", data)
-    if (data.message === 'Product added successfully') {
-      console.log("Product added successfully!");
-      // Reset the form after successful product addition
-      event.target.reset();
-      } else {
-      console.error("Failed to add product.");
-    }
-  } catch (error) {
-    console.error("Error adding product:", error);
-  }
-}
-
-//Registered users 
-  // Fetch user data from MongoDB using an API endpoint
-  async function fetchUserData() {
-    const response = await fetch('/api/store-user'); // Replace with your API endpoint
-    const data = await response.json();
-    return data;
-}
-
-// Function to render the user table
-function renderUserTable(data) {
-  //console.log("Render data:", data); // Add this line to log the received data
-
-    const tableContainer = d3.select('#userTable');
-    //tableContainer.selectAll('*').remove(); // Clear existing table
-    const table = tableContainer.append('table').attr('class', 'table');
-    
-    // Table header
-    const thead = table.append('thead').append('tr');
-    thead.append('th').text('ID');
-    thead.append('th').text('Username');
-    thead.append('th').text('Email');
-    thead.append('th').text('Actions');
-
-    // Table body
-    const tbody = table.append('tbody');
-    data.forEach(user => {
-        const row = tbody.append('tr');
-        row.append('td').text(user._id); // Assuming the user document has _id field
-        row.append('td').text(user.name);
-        row.append('td').text(user.email);
-        const actionsCell = row.append('td');
-        const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
-        deleteButton.on('click', () => deleteUser(user._id)); // Call a function to delete the user
-    });
-}
-
-// Function to delete a user
-async function deleteUser(userId) {
-const response = await fetch(`/api/store-user`, {
-method: 'DELETE',
-headers: {
-    'Content-Type': 'application/json'
-},
-body: JSON.stringify({ _id: userId })
-});
-
-const data = await response.json();
-if (data.success) {
-// Reload the user table after successful deletion
-const userData = await fetchUserData();
-d3.select('#userTable').selectAll('*').remove(); // Clear existing table
-renderUserTable(userData);
-} else {
-console.error('Failed to delete user.');
-}
-}
-async function init() {
-  const userData = await fetchUserData();
-  renderUserTable(userData);
-}
-
-
-init(); // Initialize the script when the page loads
-
-//D3
-
-d3.json("http://localhost:3330/api/average-prices", function (error, data) {
-  if (error) throw error;
+    event.preventDefault(); // Prevent the form from submitting normally
   
-  const tableBody = d3.select("#average-prices tbody");
+    // Get values from form fields
+    const name = document.getElementById("name").value;
+    const image = document.getElementById("image").value;
+    const brand = document.getElementById("brand").value;
+    const category = document.getElementById("category").value;
+    const price = parseFloat(document.getElementById("price").value);
+    const countInStock = parseInt(document.getElementById("countInStock").value);
+    const rating = parseFloat(document.getElementById("rating").value);
+    const numReviews = parseInt(document.getElementById("numReviews").value);
+    const description = document.getElementById("description").value;
+    const color = document.getElementById("color").value;
+    const popularity = document.getElementById("popularity").value;
+  
+    const productData = {
+      name,
+      image,
+      brand,
+      category,
+      price,
+      countInStock,
+      rating,
+      numReviews,
+      description,
+      color,
+      popularity
+    };
+  
+    // Call the addProduct function with the extracted data
+   await addProduct(productData, event);
+  
+  });
+  
+  // add a new product to mongoDB
+  async function addProduct(productData, event) {
+    console.log("inside addProduct");
+    try {
+      const response = await fetch("/api/store-products", {
+        method: "POST",
+            headers: {
+              'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData)
+      });
+      const data = await response.json();
+      console.log("log:", data)
+      if (data.message === 'Product added successfully') {
+        console.log("Product added successfully!");
+        // Reset the form after successful product addition
+        event.target.reset();
+        } else {
+        console.error("Failed to add product.");
+      }
+    } catch (error) {
+      console.error("Error adding product:", error);
+    }
+  }
+  
+  //Registered users 
+    // Fetch user data from MongoDB using an API endpoint
+    async function fetchUserData() {
+      const response = await fetch('/api/store-user'); // Replace with your API endpoint
+      const data = await response.json();
+      return data;
+  }
+  
+  // Function to render the user table
+  function renderUserTable(data) {
+    //console.log("Render data:", data); // Add this line to log the received data
 
-  const rows = tableBody.selectAll("tr")
-      .data(data)
-      .enter().append("tr");
+      const tableContainer = d3.select('#userTable');
+      //tableContainer.selectAll('*').remove(); // Clear existing table
+      const table = tableContainer.append('table').attr('class', 'table');
+      
+      // Table header
+      const thead = table.append('thead').append('tr');
+      thead.append('th').text('ID');
+      thead.append('th').text('Username');
+      thead.append('th').text('Email');
+      thead.append('th').text('Actions');
+  
+      // Table body
+      const tbody = table.append('tbody');
+      data.forEach(user => {
+          const row = tbody.append('tr');
+          row.append('td').text(user._id); // Assuming the user document has _id field
+          row.append('td').text(user.name);
+          row.append('td').text(user.email);
+          const actionsCell = row.append('td');
+          const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
+          deleteButton.on('click', () => deleteUser(user._id)); // Call a function to delete the user
+      });
+  }
+  
+  // Function to delete a user
+  async function deleteUser(userId) {
+  const response = await fetch(`/api/store-user`, {
+  method: 'DELETE',
+  headers: {
+      'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ _id: userId })
+  });
+  
+  const data = await response.json();
+  if (data.success) {
+  // Reload the user table after successful deletion
+  const userData = await fetchUserData();
+  d3.select('#userTable').selectAll('*').remove(); // Clear existing table
+  renderUserTable(userData);
+  } else {
+  console.error('Failed to delete user.');
+  }
+  }
+  async function init() {
+    const userData = await fetchUserData();
+    renderUserTable(userData);
+  }
+  
+  
+  init(); // Initialize the script when the page loads
+  
+  //D3
 
-  rows.selectAll("td")
-      .data(d => [d._id, d.averagePrice.toFixed(2)])
-      .enter().append("td")
-      .text(d => d);
-});
-
-// Define the dimensions of the SVG canvas
-const width = 1800; // גודל ה-SVG גדל ל-800
-const height = 400;
-
-// Create the SVG element
-const svg = d3.select("#chart")
-    .attr("width", width)
-    .attr("height", height);
-
-// Define the margins for the chart
-const margin = { top: 20, right: 30, bottom: 50, left: 40 }; // שינוי בהגדרת הרגל תחתון
-const innerWidth = width - margin.left - margin.right;
-const innerHeight = height - margin.top - margin.bottom;
-
-// Create scales for X and Y values
-const xScale = d3.scaleBand()
-    .range([0, innerWidth])
-    .padding(0.1);
-
-const yScale = d3.scaleLinear()
-    .range([innerHeight, 0]);
-
-// Create the chart group
-const chartGroup = svg.append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-// Load data from MongoDB
-d3.json("http://localhost:3330/api/store-products", function(error, data) {
+  d3.json("http://localhost:3330/api/average-prices", function (error, data) {
     if (error) throw error;
+    
+    const tableBody = d3.select("#average-prices tbody");
 
-    // Create an array of product names and their corresponding prices
-    const products = data.map(item => ({ name: item.name, price: item.price }));
+    const rows = tableBody.selectAll("tr")
+        .data(data)
+        .enter().append("tr");
 
-    // Set domains for X and Y scales
-    xScale.domain(products.map(product => product.name));
-    yScale.domain([0, d3.max(products, product => product.price)]);
-
-    // Create X and Y axes
-    const xAxis = d3.axisBottom(xScale);
-    const yAxis = d3.axisLeft(yScale);
-
-    chartGroup.append("g")
-        .attr("class", "x-axis")
-        .attr("transform", `translate(0,${innerHeight})`)
-        .call(xAxis);
-
-    chartGroup.append("g")
-        .attr("class", "y-axis")
-        .call(yAxis);
-
-    // Create bars for the products
-    chartGroup.selectAll(".bar")
-        .data(products)
-        .enter().append("rect")
-        .attr("class", "bar")
-        .attr("x", product => xScale(product.name))
-        .attr("y", product => yScale(product.price))
-        .attr("width", xScale.bandwidth())
-        .attr("height", product => innerHeight - yScale(product.price));
+    rows.selectAll("td")
+        .data(d => [d._id, d.averagePrice.toFixed(2)])
+        .enter().append("td")
+        .text(d => d);
 });
+  
+  // Define the dimensions of the SVG canvas
+  const width = 1800; // גודל ה-SVG גדל ל-800
+  const height = 400;
+  
+  // Create the SVG element
+  const svg = d3.select("#chart")
+      .attr("width", width)
+      .attr("height", height);
+  
+  // Define the margins for the chart
+  const margin = { top: 20, right: 30, bottom: 50, left: 40 }; // שינוי בהגדרת הרגל תחתון
+  const innerWidth = width - margin.left - margin.right;
+  const innerHeight = height - margin.top - margin.bottom;
+  
+  // Create scales for X and Y values
+  const xScale = d3.scaleBand()
+      .range([0, innerWidth])
+      .padding(0.1);
+  
+  const yScale = d3.scaleLinear()
+      .range([innerHeight, 0]);
+  
+  // Create the chart group
+  const chartGroup = svg.append("g")
+      .attr("transform", `translate(${margin.left},${margin.top})`);
+  
+  // Load data from MongoDB
+  d3.json("http://localhost:3330/api/store-products", function(error, data) {
+      if (error) throw error;
+  
+      // Create an array of product names and their corresponding prices
+      const products = data.map(item => ({ name: item.name, price: item.price }));
+  
+      // Set domains for X and Y scales
+      xScale.domain(products.map(product => product.name));
+      yScale.domain([0, d3.max(products, product => product.price)]);
+  
+      // Create X and Y axes
+      const xAxis = d3.axisBottom(xScale);
+      const yAxis = d3.axisLeft(yScale);
+  
+      chartGroup.append("g")
+          .attr("class", "x-axis")
+          .attr("transform", `translate(0,${innerHeight})`)
+          .call(xAxis);
+  
+      chartGroup.append("g")
+          .attr("class", "y-axis")
+          .call(yAxis);
+  
+      // Create bars for the products
+      chartGroup.selectAll(".bar")
+          .data(products)
+          .enter().append("rect")
+          .attr("class", "bar")
+          .attr("x", product => xScale(product.name))
+          .attr("y", product => yScale(product.price))
+          .attr("width", xScale.bandwidth())
+          .attr("height", product => innerHeight - yScale(product.price));
+  });
 
 
 
@@ -289,35 +289,36 @@ renderProductsTable();
 /* noya 
 // Add an event listener for search form submission
 document.getElementById("search_form").addEventListener("submit", async function(event) {
-event.preventDefault(); // Prevent the form from submitting normally
+  event.preventDefault(); // Prevent the form from submitting normally
 
-// Get the search query from the input field
-const searchQuery = document.getElementById("searchEmail").value;
-if (searchQuery) {
-  const searchData = await findUserByEmail(searchQuery);
- // renderUserTable(searchData);
-} else {
-  renderUserTable(originalUserData); // Revert to original data when search is cleared
-}
+  // Get the search query from the input field
+  const searchQuery = document.getElementById("searchEmail").value;
+  if (searchQuery) {
+    const searchData = await findUserByEmail(searchQuery);
+   // renderUserTable(searchData);
+  } else {
+    renderUserTable(originalUserData); // Revert to original data when search is cleared
+  }
 });
 */
 
 
 // Function to fetch user data by email
 async function findUserByEmail(email) {
-try {
-    const response = await fetch(`/api/user-by-email?email=${email}`); // Replace with your actual API endpoint
-    const data = await response.json();
-    console.log("Search results:", data); // Add this line to log the search results
-    
-    return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
-} catch (error) {
-    console.error("Error fetching user by email:", error);
-    return [];
-}
+  try {
+      const response = await fetch(`/api/user-by-email?email=${email}`); // Replace with your actual API endpoint
+      const data = await response.json();
+      console.log("Search results:", data); // Add this line to log the search results
+      
+      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
+  } catch (error) {
+      console.error("Error fetching user by email:", error);
+      return [];
+  }
 }
 
 // Entry point: Fetch user data and render the user table
+
 
 
 

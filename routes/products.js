@@ -4,6 +4,9 @@ const C_products  = require('../controllers/products');
 const Products = require('../data/products'); 
 const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
 
+
+router.get('/api/average-prices', C_products.getAveragePricesByCategory);
+
 // get all peoducts 
 router.get("/api/store-products", (req, res) => {
     C_products.getAll()
@@ -16,6 +19,8 @@ router.get("/api/store-products", (req, res) => {
         res.status(500).json({ error: 'Failed to fetch store products' });
       });
   });
+
+ 
 
  // Get details for a single product by ID
 router.get("/api/store-products/:productId", (req, res) => {

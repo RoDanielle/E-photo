@@ -14,6 +14,17 @@ const orderControllers  = {
     },
 
 
+    // Controller to get all orders
+    getAllOrders: async (req,res) => {
+        try {
+            const orders = await orderService.getAllOrders();
+            res.status(200).json(orders);
+        } catch (error) {
+            res.status(500).json({ error: 'An error occurred while retrieving orders.' });
+        }
+    },
+
+
     // Controller to get an order by its ID
     getOrderByID: async (req,res) => {
         try{
