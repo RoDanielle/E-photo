@@ -309,7 +309,9 @@ async function deleteProduct(productId) {
       });
   
       const data = await response.json();
+      console.log(data);
       if (data.success) {
+      
         // Remove the deleted product from the table and re-render the table
         const deletedRow = productsTable.querySelector(`[data-id="${productId}"]`);
         if (deletedRow) {

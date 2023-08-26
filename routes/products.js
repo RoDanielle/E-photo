@@ -69,7 +69,7 @@ router.put("/api/store-products/:productId", adminAuthMiddleware, async (req, re
 router.delete('/api/store-products/:productId', async (req, res) => {
   const productId = req.params.productId;
   try {
-    const deletedProduct = await C_products.findByIdAndDelete(productId);
+    const deletedProduct = await C_products.deleteProduct(productId);
     if (deletedProduct) {
       res.json({ success: true, message: 'Product deleted successfully' });
     } else {
