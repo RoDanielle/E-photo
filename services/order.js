@@ -14,6 +14,11 @@ const orderService = {
     },
 
 
+    getAllOrders: async () => {
+        return await Order.find();
+    },
+
+
     getOrderByIDSearch: async (id) => {
         return await Order.find(id);
     },
