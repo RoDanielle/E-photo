@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema(
     {
-        id: {
+        /*id: {
             type: Number,
             unique: true,
         },
+        */
         idUserOrdered: {
             type: String,
         },
