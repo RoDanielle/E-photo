@@ -83,6 +83,20 @@ const C_products = {
     const product = await Product.findOne({ name });
     return product !== null;
   },
+
+  getAveragePricesByCategory: async (req, res) => {
+    try {
+      const averagePrices = await S_products.calculateAveragePricesByCategory();
+      res.json(averagePrices);
+    } catch (error) {
+      console.error('Error fetching average prices:', error);
+      res.status(500).json({ error: 'An error occurred' });
+    }
+  }
+
+
+
+  
 };
 
 

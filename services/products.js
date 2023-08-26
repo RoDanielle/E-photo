@@ -79,6 +79,27 @@ const S_Product = {
         }
       },
     */
+     
+      calculateAveragePricesByCategory: async () => {
+        try {
+          const aggregateData = await Product.aggregate([
+            {
+              $group: {
+                _id: '$category',
+                averagePrice: { $avg: '$price' }
+              }
+            }
+          ]);
+    
+          return aggregateData;
+        } catch (error) {
+          console.error('Error calculating average prices:', error);
+          throw error;
+        }
+      }
+
+
+
 
 }
 

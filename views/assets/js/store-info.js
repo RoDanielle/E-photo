@@ -124,65 +124,21 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   init(); // Initialize the script when the page loads
   
   //D3
-  // Load data from the server (Product availability data)
-  d3.json("http://localhost:3330/api/store-products", function (error, data) {
+
+  d3.json("http://localhost:3330/api/average-prices", function (error, data) {
     if (error) throw error;
-  
-    const products = data.map(item => ({ name: item.name, countInStock: item.countInStock }));
-  
-    // Create scales for X and Y values for the Scatter Plot
-    const scatterPlotWidth = 1300;
-    const scatterPlotHeight = 1000;
-  
-    const xScaleScatterPlot = d3.scaleLinear()
-        .domain([0, d3.max(products, product => product.countInStock)])
-        .range([0, scatterPlotWidth]);
-  
-    const yScaleScatterPlot = d3.scaleLinear()
-        .domain([0, d3.max(products, product => product.countInStock)])
-        .range([scatterPlotHeight, 0]);
-  
-    // Create SVG for the Scatter Plot
-    const svgScatterPlot = d3.select("#scatter-plot")
-        .attr("width", scatterPlotWidth)
-        .attr("height", scatterPlotHeight);
-  
-    const chartGroupScatterPlot = svgScatterPlot.append("g")
-        .attr("transform", `translate(40, 20)`);
-  
-    // Create X and Y axes for the Scatter Plot
-    const xAxisScatterPlot = d3.axisBottom(xScaleScatterPlot);
-    const yAxisScatterPlot = d3.axisLeft(yScaleScatterPlot);
-  
-    chartGroupScatterPlot.append("g")
-        .attr("class", "x-axis")
-        .attr("transform", `translate(0, ${scatterPlotHeight})`)
-        .call(xAxisScatterPlot);
-  
-    chartGroupScatterPlot.append("g")
-        .attr("class", "y-axis")
-        .call(yAxisScatterPlot);
-  
-    // Create circles for the Scatter Plot
-    chartGroupScatterPlot.selectAll(".circle")
-        .data(products)
-        .enter().append("circle")
-        .attr("class", "circle")
-        .attr("cx", product => xScaleScatterPlot(product.countInStock))
-        .attr("cy", product => yScaleScatterPlot(product.countInStock))
-        .attr("r", 5);
-  
-    // Add text labels to the circles
-    chartGroupScatterPlot.selectAll(".text-label")
-        .data(products)
-        .enter().append("text")
-        .attr("class", "text-label")
-        .attr("x", product => xScaleScatterPlot(product.countInStock) + 7)
-        .attr("y", product => yScaleScatterPlot(product.countInStock) - 7)
-        .text(product => product.name);
-  
-  });
-  
+    
+    const tableBody = d3.select("#average-prices tbody");
+
+    const rows = tableBody.selectAll("tr")
+        .data(data)
+        .enter().append("tr");
+
+    rows.selectAll("td")
+        .data(d => [d._id, d.averagePrice.toFixed(2)])
+        .enter().append("td")
+        .text(d => d);
+});
   
   // Define the dimensions of the SVG canvas
   const width = 1800; // גודל ה-SVG גדל ל-800
@@ -248,7 +204,7 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
 
 
 
-  const productsTable = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
+const productsTable = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
 
 async function fetchProductData() {
   const response = await fetch('/api/products');
@@ -330,7 +286,7 @@ renderProductsTable();
 
 
 
-
+/* noya 
 // Add an event listener for search form submission
 document.getElementById("search_form").addEventListener("submit", async function(event) {
   event.preventDefault(); // Prevent the form from submitting normally
@@ -344,6 +300,8 @@ document.getElementById("search_form").addEventListener("submit", async function
     renderUserTable(originalUserData); // Revert to original data when search is cleared
   }
 });
+*/
+
 
 // Function to fetch user data by email
 async function findUserByEmail(email) {
