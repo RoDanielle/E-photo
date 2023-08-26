@@ -55,16 +55,24 @@ findUserByEmailAndPassword: async (req, res) => {
   }
 },
 
-findUserByEmail : async (email) => {
+findUserByEmail: async (email) => {
   try {
-    if(email)
-        return await S_user.findUserByEmail(email);
-    return await S_user.getAll();
-} catch (e) {
-    console.error("Error finding user by email:", error);
-    console.log(e);
-}
+      if (email) {
+          const user = await S_user.findUserByEmail(email);
+          if (user) {
+              return user; // Return the user if found
+          } else {
+              return { message: 'User not found' }; // Return a message if user is not found
+          }
+      } else {
+          return await S_user.getAll(); // Return all users if no email provided
+      }
+  } catch (error) {
+      console.error("Error finding user by email:", error);
+      throw error;
+  }
 },
+
 
 deleteUser : async (_id)=> {
   try {
@@ -109,6 +117,7 @@ login: async (req, res) => {
     if (user) {
       req.session.isLoggedIn = true;
       req.session.userId = user._id;
+      req.session.userEmail = email; // -------------check --------------
       req.session.type = user.isManager ? 'admin' : 'basic';
       return res.json({ message: 'User authenticated', user: user });
     } else {
