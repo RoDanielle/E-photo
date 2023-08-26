@@ -3,9 +3,9 @@ const User = require('../models/user');
 
 
 const orderService = {
-    
 
-    addOrder: async (cost, productList)=> {
+
+    addNewOrder: async (cost, productList)=> {
         const order = new Order({
             cost,
             productList,
@@ -13,9 +13,11 @@ const orderService = {
         return await order.save()
     },
 
+
     getOrderByIDSearch: async (id) => {
         return await Order.find(id);
     },
+
 
     //const currentUserId = req.user._id;
     //const currentDate = new Date();
