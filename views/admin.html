@@ -59,17 +59,12 @@
         <h2 class="filtered-text">All Registers</h2>
     </div>
     <form class="d-flex" role="search" id="searh_form">
-        <input type="text" id="searchEmail" placeholder="Search by Email">
-        <button type="submit">Search</button>
-    </form>
         <div class="container text-center">
             <div class="row g-3 m-1 " id="userTable">
                 <!-- User table section -->
             </div>
         </div>
-  
-
-   
+    </form>
     <div class="headLine">
         <h2 class="filtered-text">All Products</h2>
     </div>
@@ -114,14 +109,26 @@
     </div>
 
 
-   
-       
-<div class="headLine">
-    <h2 class="filtered-text" >Product Availability - Scatter Plot</h2>
+    <div class="headLine">
+        <h2 class="filtered-text">Average Prices by Category - Group by</h2>
+    </div>
+    <div id="average-prices-container" class="text-center">
+        <table id="average-prices">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>Average Price ( Dollar - $ )</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Table rows will be added here -->
+            </tbody>
+        </table>
+    </div>
 </div>
-<div id="scatter-plot-container" class="text-center">
-    <svg id="scatter-plot"></svg>
-</div>
+
+
+
 <div class="headLine">
     <h2 class="filtered-text">Add Product</h2>
 </div>
