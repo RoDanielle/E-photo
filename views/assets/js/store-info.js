@@ -116,6 +116,9 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   
   // Entry point: Fetch user data and render the user table
   async function init() {
+    
+    
+  
       const userData = await fetchUserData();
       renderUserTable(userData);
   }
@@ -326,3 +329,18 @@ async function deleteProduct(productId) {
   }
 
 renderProductsTable();
+
+// Add an event listener for search form submission
+document.getElementById("searh_form").addEventListener("submit", async function(event) {
+  event.preventDefault(); // Prevent the form from submitting normally
+
+  // Get the search query from the input field
+  const searchQuery = document.getElementById("searchEmail").value;
+
+  // Fetch user data based on the search query
+  const searchData = await findUserByEmail(searchQuery);
+
+  // Render the table with search results
+  renderUserTable(searchData);
+});
+
