@@ -38,8 +38,8 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   async function addProduct(productData, event) {
     console.log("inside addProduct");
     try {
-        const response = await fetch(`/api/store-products/${productId}`, {
-            method: 'DELETE',
+      const response = await fetch("/api/store-products", {
+        method: 'POST',
             headers: {
               'Content-Type': 'application/json',
         },
