@@ -39,7 +39,7 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     console.log("inside addProduct");
     try {
       const response = await fetch("/api/store-products", {
-        method: 'POST',
+        method: "POST",
             headers: {
               'Content-Type': 'application/json',
         },
@@ -69,7 +69,10 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   
   // Function to render the user table
   function renderUserTable(data) {
+    //console.log("Render data:", data); // Add this line to log the received data
+
       const tableContainer = d3.select('#userTable');
+      //tableContainer.selectAll('*').remove(); // Clear existing table
       const table = tableContainer.append('table').attr('class', 'table');
       
       // Table header
@@ -92,7 +95,6 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
       });
   }
   
-  
   // Function to delete a user
   async function deleteUser(userId) {
   const response = await fetch(`/api/store-user`, {
@@ -113,15 +115,11 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   console.error('Failed to delete user.');
   }
   }
-  
-  // Entry point: Fetch user data and render the user table
   async function init() {
-    
-    
-  
-      const userData = await fetchUserData();
-      renderUserTable(userData);
+    const userData = await fetchUserData();
+    renderUserTable(userData);
   }
+  
   
   init(); // Initialize the script when the page loads
   
@@ -330,17 +328,40 @@ async function deleteProduct(productId) {
 
 renderProductsTable();
 
+
+
+
 // Add an event listener for search form submission
-document.getElementById("searh_form").addEventListener("submit", async function(event) {
+document.getElementById("search_form").addEventListener("submit", async function(event) {
   event.preventDefault(); // Prevent the form from submitting normally
 
   // Get the search query from the input field
   const searchQuery = document.getElementById("searchEmail").value;
-
-  // Fetch user data based on the search query
-  const searchData = await findUserByEmail(searchQuery);
-
-  // Render the table with search results
-  renderUserTable(searchData);
+  if (searchQuery) {
+    const searchData = await findUserByEmail(searchQuery);
+   // renderUserTable(searchData);
+  } else {
+    renderUserTable(originalUserData); // Revert to original data when search is cleared
+  }
 });
+
+// Function to fetch user data by email
+async function findUserByEmail(email) {
+  try {
+      const response = await fetch(`/api/user-by-email?email=${email}`); // Replace with your actual API endpoint
+      const data = await response.json();
+      console.log("Search results:", data); // Add this line to log the search results
+      
+      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
+  } catch (error) {
+      console.error("Error fetching user by email:", error);
+      return [];
+  }
+}
+
+// Entry point: Fetch user data and render the user table
+
+
+
+
 
