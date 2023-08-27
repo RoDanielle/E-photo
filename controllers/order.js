@@ -1,15 +1,16 @@
 const orderService = require('../services/order');
+const StoreOrder = require('../models/order');
 
 const orderControllers  = {
 
     // Controller to create a new order
-    createOrder: async (req,res) => {
+    createOrder: async (req, res) => {
         try {
-            const {idUserOrdered, cost, productList } = req.body;
-            const order = await orderService.addNewOrder(idUserOrdered, date, cost, productList);
+            const { userId, cost, productList } = req.body;
+            const order = await orderService.addNewOrder(userId, cost, productList);
             res.status(201).json(order);
         } catch (error) {
-            res.status(500).json({error: 'An error occurred while creating the order.'});
+            res.status(500).json({ error: 'An error occurred while creating the order.' });
         }
     },
 
@@ -83,45 +84,32 @@ const orderControllers  = {
             res.status(500).json({ error: `Error deleting order: ${error.message}` });
         }
     },
+
+    
+    addOrdersFromData: async (orders) => {
+        try {
+          const insertPromises = orders.map(async (order) => {
+            const { idUserOrdered, date, cost, productList } = order;
+            const newOrder = new StoreOrder({
+                idUserOrdered,
+                date, 
+                cost, 
+                productList
+            });
+            await newOrder.save();
+          });
+    
+          await Promise.all(insertPromises);
+    
+          return { message: 'Products added from data successfully' };
+        } catch (e) {
+          console.error(e);
+          throw e;
+        }
+      },
 };
 
 
 module.exports = orderControllers;
 
-
-
-
-
-/*
-    addNewOrder: async (req,res) => {
-        const newOrder = await orderService.addNewOrder(req);
-        res.json(newOrder);
-    },
-
-    getOrderByIDSearch: async (req,res) => {
-        const IDOrder = await orderService.getOrderByIDSearch(req);
-        if (!IDOrder){
-            return res.status(404).json(console.error('Order was not found'));
-        }
-        res.json(IDOrder);
-    },
-
-    findOrdersForCurrentUser: async(req,res) => {
-        const currentUserId = req.user._id;
-        const currentDate = new Date();
-
-        if (!currentUserId){
-            return res.status(404).json(console.error('User was not found'));
-        }
-        const orders[] = 
-
-        
-
-    }
-
-
-
-
-}
-*/
 
