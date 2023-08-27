@@ -102,13 +102,18 @@ async function fetchUserEmail() {
 
 
 payButton.addEventListener('click', async () => {
-        // Get the current user's ID (email)
+        const totalField = parseFloat(document.getElementById('cartTotal').textContent.replace('Total: $', ''));
+
+        if(totalField === 0){
+            alert('Your cart is empty');
+        }
+        else{
+                // Get the current user's ID (email)
         const currentUserId = await fetchUserEmail();
 
         if(currentUserId)
         {
             const cartData = JSON.parse(localStorage.getItem('cart')) || {};
-            const totalField = parseFloat(document.getElementById('cartTotal').textContent.replace('Total: $', ''));
 
             const shoppingCart = [];
 
@@ -147,4 +152,5 @@ payButton.addEventListener('click', async () => {
             // The user is not logged in
             alert('Please log in before placing an order.');
         }
+        }   
 });
