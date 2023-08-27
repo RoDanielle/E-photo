@@ -1,3 +1,8 @@
+let originalUserData = []; // Initialize as an empty array
+let originalProductData = []; // Initialize as an empty array
+let originalLocationData = []; // Initialize as an empty array
+
+
 // Add an event listener for form submission - add new product 
 document.getElementById("addProductForm").addEventListener("submit", async function(event) {
     event.preventDefault(); // Prevent the form from submitting normally
@@ -69,30 +74,27 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   
   // Function to render the user table
   function renderUserTable(data) {
-    //console.log("Render data:", data); // Add this line to log the received data
-
       const tableContainer = d3.select('#userTable');
-      //tableContainer.selectAll('*').remove(); // Clear existing table
-      const table = tableContainer.append('table').attr('class', 'table');
-      
+      const table = tableContainer.selectAll('table').empty() ? tableContainer.append('table').attr('class', 'table') : tableContainer.select('table');
       // Table header
-      const thead = table.append('thead').append('tr');
+      const thead = table.selectAll('thead').data([null]).enter().append('thead').append('tr');
       thead.append('th').text('ID');
       thead.append('th').text('Username');
       thead.append('th').text('Email');
       thead.append('th').text('Actions');
   
       // Table body
-      const tbody = table.append('tbody');
-      data.forEach(user => {
-          const row = tbody.append('tr');
-          row.append('td').text(user._id); // Assuming the user document has _id field
-          row.append('td').text(user.name);
-          row.append('td').text(user.email);
-          const actionsCell = row.append('td');
-          const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
-          deleteButton.on('click', () => deleteUser(user._id)); // Call a function to delete the user
-      });
+      const tbody = table.selectAll('tbody').data([null]).enter().append('tbody');
+      const rows = tbody.selectAll('tr').data(data, user => user._id);
+      rows.exit().remove(); // Remove extra rows
+      const newRow = rows.enter().append('tr');
+      newRow.append('td').text(user => user._id); // Assuming the user document has _id field
+      newRow.append('td').text(user => user.name);
+      newRow.append('td').text(user => user.email);
+      const actionsCell = newRow.append('td');
+      const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
+      deleteButton.on('click', user => deleteUser(user._id)); // Call a function to delete the user
+      rows.merge(newRow); // Merge new and existing rows
   }
   
   // Function to delete a user
@@ -104,7 +106,6 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   },
   body: JSON.stringify({ _id: userId })
   });
-  
   const data = await response.json();
   if (data.success) {
   // Reload the user table after successful deletion
@@ -115,29 +116,33 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   console.error('Failed to delete user.');
   }
   }
+
   async function init() {
     const userData = await fetchUserData();
+    originalUserData = userData; // Set the fetched data to originalUserData
+    const productData = await fetchProductData();
+    originalProductData = productData; // Set the fetched data to originalProductData
+    const locationData = await fetchLocationData();
+    originalLocationData = locationData; // Set the fetched data to originalLocationData
+  
     renderUserTable(userData);
+    renderProductsTable(); // Call this function to render the product table
+    renderLocationTable();
   }
-  
-  
   init(); // Initialize the script when the page loads
   
   //D3
 
   d3.json("http://localhost:3330/api/average-prices", function (error, data) {
     if (error) throw error;
-    
     const tableBody = d3.select("#average-prices tbody");
-
     const rows = tableBody.selectAll("tr")
         .data(data)
         .enter().append("tr");
-
     rows.selectAll("td")
         .data(d => [d._id, d.averagePrice.toFixed(2)])
         .enter().append("td")
-        .text(d => d);
+        .text(d=>d);
 });
   
   // Define the dimensions of the SVG canvas
@@ -201,9 +206,6 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
           .attr("height", product => innerHeight - yScale(product.price));
   });
 
-
-
-
 const productsTable = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
 
 async function fetchProductData() {
@@ -230,7 +232,6 @@ productData.forEach(product => {
   const popularityCell = row.insertCell(10);
   const deleteCell = row.insertCell(11);
 
-
   idCell.textContent = product._id;
   nameCell.textContent = product.name;
   imageCell.textContent = product.image;
@@ -243,15 +244,11 @@ productData.forEach(product => {
   colorCell.textContent = product.color;
   popularityCell.textContent = product.popularity;
   
-  
   const deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
   deleteButton.setAttribute('data-id', product._id); // Set the data-id attribute
   deleteButton.addEventListener('click', () => deleteProduct(product._id)); // Pass product ID
- 
   deleteCell.appendChild(deleteButton);
-
-
 });
 }
 
@@ -264,11 +261,9 @@ async function deleteProduct(productId) {
         'Content-Type': 'application/json',
       },
     });
-
     const data = await response.json();
     console.log(data);
     if (data.success) {
-    
       // Remove the deleted product from the table and re-render the table
       const deletedRow = productsTable.querySelector(`[data-id="${productId}"]`);
       if (deletedRow) {
@@ -281,35 +276,25 @@ async function deleteProduct(productId) {
     console.error('Error deleting product:', error);
   }
 }
-
 renderProductsTable();
 
-
-
-/* noya 
 // Add an event listener for search form submission
-document.getElementById("search_form").addEventListener("submit", async function(event) {
-  event.preventDefault(); // Prevent the form from submitting normally
-
+document.getElementById("searchButton").addEventListener("click", async function() {
   // Get the search query from the input field
   const searchQuery = document.getElementById("searchEmail").value;
   if (searchQuery) {
     const searchData = await findUserByEmail(searchQuery);
-   // renderUserTable(searchData);
+    updateUserTable(searchData);
   } else {
-    renderUserTable(originalUserData); // Revert to original data when search is cleared
+    updateUserTable(originalUserData);  // Revert to original data when search is cleared
   }
 });
-*/
-
 
 // Function to fetch user data by email
 async function findUserByEmail(email) {
   try {
       const response = await fetch(`/api/user-by-email?email=${email}`); // Replace with your actual API endpoint
       const data = await response.json();
-      console.log("Search results:", data); // Add this line to log the search results
-      
       return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
   } catch (error) {
       console.error("Error fetching user by email:", error);
@@ -317,9 +302,256 @@ async function findUserByEmail(email) {
   }
 }
 
-// Entry point: Fetch user data and render the user table
+function updateUserTable(data) {
+  const tableContainer = d3.select('#userTable');
+  const table = tableContainer.select('table'); // Select the existing table
+  const tbody = table.select('tbody');
+  const rows = tbody.selectAll('tr').data(data, user => user._id);
+  rows.exit().remove(); // Remove extra rows
+  const newRow = rows.enter().append('tr');
+  newRow.append('td').text(user => user._id);
+  newRow.append('td').text(user => user.name);
+  newRow.append('td').text(user => user.email);
+  const actionsCell = newRow.append('td');
+  const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
+  deleteButton.on('click', user => deleteUser(user._id));
+  rows.merge(newRow); // Merge new and existing rows
+}
+
+// Add an event listener for search form submission
+document.getElementById("searchProductIdButton").addEventListener("click", async function() {
+  // Get the search query from the input field
+  const searchQuery = document.getElementById("searchProductId").value;
+  if (searchQuery) {
+    const searchData = await findProductById(searchQuery);
+    updateProductsTable(searchData); // Use the correct function here
+  } else {
+    updateProductsTable(originalProductData);  // Revert to original data when search is cleared
+  }
+});
+
+// Function to fetch product data by id
+async function findProductById(productId) {
+  try {
+      const response = await fetch(`/api/store-products/${productId}`); // Replace with your actual API endpoint
+      const data = await response.json();
+      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
+  } catch (error) {
+      console.error("Error fetching product by id:", error);
+      return [];
+  }
+}
+function updateProductsTable(data) {
+  const tableBody = document.getElementById("productsTable").getElementsByTagName("tbody")[0];
+  // Clear existing table
+  tableBody.innerHTML = "";
+  
+  data.forEach(product => {
+    const row = tableBody.insertRow();
+    row.setAttribute("data-id", product._id); // Set the data-id attribute for the row
+    const idCell = row.insertCell(0);
+    const nameCell = row.insertCell(1);
+    const imageCell = row.insertCell(2);
+    const brandCell = row.insertCell(3);
+    const categoryCell = row.insertCell(4);
+    const countInStockCell = row.insertCell(5);
+    const ratingCell = row.insertCell(6);
+    const numReviewsCell = row.insertCell(7);
+    const descriptionCell = row.insertCell(8);
+    const colorCell = row.insertCell(9);
+    const popularityCell = row.insertCell(10);
+    const actionsCell = row.insertCell(11);
+    idCell.textContent = product._id;
+    nameCell.textContent = product.name;
+    imageCell.textContent = product.image;
+    brandCell.textContent = product.brand;
+    categoryCell.textContent = product.category;
+    countInStockCell.textContent = product.countInStock;
+    ratingCell.textContent = product.rating;
+    numReviewsCell.textContent = product.numReviews;
+    descriptionCell.textContent = product.description;
+    colorCell.textContent = product.color;
+    popularityCell.textContent = product.popularity;
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.setAttribute("data-id", product._id); // Set the data-id attribute
+    deleteButton.addEventListener("click", () => deleteProduct(product._id)); // Pass product ID
+    actionsCell.appendChild(deleteButton);
+  });
+}
 
 
 
 
 
+const locationTable = document.getElementById('locationTable').getElementsByTagName('tbody')[0];
+
+async function fetchLocationData() {
+const response = await fetch('/api/store-location');
+const data = await response.json();
+return data;
+}
+
+async function renderLocationTable(data) {
+  const locationData = await fetchLocationData();
+
+  locationData.forEach(location => {
+      const row = locationTable.insertRow();
+      row.setAttribute('data-id', location._id);
+
+      const idCell = row.insertCell(0);
+      const nameCell = row.insertCell(1);
+      const latCell = row.insertCell(2);
+      const lngCell = row.insertCell(3);
+      const deleteCell = row.insertCell(4);
+      const updateCell = row.insertCell(5);
+
+      idCell.textContent = location._id;
+      nameCell.textContent = location.name;
+      latCell.textContent = location.lat;
+      lngCell.textContent = location.lng;
+
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.setAttribute('data-id', location._id);
+      deleteButton.addEventListener('click', () => deleteLocation(location._id));
+      deleteCell.appendChild(deleteButton);
+
+      const updateButton = document.createElement('button');
+      updateButton.textContent = 'Update';
+      updateButton.setAttribute('data-id', location._id);
+      updateButton.addEventListener('click', () => handleEditClick(location._id));
+      updateCell.appendChild(updateButton);
+
+      // Hidden row for editing
+      const editRow = locationTable.insertRow();
+      editRow.style.display = 'none';
+      editRow.insertCell(0);
+      const editCell = editRow.insertCell(1);
+      editCell.colSpan = 5; // Span the entire row for input fields
+
+      const editForm = document.createElement('form');
+      for (const key in location) {
+          if (key !== '_id' && key !== '__v') { // Exclude _id and __v fields
+              const input = document.createElement('input');
+              input.type = 'text';
+              input.name = key;
+              input.value = location[key];
+              editForm.appendChild(input);
+          }
+      }
+
+      const confirmUpdateButton = document.createElement('button');
+      confirmUpdateButton.textContent = 'Confirm Update';
+      confirmUpdateButton.addEventListener('click', () => handleUpdateClick(location._id, editForm));
+      editForm.appendChild(confirmUpdateButton);
+
+      editCell.appendChild(editForm);
+  });
+}
+
+
+  function handleEditClick(locationId) {
+    const editRow = locationTable.querySelector(`[data-id="${locationId}"]`).nextElementSibling;
+    editRow.style.display = 'table-row'; // Show the hidden row
+}
+
+async function handleUpdateClick(locationId, editForm) {
+  console.log('Updating location:', locationId);
+
+  const updatedData = {};
+  for (const input of editForm.elements) {
+      if (input.type === 'text') {
+          updatedData[input.name] = input.value;
+      }
+  }
+  console.log('Updated data:', updatedData);
+
+
+  try {
+      const response = await fetch(`/api/store-location/${locationId}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedData),
+      });
+
+      const data = await response.json();
+      console.log('API Response:',data);
+
+      if (data.success) {
+          // Update the table with the new data
+          const locationRow = locationTable.querySelector(`[data-id="${locationId}"]`);
+          const editRow = locationRow.nextElementSibling;
+          editRow.style.display = 'none'; // Hide the edit row
+
+          // Update the visible row cells with the new data
+          for (let i = 1; i < locationRow.cells.length - 2; i++) {
+              const key = locationRow.cells[i].getAttribute('data-key');
+              locationRow.cells[i].textContent = updatedData[key];
+          }
+      } else {
+          console.error('Failed to update location.');
+      }
+  } catch (error) {
+      console.error('Error updating location:', error);
+  }
+}
+
+
+  // Function to delete a location
+async function deleteLocation(locationId) {
+  try {
+    const response = await fetch(`/api/store-location/${locationId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+      // Remove the deleted product from the table and re-render the table
+      const deletedRow = locationTable.querySelector(`[data-id="${locationId}"]`);
+      if (deletedRow) {
+        locationTable.removeChild(deletedRow);
+      }
+    } else {
+      console.error('Failed to delete location.');
+    }
+  } catch (error) {
+    console.error('Error deleting location:', error);
+  }
+}
+
+// Function to update a location
+async function updateLocation(locationId,updatedData) {
+  try {
+    const response = await fetch(`/api/store-location/${locationId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+       // Find the row in the table that needs to be updated
+       const updatedRow = locationTable.querySelector(`[data-id="${locationId}"]`);
+
+      if (updatedRow) {
+         // Update the cells with the new data
+         const cells = updatedRow.cells;
+         cells[1].textContent = updatedData.name;
+         cells[2].textContent = updatedData.lat;
+         cells[3].textContent = updatedData.lng;
+      }
+    } else {
+      console.error('Failed to update location.');
+    }
+  } catch (error) {
+    console.error('Error updating location:', error);
+  }
+}

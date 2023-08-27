@@ -17,29 +17,32 @@ const app = express();
 const session = require('express-session');
 
 // --- routes paths ---
-//const R_Orders = require('./routes/R_order');
 const R_AuthRoutes = require('./routes/authRoutes');
 const R_Products = require('./routes/products');
 const R_Location = require('./routes/location');
 const R_Users = require('./routes/user');
 const R_ShoppingCart = require('./routes/shoppingCart');
 const R_Weather = require('./routes/weather');
+const R_Order = require('./routes/order');
 
 // --- models paths ---
-//const M_User = require('./models/user');
-//const M_ShoppingCart = require('./models/shoppingCart');
 const M_Product = require('./models/product');
 const M_Location = require('./models/location');
+const M_Order = require('./models/order');
+const M_user = require('./models/user');
 
 // --- controllers paths ---
-//const C_shoppingCart = require('./controllers/shoppingCart');
 const C_location = require('./controllers/location');
 const C_products = require('./controllers/products');
+const C_users = require('./controllers/user');
+const C_orders = require('./controllers/order');
+
 
 // --- data paths ---
-//const userData = require('./data/user');
+const usersData = require('./data/user');
 const productsData = require('./data/products');
 const locationData = require('./data/location');
+const ordersData = require('./data/orders');
 
 // --- Mongo DB connection ---
 const database = process.env.CONNECTION_STRING // || 'mongodb://127.0.0.1:27017/proddb';
@@ -114,7 +117,7 @@ app.get('/', function (req, res) {
 });
 
 
-// Automatically add locations and products data if not already present
+// Automatically add locations , users and products data if not already present
 //locations  
 (async () => {
   try {
@@ -143,31 +146,47 @@ app.get('/', function (req, res) {
     console.error('Error adding initial products data:', error);
   }
 })();
+// users 
+(async () => {
+  try {
+    const existinUsersData = await M_user.find();
+    if (existinUsersData.length === 0) {
+      await C_users.addUsersFromData(usersData);
+      console.log('Initial Users data added to the database');
+    } else {
+      console.log('Users Data already exists in the database');
+    }
+  } catch (error) {
+    console.error('Error adding initial Users data:', error);
+  }
+})();
+
+// orders 
+(async () => {
+  try {
+    const existinOrdersData = await M_Order.find();
+    if (existinOrdersData.length === 0) {
+      await C_orders.addOrdersFromData(ordersData);
+      console.log('Initial orders data added to the database');
+    } else {
+      console.log('orders Data already exists in the database');
+    }
+  } catch (error) {
+    console.error('Error adding initial orders data:', error);
+  }
+})();
 
 
-//users
-/*
-R_Users.insertMany(userData)
-.then(() => {
-  console.log('User data saved to MongoDB');
-  //mongoose.disconnect(); // Close the connection after saving data
-})
-.catch((error) => {
-  console.error('Error saving user data to MongoDB:', error);
-  mongoose.disconnect(); // Close the connection on error
-}).catch((error) => {
-console.error('Error connecting to MongoDB:', error);
-});
-*/
 
 // Routes
-//app.use(R_Orders);
 app.use(R_AuthRoutes);
 app.use(R_ShoppingCart);
 app.use(R_Products);
 app.use(R_Location);
 app.use(R_Users);
 app.use(R_Weather);
+app.use(R_Weather);
+app.use(R_Order);
 app.use('/controllers', express.static('controllers'));
 app.use('/routes', express.static('routes'));
 app.use('/views', express.static('views'));

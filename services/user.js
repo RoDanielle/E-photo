@@ -35,13 +35,14 @@ const S_user={
             return null; // User not found
         }
     },
+    
     findUserByEmail:async(email)=>{
         return await User.findOne({ email });
     },
     
     checkIfEmailExists: async (email) => {
         const user = await User.findOne({ email });
-        return 
+        return user !== null;
     },
 
     updateUser: async (user)=> {

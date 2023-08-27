@@ -5,8 +5,9 @@ const User = require('../models/user');
 const orderService = {
 
 
-    addNewOrder: async (cost, productList)=> {
+    addNewOrder: async (idUserOrdered, cost, productList)=> {
         const order = new Order({
+            idUserOrdered,
             cost,
             productList,
         });
@@ -49,7 +50,47 @@ const orderService = {
             //if the user does not exist
             throw new Error("User with ID " + currentUserId + " does not exist.");
         }
-    }
+    },
+
+
+    // Edit an order by ID
+    editOrder: async (orderID, updatedData) => {
+        try {
+            // Find the order by ID
+            const order = await Order.findById(orderId);
+
+            if (!order) {
+                throw new Error(`Order with ID ${orderId} not found.`);
+            }
+
+            // Update the order data
+            Object.assign(order, updatedData);
+
+            // Save the updated order
+            return await order.save();
+        } catch (error) {
+            throw new Error(`Error editing order: ${error.message}`);
+        }
+    },
+
+
+    // Delete an order by ID
+    deleteOrder: async (orderId) => {
+        try {
+            // Find the order by ID
+            const order = await Order.findById(orderId);
+
+            if (!order) {
+                throw new Error(`Order with ID ${orderId} not found.`);
+            }
+
+            // Delete the order
+            await order.remove();
+            return `Order with ID ${orderId} deleted successfully.`;
+        } catch (error) {
+            throw new Error(`Error deleting order: ${error.message}`);
+        }
+    },
 };
 
 

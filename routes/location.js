@@ -17,17 +17,30 @@ router.get("/api/store-location", (req, res) => {
 });
 
 // only admin - update
-router.put("/", adminAuthMiddleware, (req, res) => {
-    C_location.updateLocation(req.body).then((data) => {
-        res.json(data);
-    })
+router.put("/api/store-location/:locationId", adminAuthMiddleware, async (req, res) => {
+  const locationId = req.params.locationId;
+  const updatedLocationData = req.body;
+  try {
+      const updatedLocation = await C_location.updateLocation(locationId, updatedLocationData);
+      res.json({ message: 'Location updated successfully', location: updatedLocation });
+  } catch (error) {
+      console.error('Error updating location:', error);
+      res.status(500).json({ error: 'Failed to update location' });
+  }
 });
-
 // only admin - delete
-router.delete("/", adminAuthMiddleware, (req, res) => {
-    C_location.deleteLocation(req.body._id).then((data) => {
-        res.json(data);
-    })
+router.delete("/api/store-location/:locationId", adminAuthMiddleware, async (req, res) => {
+  const locationId = req.params.locationId;
+  try {
+    const deletedLocation = await C_location.deleteLocation(locationId);
+    if (deletedLocation) {
+      res.json({ success: true, message: 'Location deleted successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'Location not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error deleting location' });
+  }
 });
 
 // only admin - create
