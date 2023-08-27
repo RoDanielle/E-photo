@@ -5,8 +5,9 @@ const User = require('../models/user');
 const orderService = {
 
 
-    addNewOrder: async (cost, productList)=> {
+    addNewOrder: async (idUserOrdered, cost, productList)=> {
         const order = new Order({
+            idUserOrdered,
             cost,
             productList,
         });

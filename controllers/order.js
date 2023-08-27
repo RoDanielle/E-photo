@@ -5,8 +5,8 @@ const orderControllers  = {
     // Controller to create a new order
     createOrder: async (req,res) => {
         try {
-            const { cost, productList } = req.body;
-            const order = await orderService.addNewOrder(cost, productList);
+            const {idUserOrdered, cost, productList } = req.body;
+            const order = await orderService.addNewOrder(idUserOrdered, date, cost, productList);
             res.status(201).json(order);
         } catch (error) {
             res.status(500).json({error: 'An error occurred while creating the order.'});
