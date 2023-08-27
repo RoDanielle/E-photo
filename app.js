@@ -160,7 +160,11 @@ app.get('/', function (req, res) {
     console.error('Error adding initial Users data:', error);
   }
 })();
+<<<<<<< HEAD
 
+=======
+/*
+>>>>>>> cdf5d3e2175af16e11372cc2bb4cfc9261da5b19
 // orders 
 (async () => {
   try {
@@ -175,7 +179,12 @@ app.get('/', function (req, res) {
     console.error('Error adding initial orders data:', error);
   }
 })();
+<<<<<<< HEAD
 
+
+=======
+*/
+>>>>>>> cdf5d3e2175af16e11372cc2bb4cfc9261da5b19
 
 
 // Routes
