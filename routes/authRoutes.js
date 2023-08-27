@@ -11,4 +11,15 @@ router.get('/checkLoggedIn', (req, res) => {
   }
 });
 
+router.get('/getLoggedInID', (req, res) => {
+  if (req.session.isLoggedIn)
+  {
+    const userEmail = req.session.userEmail;
+    res.json({userEmail});
+  }
+  else{
+    res.json({userEmail : null});
+  }
+});
+
 module.exports = router;
