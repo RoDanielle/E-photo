@@ -52,7 +52,6 @@ router.put("/api/store-products", (req, res) => {
 router.put("/api/store-products/:productId", adminAuthMiddleware, async (req, res) => {
   const productId = req.params.productId;
   const updatedProductData = req.body;
-
   try {
       const updatedProduct = await C_products.updateProduct(productId, updatedProductData);
       res.json({ message: 'Product updated successfully', product: updatedProduct });

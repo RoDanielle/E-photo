@@ -17,12 +17,17 @@ router.get("/api/store-location", (req, res) => {
 });
 
 // only admin - update
-router.put("/api/store-location", adminAuthMiddleware, (req, res) => {
-    C_location.updateLocation(req.body).then((data) => {
-        res.json(data);
-    })
+router.put("/api/store-location/:locationId", adminAuthMiddleware, async (req, res) => {
+  const locationId = req.params.locationId;
+  const updatedLocationData = req.body;
+  try {
+      const updatedLocation = await C_location.updateLocation(locationId, updatedLocationData);
+      res.json({ message: 'Location updated successfully', location: updatedLocation });
+  } catch (error) {
+      console.error('Error updating location:', error);
+      res.status(500).json({ error: 'Failed to update location' });
+  }
 });
-
 // only admin - delete
 router.delete("/api/store-location/:locationId", adminAuthMiddleware, async (req, res) => {
   const locationId = req.params.locationId;
