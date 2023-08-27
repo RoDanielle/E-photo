@@ -291,3 +291,38 @@ footer {
     justify-content: center;
     padding: 5px;
 }
+
+/* Apply similar styling to the "Add Location" form as the "Add Product" form */
+#addLocationForm {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#addLocationForm input {
+    margin: 10px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#addLocationForm button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#addLocationForm button:hover {
+    background-color: #0056b3;
+}

@@ -67,7 +67,22 @@ router.post('/api/add-data-locations', async (req, res) => {
     }
   });
 
-
+// Get details for a single location by ID
+router.get("/api/store-location/:locationId", (req, res) => {
+  const locationId = req.params.locationId;
+  
+  C_location.getLocationById(locationId)
+    .then((location) => {
+      if (!location) {
+        return res.status(404).json({ error: 'Location not found' });
+      }
+      res.json(location);
+    })
+    .catch((error) => {
+      console.error('Error fetching location details:', error);
+      res.status(500).json({ error: 'Failed to fetch location details' });
+    });
+}); 
 
   
 module.exports = router;

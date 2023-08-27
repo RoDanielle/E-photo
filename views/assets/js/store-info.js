@@ -2,7 +2,6 @@ let originalUserData = []; // Initialize as an empty array
 let originalProductData = []; // Initialize as an empty array
 let originalLocationData = []; // Initialize as an empty array
 
-
 // Add an event listener for form submission - add new product 
 document.getElementById("addProductForm").addEventListener("submit", async function(event) {
     event.preventDefault(); // Prevent the form from submitting normally
@@ -36,7 +35,6 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   
     // Call the addProduct function with the extracted data
    await addProduct(productData, event);
-  
   });
   
   // add a new product to mongoDB
@@ -380,10 +378,6 @@ function updateProductsTable(data) {
   });
 }
 
-
-
-
-
 const locationTable = document.getElementById('locationTable').getElementsByTagName('tbody')[0];
 
 async function fetchLocationData() {
@@ -450,56 +444,6 @@ async function renderLocationTable(data) {
   });
 }
 
-
-  function handleEditClick(locationId) {
-    const editRow = locationTable.querySelector(`[data-id="${locationId}"]`).nextElementSibling;
-    editRow.style.display = 'table-row'; // Show the hidden row
-}
-
-async function handleUpdateClick(locationId, editForm) {
-  console.log('Updating location:', locationId);
-
-  const updatedData = {};
-  for (const input of editForm.elements) {
-      if (input.type === 'text') {
-          updatedData[input.name] = input.value;
-      }
-  }
-  console.log('Updated data:', updatedData);
-
-
-  try {
-      const response = await fetch(`/api/store-location/${locationId}`, {
-          method: 'PUT',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedData),
-      });
-
-      const data = await response.json();
-      console.log('API Response:',data);
-
-      if (data.success) {
-          // Update the table with the new data
-          const locationRow = locationTable.querySelector(`[data-id="${locationId}"]`);
-          const editRow = locationRow.nextElementSibling;
-          editRow.style.display = 'none'; // Hide the edit row
-
-          // Update the visible row cells with the new data
-          for (let i = 1; i < locationRow.cells.length - 2; i++) {
-              const key = locationRow.cells[i].getAttribute('data-key');
-              locationRow.cells[i].textContent = updatedData[key];
-          }
-      } else {
-          console.error('Failed to update location.');
-      }
-  } catch (error) {
-      console.error('Error updating location:', error);
-  }
-}
-
-
   // Function to delete a location
 async function deleteLocation(locationId) {
   try {
@@ -555,3 +499,121 @@ async function updateLocation(locationId,updatedData) {
     console.error('Error updating location:', error);
   }
 }
+function handleEditClick(locationId) {
+  const editRow = locationTable.querySelector(`[data-id="${locationId}"]`).nextElementSibling;
+  editRow.style.display = 'table-row'; // Show the hidden row
+}
+
+async function handleUpdateClick(locationId, editForm) {
+console.log('Updating location:', locationId);
+
+const updatedData = {};
+for (const input of editForm.elements) {
+    if (input.type === 'text') {
+        updatedData[input.name] = input.value;
+    }
+}
+console.log('Updated data:', updatedData);
+try {
+    const response = await fetch(`/api/store-location/${locationId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log('API Response:',data);
+    if (data.success) {
+        // Update the table with the new data
+        const locationRow = locationTable.querySelector(`[data-id="${locationId}"]`);
+        const editRow = locationRow.nextElementSibling;
+        editRow.style.display = 'none'; // Hide the edit row
+        // Update the visible row cells with the new data
+        for (let i = 1; i < locationRow.cells.length - 2; i++) {
+            const key = locationRow.cells[i].getAttribute('data-key');
+            locationRow.cells[i].textContent = updatedData[key];
+        }
+    } else {
+        console.error('Failed to update location.');
+    }
+} catch (error) {
+    console.error('Error updating location:', error);
+}
+}
+
+// Add an event listener for search form submission
+document.getElementById("searchLocationButton").addEventListener("click", async function() {
+  // Get the search query from the input field
+  const searchQuery = document.getElementById("searchLocation").value;
+  if (searchQuery) {
+    const searchData = await findLocationById(searchQuery);
+    updateLocationTable(searchData); // Use the correct function here
+  } else {
+    updateLocationTable(originalLocationData);  // Revert to original data when search is cleared
+  }
+});
+
+// Function to fetch location data by id
+async function findLocationById(locationId) {
+  try {
+      const response = await fetch(`/api/store-location/${locationId}`); // Replace with your actual API endpoint
+      const data = await response.json();
+      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
+  } catch (error) {
+      console.error("Error fetching location by id:", error);
+      return [];
+  }
+}
+function updateLocationTable(data) {
+  const tableBody = document.getElementById("locationTable").getElementsByTagName("tbody")[0];
+  // Clear existing table
+  tableBody.innerHTML = "";
+  data.forEach(location => {
+    const row = tableBody.insertRow();
+    row.setAttribute("data-id", location._id); // Set the data-id attribute for the row
+    const idCell = row.insertCell(0);
+    const nameCell = row.insertCell(1);
+    const latCell = row.insertCell(2);
+    const lngCell = row.insertCell(3);
+    const deleteCell = row.insertCell(4);
+    const updateCell = row.insertCell(5);
+    idCell.textContent = location._id;
+    nameCell.textContent = location.name;
+    latCell.textContent = location.lat;
+    lngCell.textContent = location.lng;
+    const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.setAttribute('data-id', location._id);
+      deleteButton.addEventListener('click', () => deleteLocation(location._id));
+      deleteCell.appendChild(deleteButton);
+      const updateButton = document.createElement('button');
+      updateButton.textContent = 'Update';
+      updateButton.setAttribute('data-id', location._id);
+      updateButton.addEventListener('click', () => handleEditClick(location._id));
+      updateCell.appendChild(updateButton);
+
+      // Hidden row for editing
+      const editRow = locationTable.insertRow();
+      editRow.style.display = 'none';
+      editRow.insertCell(0);
+      const editCell = editRow.insertCell(1);
+      editCell.colSpan = 5; // Span the entire row for input fields
+      const editForm = document.createElement('form');
+      for (const key in location) {
+          if (key !== '_id' && key !== '__v') { // Exclude _id and __v fields
+              const input = document.createElement('input');
+              input.type = 'text';
+              input.name = key;
+              input.value = location[key];
+              editForm.appendChild(input);
+          }
+      }
+      const confirmUpdateButton = document.createElement('button');
+      confirmUpdateButton.textContent = 'Confirm Update';
+      confirmUpdateButton.addEventListener('click', () => handleUpdateClick(location._id, editForm));
+      editForm.appendChild(confirmUpdateButton);
+      editCell.appendChild(editForm);
+  });
+}
+  

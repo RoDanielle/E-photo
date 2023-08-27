@@ -16,6 +16,14 @@ const C_location = {
             return await S_location.getLocationByNameSearch(name);
         return await S_location.getAll();
     },
+    getLocationById: async (_id) => {
+      try {
+        return await S_location.getLocationById(_id);
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    },
 
     deleteLocation: async (_id)=> {
         return await S_location.deleteLocation(_id);
