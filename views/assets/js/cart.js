@@ -91,7 +91,8 @@ payButton.addEventListener('click', async () => {
         // Get the current date
         const currentDate = new Date();
         const shoppingCart = shoppingCart(); // לבדוק
-        const totalCost = calculateTotalCost(shoppingBasket); // לבדוק
+        const totalCost = totalPrice; // לבדוק
+        //const totalCost = calculateTotalCost(shoppingBasket); // לבדוק
 
         const newOrder = {
             idUserOrdered: currentUserId,
