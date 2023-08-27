@@ -52,6 +52,37 @@ const orderControllers  = {
             res.status(500).json({ error: 'An error occurred while retrieving the orders for the current user.' });
         }
     },
+
+
+    // Edit an order by ID
+    editOrder: async (req, res) => {
+        try {
+            const orderId = req.params.id;
+            const updatedData = req.body;
+
+            // Call the editOrder function from the orderService
+            const updatedOrder = await orderService.editOrder(orderId, updatedData);
+
+            res.status(200).json(updatedOrder);
+        } catch (error) {
+            res.status(500).json({ error: `Error editing order: ${error.message}` });
+        }
+    },
+
+
+    // Delete an order by ID
+    deleteOrder: async (req, res) => {
+        try {
+            const orderId = req.params.id;
+
+            // Call the deleteOrder function from the orderService
+            const result = await orderService.deleteOrder(orderId);
+
+            res.status(200).json({ message: result });
+        } catch (error) {
+            res.status(500).json({ error: `Error deleting order: ${error.message}` });
+        }
+    },
 };
 
 
