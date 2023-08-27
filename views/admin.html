@@ -110,7 +110,13 @@
     <div class="headLine">
         <h2 class="filtered-text">All Orders</h2>
     </div>
-    <div id="ordersTable" class="container text-center">
+    <div class="col-md-6 offset-md-3 mt-4">
+        <div class="input-group">
+            <input type="text" id="searchOrder" class="form-control" placeholder="Search by Order ID...">
+            <button class="btn btn-primary" id="searchOrderButton" type="button">Search</button>
+        </div>
+    </div>  
+    <div id="orderTable" class="container text-center">
         <table class="table">
             <thead>
                 <tr>
@@ -124,6 +130,31 @@
             <tbody></tbody>
         </table>
     </div>
+
+    <div class="headLine">
+        <h2 class="filtered-text">All Locations</h2>
+    </div>
+    <div class="col-md-6 offset-md-3 mt-4">
+        <div class="input-group">
+            <input type="text" id="searchLocation" class="form-control" placeholder="Search by Location ID...">
+            <button class="btn btn-primary" id="searchLocationButton" type="button">Search</button>
+        </div>
+    </div>  
+    <div id="locationTable" class="container text-center">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Location ID</th>
+                    <th>Name</th>
+                    <th>Lat</th>
+                    <th>Lng</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
 
 
     <div class="headLine">

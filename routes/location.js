@@ -17,14 +17,14 @@ router.get("/api/store-location", (req, res) => {
 });
 
 // only admin - update
-router.put("/", adminAuthMiddleware, (req, res) => {
+router.put("/api/store-location", adminAuthMiddleware, (req, res) => {
     C_location.updateLocation(req.body).then((data) => {
         res.json(data);
     })
 });
 
 // only admin - delete
-router.delete("/", adminAuthMiddleware, (req, res) => {
+router.delete("/api/store-user", adminAuthMiddleware, (req, res) => {
     C_location.deleteLocation(req.body._id).then((data) => {
         res.json(data);
     })

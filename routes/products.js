@@ -7,7 +7,7 @@ const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your a
 
 router.get('/api/average-prices', C_products.getAveragePricesByCategory);
 
-// get all peoducts 
+// get all products 
 router.get("/api/store-products", (req, res) => {
     C_products.getAll()
       .then((data) => {

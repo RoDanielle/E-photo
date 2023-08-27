@@ -1,5 +1,6 @@
 let originalUserData = []; // Initialize as an empty array
 let originalProductData = []; // Initialize as an empty array
+let originalLocationData = []; // Initialize as an empty array
 
 
 // Add an event listener for form submission - add new product 
@@ -115,17 +116,19 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   console.error('Failed to delete user.');
   }
   }
+
   async function init() {
     const userData = await fetchUserData();
     originalUserData = userData; // Set the fetched data to originalUserData
     const productData = await fetchProductData();
     originalProductData = productData; // Set the fetched data to originalProductData
+    const locationData = await fetchLocationData();
+    originalLocationData = locationData; // Set the fetched data to originalLocationData
   
     renderUserTable(userData);
     renderProductsTable(); // Call this function to render the product table
-
+    renderLocationTable();
   }
-  
   init(); // Initialize the script when the page loads
   
   //D3
@@ -275,9 +278,6 @@ async function deleteProduct(productId) {
 }
 renderProductsTable();
 
-
-
-
 // Add an event listener for search form submission
 document.getElementById("searchButton").addEventListener("click", async function() {
   // Get the search query from the input field
@@ -289,7 +289,6 @@ document.getElementById("searchButton").addEventListener("click", async function
     updateUserTable(originalUserData);  // Revert to original data when search is cleared
   }
 });
-
 
 // Function to fetch user data by email
 async function findUserByEmail(email) {
@@ -319,11 +318,6 @@ function updateUserTable(data) {
   rows.merge(newRow); // Merge new and existing rows
 }
 
-
-
-
-
-
 // Add an event listener for search form submission
 document.getElementById("searchProductIdButton").addEventListener("click", async function() {
   // Get the search query from the input field
@@ -335,7 +329,6 @@ document.getElementById("searchProductIdButton").addEventListener("click", async
     updateProductsTable(originalProductData);  // Revert to original data when search is cleared
   }
 });
-
 
 // Function to fetch product data by id
 async function findProductById(productId) {
@@ -356,7 +349,6 @@ function updateProductsTable(data) {
   data.forEach(product => {
     const row = tableBody.insertRow();
     row.setAttribute("data-id", product._id); // Set the data-id attribute for the row
-    
     const idCell = row.insertCell(0);
     const nameCell = row.insertCell(1);
     const imageCell = row.insertCell(2);
@@ -369,7 +361,6 @@ function updateProductsTable(data) {
     const colorCell = row.insertCell(9);
     const popularityCell = row.insertCell(10);
     const actionsCell = row.insertCell(11);
-
     idCell.textContent = product._id;
     nameCell.textContent = product.name;
     imageCell.textContent = product.image;
@@ -381,7 +372,6 @@ function updateProductsTable(data) {
     descriptionCell.textContent = product.description;
     colorCell.textContent = product.color;
     popularityCell.textContent = product.popularity;
-    
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.setAttribute("data-id", product._id); // Set the data-id attribute
@@ -390,3 +380,40 @@ function updateProductsTable(data) {
   });
 }
 
+
+
+
+
+const locationTable = document.getElementById('locationTable').getElementsByTagName('tbody')[0];
+
+async function fetchLocationData() {
+const response = await fetch('/api/store-location');
+const data = await response.json();
+return data;
+}
+
+async function renderLocationTable() {
+  const locationData = await fetchLocationData();
+  locationData.forEach(location => {
+    const row = locationTable.insertRow();
+    row.setAttribute('data-id', location._id); // Set the data-id attribute for the row
+    const idCell=row.insertCell(0);
+    const nameCell = row.insertCell(1);
+    const latCell = row.insertCell(2);
+    const lngCell = row.insertCell(3);
+    //const actionCell = row.insertCell(4);
+    
+
+    idCell.textContent = location._id;
+    nameCell.textContent = location.name;
+    latCell.textContent = location.lat;
+    lngCell.textContent = location.lng;
+    
+    //const deleteButton = document.createElement('button');
+    //deleteButton.textContent = 'Delete';
+    //deleteButton.setAttribute('data-id', product._id); // Set the data-id attribute
+    //deleteButton.addEventListener('click', () => deleteProduct(product._id)); // Pass product ID
+    //deleteCell.appendChild(deleteButton);
+  });
+  }
+  

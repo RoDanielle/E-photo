@@ -18,9 +18,13 @@ const C_location = {
     },
 
     deleteLocation: async (_id)=> {
+      try {
         return await S_location.deleteLocation(_id);
+      } catch (e) {
+        console.log(e);
+    }
     },
-
+    
     // manually 
     addLocation: async (name, lat, lng) => {
       try {
