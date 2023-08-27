@@ -134,6 +134,47 @@ logout: async (req, res) => {
       res.json({ message: "Logged out successfully." });
   });
 
-}
+},
+
+
+
+addUsersFromData: async (users) => {
+  try {
+    const result =  await S_user.addUsersFromData(users);
+      return { message: result.message};
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+},
+
+
+
+addUsersFromData: async (users) => { // take note that the users password is not encrypted this way
+  try {
+    const insertPromises = users.map(async (user) => {
+      const {name, email, password, description, location, date, isManager} = user;
+      const newuser = new StoreUser({
+        name,
+        email,
+        password,
+        description,
+        location,
+        date,
+        isManager
+      });
+      await newuser.save();
+    });
+
+    await Promise.all(insertPromises);
+
+    return { message: 'users added from data successfully' };
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+},
+
+
 }
 module.exports = C_user;
