@@ -24,10 +24,18 @@ router.put("/api/store-location", adminAuthMiddleware, (req, res) => {
 });
 
 // only admin - delete
-router.delete("/api/store-user", adminAuthMiddleware, (req, res) => {
-    C_location.deleteLocation(req.body._id).then((data) => {
-        res.json(data);
-    })
+router.delete("/api/store-location/:locationId", adminAuthMiddleware, async (req, res) => {
+  const productId = req.params.productId;
+  try {
+    const deletedLocation = await C_location.deleteLocation(loactionId);
+    if (deletedLocation) {
+      res.json({ success: true, message: 'Location deleted successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'Location not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error deleting location' });
+  }
 });
 
 // only admin - create

@@ -392,7 +392,7 @@ const data = await response.json();
 return data;
 }
 
-async function renderLocationTable() {
+async function renderLocationTable(data) {
   const locationData = await fetchLocationData();
   locationData.forEach(location => {
     const row = locationTable.insertRow();
@@ -401,7 +401,9 @@ async function renderLocationTable() {
     const nameCell = row.insertCell(1);
     const latCell = row.insertCell(2);
     const lngCell = row.insertCell(3);
-    //const actionCell = row.insertCell(4);
+    const deleteCell = row.insertCell(4);
+    //const updateCell = row.insertCell(5);
+
     
 
     idCell.textContent = location._id;
@@ -409,11 +411,34 @@ async function renderLocationTable() {
     latCell.textContent = location.lat;
     lngCell.textContent = location.lng;
     
-    //const deleteButton = document.createElement('button');
-    //deleteButton.textContent = 'Delete';
-    //deleteButton.setAttribute('data-id', product._id); // Set the data-id attribute
-    //deleteButton.addEventListener('click', () => deleteProduct(product._id)); // Pass product ID
-    //deleteCell.appendChild(deleteButton);
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.setAttribute('data-id', location._id); // Set the data-id attribute
+    deleteButton.addEventListener('click', () => deleteLocation(location._id)); // Pass location ID
+    deleteCell.appendChild(deleteButton);
   });
   }
-  
+  // Function to delete a location
+async function deleteLocation(locationId) {
+  try {
+    const response = await fetch(`/api/store-location/${locationId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+      // Remove the deleted product from the table and re-render the table
+      const deletedRow = locationTable.querySelector(`[data-id="${locationId}"]`);
+      if (deletedRow) {
+        locationTable.removeChild(deletedRow);
+      }
+    } else {
+      console.error('Failed to delete location.');
+    }
+  } catch (error) {
+    console.error('Error deleting location:', error);
+  }
+}
