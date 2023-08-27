@@ -41,7 +41,7 @@ const S_user={
     
     checkIfEmailExists: async (email) => {
         const user = await User.findOne({ email });
-        return 
+        return user !== null;
     },
 
     updateUser: async (user)=> {

@@ -80,7 +80,42 @@ function removeFromCart(productId) {
 
 
 const payButton = document.getElementById('payButton');
-payButton.addEventListener('click', () => {
+payButton.addEventListener('click', async () => {
+
     // Perform payment action here
-    alert('Payment functionality will be added later.');
+    //alert('Payment functionality will be added later.');
+
+    try {
+        // Get the current user's ID 
+        const currentUserId = req.session.userID;
+        // Get the current date
+        const currentDate = new Date();
+        const shoppingCart = shoppingCart(); // לבדוק
+        const totalCost = calculateTotalCost(shoppingBasket); // לבדוק
+
+        const newOrder = {
+            idUserOrdered: currentUserId,
+            date: currentDate,
+            cost: totalCost,
+            productList: shoppingCart,
+        };
+
+        const response = await sendNewOrderToServer(newOrder); //לבדוק שליחת בקשה לשרת
+        if (response.ok) {
+            // Order creation successful
+            const orderData = await response.json();
+            console.log('Order created:', orderData);
+            clearShoppingCart(); //לבדוק
+            displaySuccessMessage(); //לבדוק
+        } else {
+            // Order creation failed
+            console.error( 'Failed to create order:', response.status, response.statusText);
+            displayErrorMessage(); //לבדוק
+        }
+    } catch (error) {
+        //any unexpected errors
+        console.error( 'An error occurred:' , error);
+        displayErrorMessage(); //לבדוק
+    }
+
 });

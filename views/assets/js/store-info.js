@@ -207,80 +207,80 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
 const productsTable = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
 
 async function fetchProductData() {
-  const response = await fetch('/api/products');
-  const data = await response.json();
-  return data;
+const response = await fetch('/api/products');
+const data = await response.json();
+return data;
 }
 
 async function renderProductsTable() {
-  const productData = await fetchProductData();
-  productData.forEach(product => {
-    const row = productsTable.insertRow();
-    row.setAttribute('data-id', product._id); // Set the data-id attribute for the row
-    const idCell=row.insertCell(0);
-    const nameCell = row.insertCell(1);
-    const imageCell = row.insertCell(2);
-    const brandCell = row.insertCell(3);
-    const categoryCell = row.insertCell(4);
-    const countInStockCell = row.insertCell(5);
-    const ratingCell = row.insertCell(6);
-    const numReviewsCell = row.insertCell(7);
-    const descriptionCell = row.insertCell(8);
-    const colorCell = row.insertCell(9);
-    const popularityCell = row.insertCell(10);
-    const deleteCell = row.insertCell(11);
+const productData = await fetchProductData();
+productData.forEach(product => {
+  const row = productsTable.insertRow();
+  row.setAttribute('data-id', product._id); // Set the data-id attribute for the row
+  const idCell=row.insertCell(0);
+  const nameCell = row.insertCell(1);
+  const imageCell = row.insertCell(2);
+  const brandCell = row.insertCell(3);
+  const categoryCell = row.insertCell(4);
+  const countInStockCell = row.insertCell(5);
+  const ratingCell = row.insertCell(6);
+  const numReviewsCell = row.insertCell(7);
+  const descriptionCell = row.insertCell(8);
+  const colorCell = row.insertCell(9);
+  const popularityCell = row.insertCell(10);
+  const deleteCell = row.insertCell(11);
 
 
-    idCell.textContent = product._id;
-    nameCell.textContent = product.name;
-    imageCell.textContent = product.image;
-    brandCell.textContent = product.brand;
-    categoryCell.textContent = product.category;
-    countInStockCell.textContent = product.countInStock;
-    ratingCell.textContent = product.rating;
-    numReviewsCell.textContent = product.numReviews;
-    descriptionCell.textContent = product.description;
-    colorCell.textContent = product.color;
-    popularityCell.textContent = product.popularity;
-    
-    
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete';
-    deleteButton.setAttribute('data-id', product._id); // Set the data-id attribute
-    deleteButton.addEventListener('click', () => deleteProduct(product._id)); // Pass product ID
-   
-    deleteCell.appendChild(deleteButton);
+  idCell.textContent = product._id;
+  nameCell.textContent = product.name;
+  imageCell.textContent = product.image;
+  brandCell.textContent = product.brand;
+  categoryCell.textContent = product.category;
+  countInStockCell.textContent = product.countInStock;
+  ratingCell.textContent = product.rating;
+  numReviewsCell.textContent = product.numReviews;
+  descriptionCell.textContent = product.description;
+  colorCell.textContent = product.color;
+  popularityCell.textContent = product.popularity;
+  
+  
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Delete';
+  deleteButton.setAttribute('data-id', product._id); // Set the data-id attribute
+  deleteButton.addEventListener('click', () => deleteProduct(product._id)); // Pass product ID
+ 
+  deleteCell.appendChild(deleteButton);
 
 
-  });
+});
 }
 
 // Function to delete a product
 async function deleteProduct(productId) {
-    try {
-      const response = await fetch(`/api/store-products/${productId}`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      const data = await response.json();
-      console.log(data);
-      if (data.success) {
-      
-        // Remove the deleted product from the table and re-render the table
-        const deletedRow = productsTable.querySelector(`[data-id="${productId}"]`);
-        if (deletedRow) {
-          productsTable.removeChild(deletedRow);
-        }
-      } else {
-        console.error('Failed to delete product.');
+  try {
+    const response = await fetch(`/api/store-products/${productId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+    
+      // Remove the deleted product from the table and re-render the table
+      const deletedRow = productsTable.querySelector(`[data-id="${productId}"]`);
+      if (deletedRow) {
+        productsTable.removeChild(deletedRow);
       }
-    } catch (error) {
-      console.error('Error deleting product:', error);
+    } else {
+      console.error('Failed to delete product.');
     }
+  } catch (error) {
+    console.error('Error deleting product:', error);
   }
+}
 
 renderProductsTable();
 

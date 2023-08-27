@@ -2,6 +2,7 @@
 header {
     background-color: #f4f7fa;
     padding: 20px 0;
+    text-align: center;
 }
 
 /* Styling for the navigation bar */
@@ -13,27 +14,27 @@ header {
 /* Styling for the headline sections */
 .headLine {
     background-color: hsl(264, 57%, 87%);
-    padding: 30px; /* Increased padding for a more interesting background */
-    margin-top: 30px;
+    padding: 20px;
     text-align: center;
+    margin-top: 30px;
 }
 
 /* Styling for the filtered text */
 .filtered-text {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     transition: color 0.3s ease-in-out;
-    column-count: 2;
     font-family: "YourFontName", sans-serif;
     border-radius: 10px;
     background: linear-gradient(45deg, hsl(249, 85%, 82%), hsl(283, 52%, 71%)); /* Gradient background */
     color: #000000; /* White text color for better contrast */
+    padding: 10px;
+    margin: 0 auto;
 }
-
-
 
 /* Styling for the content section */
 .content {
     padding: 20px;
+    text-align: center;
 }
 
 /* Styling for the search forms */
@@ -45,10 +46,14 @@ header {
 /* Styling for the search input */
 .form-control {
     width: 80%;
+    padding: 10px;
+    margin: 5px;
 }
 
 /* Styling for the user cards section */
 #cards {
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     margin-top: 20px;
 }
@@ -86,12 +91,13 @@ header {
 
 /* Styling for the bars in the chart */
 .bar {
-    fill:  rgb(199, 255, 190);
+    fill: hsl(287, 44%, 41%);
     transition: fill 0.2s;
+    margin-right: 5px;
 }
 
 .bar:hover {
-    fill: rgb(199, 255, 190);
+    fill: hsl(287, 44%, 51%);
 }
 
 /* Styling for the X and Y axes */
@@ -118,17 +124,148 @@ header {
     font-weight: bold;
 }
 
-/* New styling for the bars with spacing */
-.bar {
-    fill: hsl(287, 44%, 41%);
-    transition: fill 0.2s;
-    margin-right: 5px;
+/* Styling for the form container */
+#addProductForm {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
 }
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
+
+/* Styling for input fields */
+#addProductForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* Styling for the average-prices table container */
+#average-prices-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+/* Styling for the average-prices table */
+#average-prices {
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    margin: 20px;
+}
+
+/* Styling for table headers and cells */
+#average-prices th,
+#average-prices td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+#average-prices th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#average-prices tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Styling for the Add Product form */
+#addProductForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Styling for form inputs */
+#addProductForm input {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Styling for the Add Product button */
+#addProductForm button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#addProductForm button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for the footer section */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    background-color: #f4f7fa;
+}
+/* Styling for the products table container */
+#productsTable {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 1000px; /* Set a maximum width to prevent excessive stretching */
+    margin: 0 auto; /* Center the container horizontally */
+}
+
+/* Styling for the products table */
+#productsTable table {
+    width: 100%;
+}
+
+/* Styling for table header cells */
+#productsTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Styling for table data cells */
+#productsTable td {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Styling for even rows */
+#productsTable tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Styling for the Actions column */
+#productsTable .actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .point {
@@ -147,16 +284,3 @@ body {
 .point strong {
     color: #007bff;
 }
-
-/* Style for the form container */
-#addProductForm {
-    width: 300px;
-    margin: 0 auto;
-  }
-  
-  /* Style for input fields */
-  input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-  }
