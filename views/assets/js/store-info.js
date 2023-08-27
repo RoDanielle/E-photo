@@ -1,3 +1,5 @@
+let originalUserData = []; // Initialize as an empty array
+
 // Add an event listener for form submission - add new product 
 document.getElementById("addProductForm").addEventListener("submit", async function(event) {
     event.preventDefault(); // Prevent the form from submitting normally
@@ -69,30 +71,27 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   
   // Function to render the user table
   function renderUserTable(data) {
-    //console.log("Render data:", data); // Add this line to log the received data
-
       const tableContainer = d3.select('#userTable');
-      //tableContainer.selectAll('*').remove(); // Clear existing table
-      const table = tableContainer.append('table').attr('class', 'table');
-      
+      const table = tableContainer.selectAll('table').empty() ? tableContainer.append('table').attr('class', 'table') : tableContainer.select('table');
       // Table header
-      const thead = table.append('thead').append('tr');
+      const thead = table.selectAll('thead').data([null]).enter().append('thead').append('tr');
       thead.append('th').text('ID');
       thead.append('th').text('Username');
       thead.append('th').text('Email');
       thead.append('th').text('Actions');
   
       // Table body
-      const tbody = table.append('tbody');
-      data.forEach(user => {
-          const row = tbody.append('tr');
-          row.append('td').text(user._id); // Assuming the user document has _id field
-          row.append('td').text(user.name);
-          row.append('td').text(user.email);
-          const actionsCell = row.append('td');
-          const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
-          deleteButton.on('click', () => deleteUser(user._id)); // Call a function to delete the user
-      });
+      const tbody = table.selectAll('tbody').data([null]).enter().append('tbody');
+      const rows = tbody.selectAll('tr').data(data, user => user._id);
+      rows.exit().remove(); // Remove extra rows
+      const newRow = rows.enter().append('tr');
+      newRow.append('td').text(user => user._id); // Assuming the user document has _id field
+      newRow.append('td').text(user => user.name);
+      newRow.append('td').text(user => user.email);
+      const actionsCell = newRow.append('td');
+      const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
+      deleteButton.on('click', user => deleteUser(user._id)); // Call a function to delete the user
+      rows.merge(newRow); // Merge new and existing rows
   }
   
   // Function to delete a user
@@ -104,7 +103,6 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   },
   body: JSON.stringify({ _id: userId })
   });
-  
   const data = await response.json();
   if (data.success) {
   // Reload the user table after successful deletion
@@ -117,9 +115,9 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   }
   async function init() {
     const userData = await fetchUserData();
+    originalUserData = userData; // Set the fetched data to originalUserData
     renderUserTable(userData);
   }
-  
   
   init(); // Initialize the script when the page loads
   
@@ -127,17 +125,14 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
 
   d3.json("http://localhost:3330/api/average-prices", function (error, data) {
     if (error) throw error;
-    
     const tableBody = d3.select("#average-prices tbody");
-
     const rows = tableBody.selectAll("tr")
         .data(data)
         .enter().append("tr");
-
     rows.selectAll("td")
         .data(d => [d._id, d.averagePrice.toFixed(2)])
         .enter().append("td")
-        .text(d => d);
+        .text(d=>d);
 });
   
   // Define the dimensions of the SVG canvas
@@ -201,9 +196,6 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
           .attr("height", product => innerHeight - yScale(product.price));
   });
 
-
-
-
 const productsTable = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
 
 async function fetchProductData() {
@@ -230,7 +222,6 @@ productData.forEach(product => {
   const popularityCell = row.insertCell(10);
   const deleteCell = row.insertCell(11);
 
-
   idCell.textContent = product._id;
   nameCell.textContent = product.name;
   imageCell.textContent = product.image;
@@ -243,15 +234,11 @@ productData.forEach(product => {
   colorCell.textContent = product.color;
   popularityCell.textContent = product.popularity;
   
-  
   const deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
   deleteButton.setAttribute('data-id', product._id); // Set the data-id attribute
   deleteButton.addEventListener('click', () => deleteProduct(product._id)); // Pass product ID
- 
   deleteCell.appendChild(deleteButton);
-
-
 });
 }
 
@@ -264,11 +251,9 @@ async function deleteProduct(productId) {
         'Content-Type': 'application/json',
       },
     });
-
     const data = await response.json();
     console.log(data);
     if (data.success) {
-    
       // Remove the deleted product from the table and re-render the table
       const deletedRow = productsTable.querySelector(`[data-id="${productId}"]`);
       if (deletedRow) {
@@ -281,26 +266,19 @@ async function deleteProduct(productId) {
     console.error('Error deleting product:', error);
   }
 }
-
 renderProductsTable();
 
-
-
-/* noya 
 // Add an event listener for search form submission
-document.getElementById("search_form").addEventListener("submit", async function(event) {
-  event.preventDefault(); // Prevent the form from submitting normally
-
+document.getElementById("searchButton").addEventListener("click", async function() {
   // Get the search query from the input field
   const searchQuery = document.getElementById("searchEmail").value;
   if (searchQuery) {
     const searchData = await findUserByEmail(searchQuery);
-   // renderUserTable(searchData);
+    updateUserTable(searchData);
   } else {
-    renderUserTable(originalUserData); // Revert to original data when search is cleared
+    updateUserTable(originalUserData);  // Revert to original data when search is cleared
   }
 });
-*/
 
 
 // Function to fetch user data by email
@@ -317,7 +295,21 @@ async function findUserByEmail(email) {
   }
 }
 
-// Entry point: Fetch user data and render the user table
+function updateUserTable(data) {
+  const tableContainer = d3.select('#userTable');
+  const table = tableContainer.select('table'); // Select the existing table
+  const tbody = table.select('tbody');
+  const rows = tbody.selectAll('tr').data(data, user => user._id);
+  rows.exit().remove(); // Remove extra rows
+  const newRow = rows.enter().append('tr');
+  newRow.append('td').text(user => user._id);
+  newRow.append('td').text(user => user.name);
+  newRow.append('td').text(user => user.email);
+  const actionsCell = newRow.append('td');
+  const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
+  deleteButton.on('click', user => deleteUser(user._id));
+  rows.merge(newRow); // Merge new and existing rows
+}
 
 
 
