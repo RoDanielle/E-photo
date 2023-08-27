@@ -35,6 +35,7 @@ const S_user={
             return null; // User not found
         }
     },
+    
     findUserByEmail:async(email)=>{
         return await User.findOne({ email });
     },
