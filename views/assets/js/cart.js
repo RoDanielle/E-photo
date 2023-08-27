@@ -41,8 +41,6 @@ function updateShoppingCart(cartData) {
     
     const totalField = document.getElementById('cartTotal');
     totalField.textContent = `Total: $${totalPrice}`;
-
-    console.log(cartData);
 }
 
 
@@ -104,55 +102,49 @@ async function fetchUserEmail() {
 
 
 payButton.addEventListener('click', async () => {
-
-    try {
-        // Get the current user's ID 
-        //const currentUserId = await fetch ('/getLoggedInID').json();
+        // Get the current user's ID (email)
         const currentUserId = await fetchUserEmail();
 
-        console.log(currentUserId);
+        if(currentUserId)
+        {
+            const cartData = JSON.parse(localStorage.getItem('cart')) || {};
+            const totalField = parseFloat(document.getElementById('cartTotal').textContent.replace('Total: $', ''));
 
+            const shoppingCart = [];
 
+            for (const productId in cartData) {
+                const product = cartData[productId];
+                shoppingCart.push({ 
+                    productId: productId, 
+                    productName: product.name , 
+                    productPrice: product.price , 
+                    quantity: product.quantity
+                });
+            }
+            // try to create a new order
+            const response = await fetch ('/api/create', {
+                method: 'POST', headers: {'Content-Type': 'application/json'} ,
+                body: JSON.stringify({
+                    idUserOrdered: currentUserId,
+                    cost: totalField,
+                    productList: shoppingCart})
+            });
 
-        // Get the current date
-        const cartData = JSON.parse(localStorage.getItem('cart')) || {};
-        const totalField = parseFloat(document.getElementById('cartTotal').textContent.replace('Total: $', ''));
-
-        const shoppingCart = [];
-
-        for (const productId in cartData) {
-            const product = cartData[productId];
-            shoppingCart.push({ productId: productId, productName: product.name , productPrice: product.price , quantity: product.quantity});
+            if (response.ok) {
+                // Order creation successful
+                const orderData = await response.json();
+                console.log('Order created:', orderData);
+                localStorage.removeItem('cart');
+                updateShoppingCart({});
+                alert('Order placed successfully!');
+                } else {
+                // Order creation failed
+                console.error( 'Failed to create order:', response.status, response.statusText);
+                alert('Failed to create the order. Please try again.');
+            }
         }
-
-
-        const response = await fetch ('/api/create', {
-            method: 'POST', headers: {'Content-Type': 'application/json'} ,
-            body: JSON.stringify({
-                idUserOrdered: currentUserId,
-                cost: totalField,
-                productList: shoppingCart})
-        });
-
-        console.log(response);
-
-
-        if (response.ok) {
-            // Order creation successful
-            const orderData = await response.json();
-            console.log('Order created:', orderData);
-            localStorage.removeItem('cart');
-            updateShoppingCart({});
-            alert('successful');
-        } else {
-            // Order creation failed
-            console.error( 'Failed to create order:', response.status, response.statusText);
-            alert('Failed');
+        else{
+            // The user is not logged in
+            alert('Please log in before placing an order.');
         }
-    } catch (error) {
-        //any unexpected errors
-        console.error( 'An error occurred:' , error);
-        alert('Failed');
-    }
-
 });

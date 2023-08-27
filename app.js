@@ -160,7 +160,6 @@ app.get('/', function (req, res) {
     console.error('Error adding initial Users data:', error);
   }
 })();
-
 // orders 
 (async () => {
   try {
@@ -175,7 +174,6 @@ app.get('/', function (req, res) {
     console.error('Error adding initial orders data:', error);
   }
 })();
-
 
 
 // Routes

@@ -59,10 +59,10 @@ const S_user={
 
     getUserById: async (UserId) => {
         try {
-          // Query the database to retrieve the product by its ID
+          // Query the database to retrieve the user by its ID
           const user = await User.findById(UserId);
     
-          return user; // Return the retrieved product or null if not found
+          return user; // Return the retrieved users or null if not found
         } catch (error) {
           console.error('Error fetching user by ID:', error);
           throw error;

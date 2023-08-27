@@ -4,16 +4,15 @@ const StoreOrder = require('../models/order');
 const orderControllers  = {
 
     // Controller to create a new order
-    createOrder: async (req, res) => {
+    createOrder: async (req,res) => {
         try {
-            const { userId, cost, productList } = req.body;
-            const order = await orderService.addNewOrder(userId, cost, productList);
+            const {idUserOrdered, cost, productList } = req.body;
+            const order = await orderService.addNewOrder(idUserOrdered, cost, productList);
             res.status(201).json(order);
         } catch (error) {
-            res.status(500).json({ error: 'An error occurred while creating the order.' });
+            res.status(500).json({error: 'An error occurred while creating the order.'});
         }
     },
-
 
     // Controller to get all orders
     getAllOrders: async (req,res) => {
@@ -24,7 +23,6 @@ const orderControllers  = {
             res.status(500).json({ error: 'An error occurred while retrieving orders.' });
         }
     },
-
 
     // Controller to get an order by its ID
     getOrderByID: async (req,res) => {
@@ -40,7 +38,6 @@ const orderControllers  = {
         }
     },
 
-
     // Controller to get orders for the currently logged-in user
     getOrdersForCurrentUser: async (req,res) => {
         try {
@@ -53,7 +50,6 @@ const orderControllers  = {
             res.status(500).json({ error: 'An error occurred while retrieving the orders for the current user.' });
         }
     },
-
 
     // Edit an order by ID
     editOrder: async (req, res) => {
@@ -70,7 +66,6 @@ const orderControllers  = {
         }
     },
 
-
     // Delete an order by ID
     deleteOrder: async (req, res) => {
         try {
@@ -84,7 +79,6 @@ const orderControllers  = {
             res.status(500).json({ error: `Error deleting order: ${error.message}` });
         }
     },
-
     
     addOrdersFromData: async (orders) => {
         try {
@@ -106,10 +100,13 @@ const orderControllers  = {
           console.error(e);
           throw e;
         }
-      },
+      }
 };
 
-
 module.exports = orderControllers;
+
+
+
+
 
 
