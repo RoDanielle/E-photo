@@ -1,4 +1,6 @@
 let originalUserData = []; // Initialize as an empty array
+let originalProductData = []; // Initialize as an empty array
+
 
 // Add an event listener for form submission - add new product 
 document.getElementById("addProductForm").addEventListener("submit", async function(event) {
@@ -116,7 +118,12 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   async function init() {
     const userData = await fetchUserData();
     originalUserData = userData; // Set the fetched data to originalUserData
+    const productData = await fetchProductData();
+    originalProductData = productData; // Set the fetched data to originalProductData
+  
     renderUserTable(userData);
+    renderProductsTable(); // Call this function to render the product table
+
   }
   
   init(); // Initialize the script when the page loads
@@ -268,6 +275,9 @@ async function deleteProduct(productId) {
 }
 renderProductsTable();
 
+
+
+
 // Add an event listener for search form submission
 document.getElementById("searchButton").addEventListener("click", async function() {
   // Get the search query from the input field
@@ -286,8 +296,6 @@ async function findUserByEmail(email) {
   try {
       const response = await fetch(`/api/user-by-email?email=${email}`); // Replace with your actual API endpoint
       const data = await response.json();
-      console.log("Search results:", data); // Add this line to log the search results
-      
       return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
   } catch (error) {
       console.error("Error fetching user by email:", error);
@@ -314,4 +322,71 @@ function updateUserTable(data) {
 
 
 
+
+
+// Add an event listener for search form submission
+document.getElementById("searchProductIdButton").addEventListener("click", async function() {
+  // Get the search query from the input field
+  const searchQuery = document.getElementById("searchProductId").value;
+  if (searchQuery) {
+    const searchData = await findProductById(searchQuery);
+    updateProductsTable(searchData); // Use the correct function here
+  } else {
+    updateProductsTable(originalProductData);  // Revert to original data when search is cleared
+  }
+});
+
+
+// Function to fetch product data by id
+async function findProductById(productId) {
+  try {
+      const response = await fetch(`/api/store-products/${productId}`); // Replace with your actual API endpoint
+      const data = await response.json();
+      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
+  } catch (error) {
+      console.error("Error fetching product by id:", error);
+      return [];
+  }
+}
+function updateProductsTable(data) {
+  const tableBody = document.getElementById("productsTable").getElementsByTagName("tbody")[0];
+  // Clear existing table
+  tableBody.innerHTML = "";
+  
+  data.forEach(product => {
+    const row = tableBody.insertRow();
+    row.setAttribute("data-id", product._id); // Set the data-id attribute for the row
+    
+    const idCell = row.insertCell(0);
+    const nameCell = row.insertCell(1);
+    const imageCell = row.insertCell(2);
+    const brandCell = row.insertCell(3);
+    const categoryCell = row.insertCell(4);
+    const countInStockCell = row.insertCell(5);
+    const ratingCell = row.insertCell(6);
+    const numReviewsCell = row.insertCell(7);
+    const descriptionCell = row.insertCell(8);
+    const colorCell = row.insertCell(9);
+    const popularityCell = row.insertCell(10);
+    const actionsCell = row.insertCell(11);
+
+    idCell.textContent = product._id;
+    nameCell.textContent = product.name;
+    imageCell.textContent = product.image;
+    brandCell.textContent = product.brand;
+    categoryCell.textContent = product.category;
+    countInStockCell.textContent = product.countInStock;
+    ratingCell.textContent = product.rating;
+    numReviewsCell.textContent = product.numReviews;
+    descriptionCell.textContent = product.description;
+    colorCell.textContent = product.color;
+    popularityCell.textContent = product.popularity;
+    
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.setAttribute("data-id", product._id); // Set the data-id attribute
+    deleteButton.addEventListener("click", () => deleteProduct(product._id)); // Pass product ID
+    actionsCell.appendChild(deleteButton);
+  });
+}
 
