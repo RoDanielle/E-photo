@@ -25,9 +25,9 @@ router.put("/api/store-location", adminAuthMiddleware, (req, res) => {
 
 // only admin - delete
 router.delete("/api/store-location/:locationId", adminAuthMiddleware, async (req, res) => {
-  const productId = req.params.productId;
+  const locationId = req.params.locationId;
   try {
-    const deletedLocation = await C_location.deleteLocation(loactionId);
+    const deletedLocation = await C_location.deleteLocation(locationId);
     if (deletedLocation) {
       res.json({ success: true, message: 'Location deleted successfully' });
     } else {
