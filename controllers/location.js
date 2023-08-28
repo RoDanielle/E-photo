@@ -39,15 +39,6 @@ const C_location = {
       }
     },
 
-    addProduct: async (name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity) => {
-      try {
-        return await S_products.addProduct(name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity);
-      } catch (e) {
-        console.log(e);
-        throw e;
-      }
-    },
-
     // from data file
     addLocationsFromData: async (locations) => {
         try {
