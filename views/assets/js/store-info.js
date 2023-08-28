@@ -133,7 +133,8 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
       newRow.append('td').text(user => user.name);
       newRow.append('td').text(user => user.email);
       const actionsCell = newRow.append('td');
-      const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
+      const deleteButton = actionsCell.append('button')  .attr('class', 'btn btn-danger red-delete-button').text('Delete');
+      //const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
       deleteButton.on('click', user => deleteUser(user._id)); // Call a function to delete the user
       rows.merge(newRow); // Merge new and existing rows
   }
@@ -290,6 +291,7 @@ productData.forEach(product => {
   
   const deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
+  deleteButton.className = 'red-delete-button'; // Apply the CSS class
   deleteButton.setAttribute('data-id', product._id); // Set the data-id attribute
   deleteButton.addEventListener('click', () => deleteProduct(product._id)); // Pass product ID
   deleteCell.appendChild(deleteButton);
@@ -460,6 +462,7 @@ async function renderLocationTable(data) {
 
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
+      deleteButton.className = 'red-delete-button'; // Apply the CSS class
       deleteButton.setAttribute('data-id', location._id);
       deleteButton.addEventListener('click', () => deleteLocation(location._id));
       deleteCell.appendChild(deleteButton);
@@ -637,6 +640,7 @@ function updateLocationTable(data) {
     lngCell.textContent = location.lng;
     const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
+      deleteButton.className = 'red-delete-button'; // Apply the CSS class
       deleteButton.setAttribute('data-id', location._id);
       deleteButton.addEventListener('click', () => deleteLocation(location._id));
       deleteCell.appendChild(deleteButton);
@@ -756,6 +760,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
   
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
+        deleteButton.className = 'red-delete-button'; // Apply the CSS class
         deleteButton.setAttribute('data-id', order._id);
         deleteButton.addEventListener('click', () => deleteOrder(order._id));
         deleteCell.appendChild(deleteButton);
@@ -867,6 +872,7 @@ function updateOrderTable(data) {
 
        const deleteButton = document.createElement('button');
        deleteButton.textContent = 'Delete';
+       deleteButton.className = 'red-delete-button'; // Apply the CSS class
        deleteButton.setAttribute('data-id', order._id);
        deleteButton.addEventListener('click', () => deleteOrder(order._id));
        deleteCell.appendChild(deleteButton);

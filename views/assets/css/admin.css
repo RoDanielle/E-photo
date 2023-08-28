@@ -326,3 +326,12 @@ footer {
 #addLocationForm button:hover {
     background-color: #0056b3;
 }
+
+.red-delete-button {
+    background-color: rgb(219, 13, 13);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 8px; /* Adjust this value for the desired level of roundness */
+}
