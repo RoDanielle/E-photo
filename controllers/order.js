@@ -64,17 +64,8 @@ const orderControllers  = {
     },
 
     // Delete an order by ID
-    deleteOrder: async (req, res) => {
-        try {
-            const orderId = req.params.id;
-
-            // Call the deleteOrder function from the orderService
-            const result = await orderService.deleteOrder(orderId);
-
-            res.status(200).json({ message: result });
-        } catch (error) {
-            res.status(500).json({ error: `Error deleting order: ${error.message}` });
-        }
+    deleteOrder: async (_id) => {
+        return await orderService.deleteOrder(_id);
     },
     
     addOrdersFromData: async (orders) => {

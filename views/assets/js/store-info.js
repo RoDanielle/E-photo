@@ -711,7 +711,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         const dateCell = row.insertCell(2);
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
-        //const deleteCell = row.insertCell(5);
+        const deleteCell = row.insertCell(5);
        // const updateCell = row.insertCell(6);
   
         orderIdCell.textContent = order._id;
@@ -719,13 +719,13 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         dateCell.textContent = order.date;
         costCell.textContent = order.cost;
         productsListCell.textContent = order.productList;
-  /*
+  
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.setAttribute('data-id', order._id);
         deleteButton.addEventListener('click', () => deleteOrder(order._id));
         deleteCell.appendChild(deleteButton);
-  
+  /*
         const updateButton = document.createElement('button');
         updateButton.textContent = 'Update';
         updateButton.setAttribute('data-id', order._id);
@@ -760,11 +760,12 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
     });
   }
   
-/*
+
    // Function to delete an order
 async function deleteOrder(orderId) {
   try {
-    const response = await fetch(`/api/orders/${orderId}`, {
+    const response = await fetch(`/api/delete-order/${orderId}`, {
+      
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -785,15 +786,13 @@ async function deleteOrder(orderId) {
     console.error('Error deleting order:', error);
   }
 }
-*/
+
   // Add an event listener for search form submission
 document.getElementById("searchOrderButton").addEventListener("click", async function() {
   // Get the search query from the input field
   const searchQuery = document.getElementById("searchOrder").value;
-  console.log(searchQuery);
   if (searchQuery) {
     const searchData = await findOrderById(searchQuery);
-    console.log(searchData);
     updateOrderTable(searchData); // Use the correct function here
   } else {
     updateOrderTable(originalOrderData);  // Revert to original data when search is cleared
@@ -802,7 +801,6 @@ document.getElementById("searchOrderButton").addEventListener("click", async fun
 
 // Function to fetch location data by id
 async function findOrderById(orderId) {
-  console.log(orderId);
   try {
       const response = await fetch(`/api/orders/${orderId}`); // Replace with your actual API endpoint
       const data = await response.json();
@@ -819,13 +817,12 @@ function updateOrderTable(data) {
   data.forEach(order => {
     const row = tableBody.insertRow();
     row.setAttribute("data-id", order._id); // Set the data-id attribute for the row
-    //continue!!!
     const orderIdCell=row.insertCell(0);
         const userOrderIdCell = row.insertCell(1);
         const dateCell = row.insertCell(2);
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
-         //const deleteCell = row.insertCell(5);
+         const deleteCell = row.insertCell(5);
        // const updateCell = row.insertCell(6);
   
        orderIdCell.textContent = order._id;
@@ -833,5 +830,11 @@ function updateOrderTable(data) {
        dateCell.textContent = order.date;
        costCell.textContent = order.cost;
        productsListCell.textContent = order.productList;
+
+       const deleteButton = document.createElement('button');
+       deleteButton.textContent = 'Delete';
+       deleteButton.setAttribute('data-id', order._id);
+       deleteButton.addEventListener('click', () => deleteOrder(order._id));
+       deleteCell.appendChild(deleteButton);
   });
 }
