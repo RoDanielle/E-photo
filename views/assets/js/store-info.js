@@ -679,19 +679,11 @@ document.getElementById("addLocationForm").addEventListener("submit", async func
   const lat = parseFloat(document.getElementById("lat").value);
   const lng = parseFloat(document.getElementById("lng").value);yScale
 
-  console.log("loc name:" ,name);
-  console.log("loc lat:" ,lat);
-  console.log("loc lng:" ,lng);
-
   const locationData = {
     name,
     lat,
     lng,
   };
-
-  console.log("loc data name:" ,locationData.name);
-  console.log("loc data lat:" ,locationData.lat);
-  console.log("loc data lng:" ,locationData.lng);
 
   // Call the addLocation function with the extracted data
  await addLocation(locationData, event);
