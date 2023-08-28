@@ -8,7 +8,7 @@ router.post('/api/create', orderControllers.createOrder);
 
 
 // Get all orders
-//router.get('/all', orderControllers.getAllOrders);
+router.get('/api/all-orders', orderControllers.getAllOrders);
 
 
 // Get an order by ID
