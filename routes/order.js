@@ -8,7 +8,6 @@ router.post('/api/create', orderControllers.createOrder);
 
 
 // Get all orders
-<<<<<<< HEAD
 router.get('/api/orders', async (req, res) => {
     try {
         const orders = await orderControllers.getAllOrders();
@@ -17,9 +16,6 @@ router.get('/api/orders', async (req, res) => {
         res.status(500).json({ error: `Error getting all orders: ${error.message}` });
     }
 });
-=======
-router.get('/api/all-orders', orderControllers.getAllOrders);
->>>>>>> 4a4cd36a66545417c7b569a90352aa781452e75d
 
 
 // Get an order by ID
