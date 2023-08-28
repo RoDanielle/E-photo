@@ -38,75 +38,7 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     // Call the addProduct function with the extracted data
    await addProduct(productData, event);
   });
-  
   //add products 
-  async function addProduct(productData, event) {
-    console.log("inside addProduct");
-    try {
-        const response = await fetch("/api/store-products", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(productData)
-        });
-
-        const data = await response.json();
-        console.log("log:", data);
-
-        if (data.message === 'Product added successfully') {
-            console.log("Product added successfully!");
-
-            // Show an alert to the user
-            alert('Product added successfully!');
-
-            // Reset the form after successful product addition
-            event.target.reset();
-            
-
-            // Publish to Facebook
-            window.fbAsyncInit = function () {
-              FB.init({
-                appId: "107114659160317", // Your App ID
-                status: true,
-                cookie: true,
-                xfbml: true,
-              });
-              alert("FB.init ok");
-            };
-            (function(d){
-              var id = 'facebook-jssdk';
-              if (d.getElementById(id)) {return;}
-              var js = d.createElement('script');
-              js.id = id;
-              js.async = true;
-              js.src = "//connect.facebook.net/en_US/all.js";
-              d.getElementsByTagName('head')[0].appendChild(js);
-            }(document));
-            FB.api(
-              '/107114659160317/feed', // Replace PAGE_ID with your actual page ID
-              'POST',
-              {"message": "New product added: " + productData.name ,access_token: 'EAALttJIAcYgBO07zS7rqXgzNbH6hfggRbm1UmBFDbliFRIpXdCOqBZASMCgE1MCKqZAUbdUlZCoZALkqlJ4vlwgqqdM734OjDDkiiFW2HijgEZBLXKuXV9ZAdskbl5iAecGhauEuii9VFJvVxT3xWWoa4lHqdN2a9qydg74YKQqXwFyk67TsPbuNZCTU6ZBHwkxFbphqlUUZD' },
-              function(response) {
-                  if (!response || response.error) {
-                      console.error("Error publishing to Facebook:", response ? response.error : "Unknown error");
-                  } else {
-                      console.log("Posted to Facebook:", response);
-                  }
-              }
-          );
-        } else {
-            console.error("Failed to add product.");
-        }
-    } catch (error) {
-        console.error("Error adding product:", error);
-    }
-// Refresh the page
-//location.reload();
-
-}
-
-  /*
   async function addProduct(productData, event) {
     console.log("inside addProduct");
     try {
@@ -139,7 +71,6 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
         console.error("Error adding product:", error);
     }
 }
-*/
   //Registered users 
     // Fetch user data from MongoDB using an API endpoint
     async function fetchUserData() {
@@ -780,7 +711,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         const dateCell = row.insertCell(2);
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
-        //const deleteCell = row.insertCell(5);
+        const deleteCell = row.insertCell(5);
        // const updateCell = row.insertCell(6);
   
         orderIdCell.textContent = order._id;
@@ -788,13 +719,13 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         dateCell.textContent = order.date;
         costCell.textContent = order.cost;
         productsListCell.textContent = order.productList;
-  /*
+  
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
         deleteButton.setAttribute('data-id', order._id);
         deleteButton.addEventListener('click', () => deleteOrder(order._id));
         deleteCell.appendChild(deleteButton);
-  
+  /*
         const updateButton = document.createElement('button');
         updateButton.textContent = 'Update';
         updateButton.setAttribute('data-id', order._id);
@@ -829,11 +760,12 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
     });
   }
   
-/*
+
    // Function to delete an order
 async function deleteOrder(orderId) {
   try {
-    const response = await fetch(`/api/orders/${orderId}`, {
+    const response = await fetch(`/api/delete-order/${orderId}`, {
+      
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -854,15 +786,13 @@ async function deleteOrder(orderId) {
     console.error('Error deleting order:', error);
   }
 }
-*/
+
   // Add an event listener for search form submission
 document.getElementById("searchOrderButton").addEventListener("click", async function() {
   // Get the search query from the input field
   const searchQuery = document.getElementById("searchOrder").value;
-  console.log(searchQuery);
   if (searchQuery) {
     const searchData = await findOrderById(searchQuery);
-    console.log(searchData);
     updateOrderTable(searchData); // Use the correct function here
   } else {
     updateOrderTable(originalOrderData);  // Revert to original data when search is cleared
@@ -871,7 +801,6 @@ document.getElementById("searchOrderButton").addEventListener("click", async fun
 
 // Function to fetch location data by id
 async function findOrderById(orderId) {
-  console.log(orderId);
   try {
       const response = await fetch(`/api/orders/${orderId}`); // Replace with your actual API endpoint
       const data = await response.json();
@@ -888,13 +817,12 @@ function updateOrderTable(data) {
   data.forEach(order => {
     const row = tableBody.insertRow();
     row.setAttribute("data-id", order._id); // Set the data-id attribute for the row
-    //continue!!!
     const orderIdCell=row.insertCell(0);
         const userOrderIdCell = row.insertCell(1);
         const dateCell = row.insertCell(2);
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
-         //const deleteCell = row.insertCell(5);
+         const deleteCell = row.insertCell(5);
        // const updateCell = row.insertCell(6);
   
        orderIdCell.textContent = order._id;
@@ -902,5 +830,11 @@ function updateOrderTable(data) {
        dateCell.textContent = order.date;
        costCell.textContent = order.cost;
        productsListCell.textContent = order.productList;
+
+       const deleteButton = document.createElement('button');
+       deleteButton.textContent = 'Delete';
+       deleteButton.setAttribute('data-id', order._id);
+       deleteButton.addEventListener('click', () => deleteOrder(order._id));
+       deleteCell.appendChild(deleteButton);
   });
 }
