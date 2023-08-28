@@ -1,6 +1,8 @@
 let originalUserData = []; // Initialize as an empty array
 let originalProductData = []; // Initialize as an empty array
 let originalLocationData = []; // Initialize as an empty array
+let originalOrderData = []; // Initialize as an empty array
+
 
 // Add an event listener for form submission - add new product 
 document.getElementById("addProductForm").addEventListener("submit", async function(event) {
@@ -122,10 +124,13 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     originalProductData = productData; // Set the fetched data to originalProductData
     const locationData = await fetchLocationData();
     originalLocationData = locationData; // Set the fetched data to originalLocationData
+    const orderData=await fetchOrderData();
+    originalLocationData=orderData;
   
     renderUserTable(userData);
     renderProductsTable(); // Call this function to render the product table
     renderLocationTable();
+    renderOrderTable();
   }
   init(); // Initialize the script when the page loads
   
@@ -617,3 +622,56 @@ function updateLocationTable(data) {
   });
 }
   
+// Add an event listener for form submission - add new location 
+document.getElementById("addLocationForm").addEventListener("submit", async function(event) {
+  event.preventDefault(); // Prevent the form from submitting normally
+
+  // Get values from form fields
+  const name = document.getElementById("name").value;
+  const lat = document.getElementById("lat").value;
+  const lng = document.getElementById("lng").value;
+
+  const locationData = {
+    name,
+    lat,
+    lng,
+  };
+
+  // Call the addLocation function with the extracted data
+ await addLocation(locationData, event);
+});
+
+// add a new location to mongoDB
+async function addLocation(locationData, event) {
+  console.log("inside addLocation");
+  try {
+    const response = await fetch("/api/add-location", {
+      method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(locationData)
+    });
+    const data = await response.json();
+    console.log("log:", data)
+    if (data.message === 'Location added successfully') {
+      console.log("Location added successfully!");
+      // Reset the form after successful location addition
+      event.target.reset();
+      } else {
+      console.error("Failed to add location.");
+    }
+  } catch (error) {
+    console.error("Error adding location:", error);
+  }
+}
+
+
+
+//Orders 
+    // Fetch order data from MongoDB using an API endpoint
+    async function fetchOrderData() {
+      const response = await fetch('/api/all-orders'); 
+      const data = await response.json();
+      return data;
+  }

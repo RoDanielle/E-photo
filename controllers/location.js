@@ -32,10 +32,18 @@ const C_location = {
     // manually 
     addLocation: async (name, lat, lng) => {
       try {
-        const location = await S_location.addLocation(name, lat, lng);
-        return { message: 'Location added successfully', location: location };
+        return await S_location.addLocation(name, lat, lng);
       } catch (e) {
         console.error(e);
+        throw e;
+      }
+    },
+
+    addProduct: async (name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity) => {
+      try {
+        return await S_products.addProduct(name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity);
+      } catch (e) {
+        console.log(e);
         throw e;
       }
     },
