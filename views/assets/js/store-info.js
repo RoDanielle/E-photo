@@ -38,32 +38,39 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     // Call the addProduct function with the extracted data
    await addProduct(productData, event);
   });
-  
-  // add a new product to mongoDB
+  //add products 
   async function addProduct(productData, event) {
     console.log("inside addProduct");
     try {
-      const response = await fetch("/api/store-products", {
-        method: "POST",
+        const response = await fetch("/api/store-products", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productData)
-      });
-      const data = await response.json();
-      console.log("log:", data)
-      if (data.message === 'Product added successfully') {
-        console.log("Product added successfully!");
-        // Reset the form after successful product addition
-        event.target.reset();
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData)
+        });
+
+        const data = await response.json();
+        console.log("log:", data);
+
+        if (data.message === 'Product added successfully') {
+            console.log("Product added successfully!");
+
+            // Show an alert to the user
+            alert('Product added successfully!');
+
+            // Reset the form after successful product addition
+            event.target.reset();
+
+            // Refresh the page
+            location.reload();
         } else {
-        console.error("Failed to add product.");
-      }
+            console.error("Failed to add product.");
+        }
     } catch (error) {
-      console.error("Error adding product:", error);
+        console.error("Error adding product:", error);
     }
-  }
-  
+}
   //Registered users 
     // Fetch user data from MongoDB using an API endpoint
     async function fetchUserData() {
