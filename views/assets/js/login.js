@@ -1,7 +1,6 @@
 /*
 Ajax code describing the process of connecting to the user's account on the html-login page.
 */
-
 $(document).ready(function() {
     // Function to update the login/logout button based on user's login status
     function updateAuthButton(isLoggedIn) {
@@ -85,3 +84,11 @@ $(document).ready(function() {
       });
     });
   });
+
+//handle the "Click here" link
+document.getElementById('forgotPasswordLink').addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent default link behavior
+  var messageElement = document.getElementById('message');
+  messageElement.classList.remove('d-none'); // Show the message
+  messageElement.innerText = 'Password recovery link was sent to your email.';
+});  
