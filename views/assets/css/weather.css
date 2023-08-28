@@ -19,6 +19,7 @@
     font-size: 24px;
     margin-bottom: 10px;
   }
+
   body {
     background-color: #f8f8f8;
     padding: 20px;
@@ -30,4 +31,12 @@
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-  
+  .fb-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 950px; /* Set the maximum width */
+    height: 500px; /* Set the desired height */
+    margin: auto;
+}
