@@ -39,8 +39,7 @@
             </div>
         </div>
     </nav>
-
-    <h1>Weather App</h1>
+    <h1 style="font-size: 18px; color: rgb(145, 29, 190); text-align: center; margin-top: 5vh; transform: translateY(-50%);">Let the weather decide what photo to buy</h1>
     <form id="weatherForm">
         <div class="input-group mb-3">
             <input type="text" id="locationInput" class="form-control" placeholder="Enter location" aria-label="Enter location" aria-describedby="searchButton">
@@ -68,28 +67,29 @@
             </div>
         </div>
     </header>
-    <section class="py-5">
-        <div class="container text-center py-5">
-            <p class="mb-4" style="font-size: 1.6rem;">Used by <span class="text-dark bg-success-subtle bg-success-light p-1"><strong>2400+</strong></span>&nbsp;of the best companies in the world.</p><a href="#"> <img class="m-3" src="assets/img/brands/instacart.png"></a><a href="#"> <img class="m-3" src="assets/img/brands/kickstarter.png"></a><a href="#"> <img class="m-3" src="assets/img/brands/lyft.png"></a><a href="#"> <img class="m-3" src="assets/img/brands/shopify.png"></a><a href="#"> <img class="m-3" src="assets/img/brands/pinterest.png"></a><a href="#"> <img class="m-3" src="assets/img/brands/twitter.png"></a>
-        </div>
-    </section>
-
-
-<section style="display: flex; justify-content: center; align-items: center;">
-    <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61550712991508" data-tabs="timeline" data-width="950" data-height="350" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
-        <blockquote cite="https://www.facebook.com/profile.php?id=61550712991508" class="fb-xfbml-parse-ignore">
-            <a href="https://www.facebook.com/profile.php?id=61550712991508">‏‎E.photo‎‏</a>
-        </blockquote>
+    <div style="display: flex;">
+        <section style="flex: 1;">
+            <div style="max-width: 100%; width: 400px;">
+                <div class="fb-page" data-href="https://www.facebook.com/profile.php?id=61550712991508" data-tabs="timeline" data-width="400" data-height="350" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                    <blockquote cite="https://www.facebook.com/profile.php?id=61550712991508" class="fb-xfbml-parse-ignore">
+                        <a href="https://www.facebook.com/profile.php?id=61550712991508">‏‎E.photo‎‏</a>
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+        <section class="py-3" style="flex: 1;">
+            <div class="container text-center py-5">
+                <p class="mb-4" style="font-size: 1.6rem;">Used by <span class="text-dark bg-success-subtle bg-success-light p-1"><strong>2400+</strong></span>&nbsp;of the best companies in the world.</p>
+                <a href="#"> <img class="m-3" src="assets/img/brands/instacart.png"></a>
+                <a href="#"> <img class="m-3" src="assets/img/brands/kickstarter.png"></a>
+                <a href="#"> <img class="m-3" src="assets/img/brands/lyft.png"></a>
+                <a href="#"> <img class="m-3" src="assets/img/brands/shopify.png"></a>
+                <a href="#"> <img class="m-3" src="assets/img/brands/pinterest.png"></a>
+                <a href="#"> <img class="m-3" src="assets/img/brands/twitter.png"></a>
+            </div>
+        </section>
     </div>
-</section>
-
-    <aside id="shopping-cart" class="shopping-cart">
-        <h3>Shopping Cart</h3>
-        <ul id="cart-items"></ul>
-        <p id="cartTotal"></p>
-        <button id="payButton">Pay</button>
-    </aside>
-    <section class="py-5">
+    <section class="py-3">
         <div class="container">
             <div class="border rounded border-0 border-white d-flex flex-column justify-content-between align-items-center flex-lg-row bg-primary-gradient p-4 p-lg-5">
                 <div class="text-center text-lg-start py-3 py-lg-1">
@@ -106,8 +106,15 @@
                 <div id="error-message" class="text-center text-danger mt-3" style="display: none;">
                     Email is required!
                 </div>
+            </div>
         </div>
     </section>
+    <aside id="shopping-cart" class="shopping-cart">
+        <h3>Shopping Cart</h3>
+        <ul id="cart-items"></ul>
+        <p id="cartTotal"></p>
+        <button id="payButton">Pay</button>
+    </aside>
     <footer class="bg-primary-gradient"></footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>
