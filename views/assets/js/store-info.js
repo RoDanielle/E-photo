@@ -132,7 +132,7 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     const locationData = await fetchLocationData();
     originalLocationData = locationData; // Set the fetched data to originalLocationData
     const orderData=await fetchOrderData();
-    originalLocationData=orderData;
+    originalOrderData=orderData;
   
     renderUserTable(userData);
     renderProductsTable(); // Call this function to render the product table
@@ -390,6 +390,13 @@ function updateProductsTable(data) {
   });
 }
 
+
+
+
+
+
+
+//location
 const locationTable = document.getElementById('locationTable').getElementsByTagName('tbody')[0];
 
 async function fetchLocationData() {
@@ -673,9 +680,18 @@ async function addLocation(locationData, event) {
   }
 }
 
-const orderTable = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
+
+
+
+
+
+
+
+
 
 //Orders 
+const orderTable = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
+
     // Fetch order data from MongoDB using an API endpoint
     async function fetchOrderData() {
       const response = await fetch('/api/all-orders'); 
@@ -683,30 +699,139 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
       return data;
   }
 
-  async function renderOrderTable() {
+  async function renderOrderTable(data) {
     const orderData = await fetchOrderData();
+  
     orderData.forEach(order => {
-      const row = orderTable.insertRow();
-      row.setAttribute('data-id', order._id); // Set the data-id attribute for the row
-      const orderIdCell=row.insertCell(0);
-      const userOrderIdCell = row.insertCell(1);
-      const dateCell = row.insertCell(2);
-      const costCell = row.insertCell(3);
-      const productsListCell = row.insertCell(4);
-      const deleteCell = row.insertCell(5);
-      //const updateCell = row.insertCell(6);
-
-    
-      orderIdCell.textContent = order._id;
-      userOrderIdCell.textContent = order.idUserOrdered;
-      dateCell.textContent = order.date;
-      costCell.textContent = order.cost;
-      productsListCell.textContent = order.productList;
-   
-      const deleteButton = document.createElement('button');
-      deleteButton.textContent = 'Delete';
-      deleteButton.setAttribute('data-id', order._id); // Set the data-id attribute
-      deleteButton.addEventListener('click', () => deleteOrder(order._id)); // Pass product ID
-      deleteCell.appendChild(deleteButton);
+        const row = orderTable.insertRow();
+        row.setAttribute('data-id', order._id);
+  
+        const orderIdCell=row.insertCell(0);
+        const userOrderIdCell = row.insertCell(1);
+        const dateCell = row.insertCell(2);
+        const costCell = row.insertCell(3);
+        const productsListCell = row.insertCell(4);
+        //const deleteCell = row.insertCell(5);
+       // const updateCell = row.insertCell(6);
+  
+        orderIdCell.textContent = order._id;
+        userOrderIdCell.textContent = order.idUserOrdered;
+        dateCell.textContent = order.date;
+        costCell.textContent = order.cost;
+        productsListCell.textContent = order.productList;
+  /*
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.setAttribute('data-id', order._id);
+        deleteButton.addEventListener('click', () => deleteOrder(order._id));
+        deleteCell.appendChild(deleteButton);
+  
+        const updateButton = document.createElement('button');
+        updateButton.textContent = 'Update';
+        updateButton.setAttribute('data-id', order._id);
+        updateButton.addEventListener('click', () => handleEditClick(order._id));
+        updateCell.appendChild(updateButton);
+  
+        // Hidden row for editing
+        const editRow = orderTable.insertRow();
+        editRow.style.display = 'none';
+        editRow.insertCell(0);
+        const editCell = editRow.insertCell(1);
+        editCell.colSpan = 5; // Span the entire row for input fields
+  
+        const editForm = document.createElement('form');
+        for (const key in order) {
+            if (key !== '_id') { // Exclude _id 
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = key;
+                input.value = order[key];
+                editForm.appendChild(input);
+            }
+        }
+  
+        const confirmUpdateButton = document.createElement('button');
+        confirmUpdateButton.textContent = 'Confirm Update';
+        confirmUpdateButton.addEventListener('click', () => handleUpdateClick(order._id, editForm));
+        editForm.appendChild(confirmUpdateButton);
+  
+        editCell.appendChild(editForm);
+        */
     });
+  }
+  
+/*
+   // Function to delete an order
+async function deleteOrder(orderId) {
+  try {
+    const response = await fetch(`/api/orders/${orderId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+      // Remove the deleted order from the table and re-render the table
+      const deletedRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+      if (deletedRow) {
+        orderTable.removeChild(deletedRow);
+      }
+    } else {
+      console.error('Failed to delete order.');
     }
+  } catch (error) {
+    console.error('Error deleting order:', error);
+  }
+}
+*/
+  // Add an event listener for search form submission
+document.getElementById("searchOrderButton").addEventListener("click", async function() {
+  // Get the search query from the input field
+  const searchQuery = document.getElementById("searchOrder").value;
+  console.log(searchQuery);
+  if (searchQuery) {
+    const searchData = await findOrderById(searchQuery);
+    console.log(searchData);
+    updateOrderTable(searchData); // Use the correct function here
+  } else {
+    updateOrderTable(originalOrderData);  // Revert to original data when search is cleared
+  }
+});
+
+// Function to fetch location data by id
+async function findOrderById(orderId) {
+  console.log(orderId);
+  try {
+      const response = await fetch(`/api/orders/${orderId}`); // Replace with your actual API endpoint
+      const data = await response.json();
+      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
+  } catch (error) {
+      console.error("Error fetching order by id:", error);
+      return [];
+  }
+}
+function updateOrderTable(data) {
+  const tableBody = document.getElementById("orderTable").getElementsByTagName("tbody")[0];
+  // Clear existing table
+  tableBody.innerHTML = "";
+  data.forEach(order => {
+    const row = tableBody.insertRow();
+    row.setAttribute("data-id", order._id); // Set the data-id attribute for the row
+    //continue!!!
+    const orderIdCell=row.insertCell(0);
+        const userOrderIdCell = row.insertCell(1);
+        const dateCell = row.insertCell(2);
+        const costCell = row.insertCell(3);
+        const productsListCell = row.insertCell(4);
+         //const deleteCell = row.insertCell(5);
+       // const updateCell = row.insertCell(6);
+  
+       orderIdCell.textContent = order._id;
+       userOrderIdCell.textContent = order.idUserOrdered;
+       dateCell.textContent = order.date;
+       costCell.textContent = order.cost;
+       productsListCell.textContent = order.productList;
+  });
+}

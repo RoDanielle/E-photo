@@ -19,18 +19,22 @@ router.get('/api/orders', async (req, res) => {
 
 
 // Get an order by ID
-router.get('/api/orders/:id', async (req, res) => {
-    try {
-        const orderId = req.params.id;
-        const order = await orderControllers.getOrderByID(orderId);
-        if (!order) {
-            return res.status(404).json({ message: 'Order not found' });
-        }
-        res.status(200).json(order);
-    } catch (error) {
-        res.status(500).json({ error: `Error getting order by ID: ${error.message}` });
-    }
-});
+router.get('/api/orders/:id', (req, res) => {
+  const orderId = req.params.id;
+  console.log(orderId);
+  orderControllers.getOrderByID(orderId)
+    .then((order) => {
+      if (!order) {
+        return res.status(404).json({ error: 'Order not found' });
+      }
+      res.json(order);
+    })
+    .catch((error) => {
+      console.error('Error fetching order details:', error);
+      res.status(500).json({ error: 'Failed to fetch order details' });
+    });
+}); 
+
 
 
 // Get orders for the currently logged-in user
