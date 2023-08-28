@@ -25,18 +25,15 @@ const orderControllers  = {
     },
 
     // Controller to get an order by its ID
-    getOrderByID: async (req,res) => {
+    getOrderByID: async (_id) => {
         try{
-            const orderID = req.params.id;
-            const order = await orderService.getOrderByIDSearch(orderID);
-            if (!order) {
-                return res.status(404).json({message: 'Order not found' });
-            }
-            res.status(200).json(order);
-        } catch (error) {
-            res.status(500).json({ error: 'An error occurred while retrieving the order.' });
-        }
-    },
+            return await orderService.getOrderByIDSearch(_id);
+        } catch (e) {
+            console.log(e);
+            throw e;
+          }
+        },
+   
 
     // Controller to get orders for the currently logged-in user
     getOrdersForCurrentUser: async (req,res) => {
@@ -104,9 +101,3 @@ const orderControllers  = {
 };
 
 module.exports = orderControllers;
-
-
-
-
-
-

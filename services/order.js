@@ -21,7 +21,14 @@ const orderService = {
 
 
     getOrderByIDSearch: async (id) => {
-        return await Order.find(id);
+        try{
+            const order=await Order.findById(id);
+            return order;
+        }
+        catch (error) {
+            console.error('Error fetching order by ID:', error);
+            throw error;
+          }
     },
 
 
