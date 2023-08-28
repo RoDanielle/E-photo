@@ -70,5 +70,6 @@ router.delete('/api/orders/:id', async (req, res) => {
     }
 });
 
+router.get('/api/all-orders', orderControllers.getAllOrders);
 
 module.exports = router;
