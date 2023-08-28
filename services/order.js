@@ -82,21 +82,8 @@ const orderService = {
 
 
     // Delete an order by ID
-    deleteOrder: async (orderId) => {
-        try {
-            // Find the order by ID
-            const order = await Order.findById(orderId);
-
-            if (!order) {
-                throw new Error(`Order with ID ${orderId} not found.`);
-            }
-
-            // Delete the order
-            await order.remove();
-            return `Order with ID ${orderId} deleted successfully.`;
-        } catch (error) {
-            throw new Error(`Error deleting order: ${error.message}`);
-        }
+    deleteOrder: async (_id) => {
+        return await Order.findOneAndDelete({ _id });
     },
 };
 

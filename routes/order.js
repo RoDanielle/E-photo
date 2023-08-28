@@ -17,6 +17,24 @@ router.get('/api/orders', async (req, res) => {
     }
 });
 
+// Delete an order by ID
+router.delete('/api/delete-order/:orderId', async (req, res) => {
+  const orderId = req.params.orderId;
+  console.log(orderId);
+  console.log(".");
+  try {
+    const deletedOrder = await orderControllers.deleteOrder(orderId);
+    console.log(deletedOrder);
+
+    if (deletedOrder) {
+      res.json({ success: true, message: 'Order deleted successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'Order not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error deleting order' });
+  }
+});
 
 // Get an order by ID
 router.get('/api/orders/:id', (req, res) => {
@@ -63,16 +81,7 @@ router.put('/api/orders/:id', async (req, res) => {
 });
 
 
-// Delete an order by ID
-router.delete('/api/orders/:id', async (req, res) => {
-    try {
-        const orderId = req.params.id;
-        const result = await orderControllers.deleteOrder(orderId);
-        res.status(200).json({ message: result });
-    } catch (error) {
-        res.status(500).json({ error: `Error deleting order: ${error.message}` });
-    }
-});
+
 
 router.get('/api/all-orders', orderControllers.getAllOrders);
 
