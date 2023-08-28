@@ -38,32 +38,39 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     // Call the addProduct function with the extracted data
    await addProduct(productData, event);
   });
-  
-  // add a new product to mongoDB
+  //add products 
   async function addProduct(productData, event) {
     console.log("inside addProduct");
     try {
-      const response = await fetch("/api/store-products", {
-        method: "POST",
+        const response = await fetch("/api/store-products", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(productData)
-      });
-      const data = await response.json();
-      console.log("log:", data)
-      if (data.message === 'Product added successfully') {
-        console.log("Product added successfully!");
-        // Reset the form after successful product addition
-        event.target.reset();
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData)
+        });
+
+        const data = await response.json();
+        console.log("log:", data);
+
+        if (data.message === 'Product added successfully') {
+            console.log("Product added successfully!");
+
+            // Show an alert to the user
+            alert('Product added successfully!');
+
+            // Reset the form after successful product addition
+            event.target.reset();
+
+            // Refresh the page
+            location.reload();
         } else {
-        console.error("Failed to add product.");
-      }
+            console.error("Failed to add product.");
+        }
     } catch (error) {
-      console.error("Error adding product:", error);
+        console.error("Error adding product:", error);
     }
-  }
-  
+}
   //Registered users 
     // Fetch user data from MongoDB using an API endpoint
     async function fetchUserData() {
@@ -666,7 +673,7 @@ async function addLocation(locationData, event) {
   }
 }
 
-
+const orderTable = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
 
 //Orders 
     // Fetch order data from MongoDB using an API endpoint
@@ -675,3 +682,31 @@ async function addLocation(locationData, event) {
       const data = await response.json();
       return data;
   }
+
+  async function renderOrderTable() {
+    const orderData = await fetchOrderData();
+    orderData.forEach(order => {
+      const row = orderTable.insertRow();
+      row.setAttribute('data-id', order._id); // Set the data-id attribute for the row
+      const orderIdCell=row.insertCell(0);
+      const userOrderIdCell = row.insertCell(1);
+      const dateCell = row.insertCell(2);
+      const costCell = row.insertCell(3);
+      const productsListCell = row.insertCell(4);
+      const deleteCell = row.insertCell(5);
+      //const updateCell = row.insertCell(6);
+
+    
+      orderIdCell.textContent = order._id;
+      userOrderIdCell.textContent = order.idUserOrdered;
+      dateCell.textContent = order.date;
+      costCell.textContent = order.cost;
+      productsListCell.textContent = order.productList;
+   
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.setAttribute('data-id', order._id); // Set the data-id attribute
+      deleteButton.addEventListener('click', () => deleteOrder(order._id)); // Pass product ID
+      deleteCell.appendChild(deleteButton);
+    });
+    }
