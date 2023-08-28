@@ -320,7 +320,7 @@ async function deleteProduct(productId) {
     console.error('Error deleting product:', error);
   }
 }
-renderProductsTable();
+//renderProductsTable();
 
 // Add an event listener for search form submission
 document.getElementById("searchButton").addEventListener("click", async function() {
@@ -746,7 +746,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
         const deleteCell = row.insertCell(5);
-       // const updateCell = row.insertCell(6);
+        const updateCell = row.insertCell(6);
   
         orderIdCell.textContent = order._id;
         userOrderIdCell.textContent = order.idUserOrdered;
@@ -759,7 +759,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         deleteButton.setAttribute('data-id', order._id);
         deleteButton.addEventListener('click', () => deleteOrder(order._id));
         deleteCell.appendChild(deleteButton);
-  /*
+  
         const updateButton = document.createElement('button');
         updateButton.textContent = 'Update';
         updateButton.setAttribute('data-id', order._id);
@@ -790,7 +790,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         editForm.appendChild(confirmUpdateButton);
   
         editCell.appendChild(editForm);
-        */
+        
     });
   }
   
