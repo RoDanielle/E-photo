@@ -16,7 +16,6 @@ const orderService = {
 
 
     getAllOrders: async () => {
-        console.log("services:", currentUserEmail);
         return await Order.find();
     },
 

@@ -8,7 +8,7 @@ router.post('/api/create', orderControllers.createOrder);
 
 
 // Get all orders
-router.get('/api/orders', async (req, res) => {
+router.get('/api/all-orders', async (req, res) => {
     try {
         const orders = await orderControllers.getAllOrders();
         res.status(200).json(orders);
