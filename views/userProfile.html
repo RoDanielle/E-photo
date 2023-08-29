@@ -59,10 +59,75 @@
         <p id="email">{{ userProfile.email }}</p>
         <p id="location">{{ userProfile.location }}</p>
     </div>
-    <div class="profile-buttons text-center">
-        <a href="#" class="btn btn-primary">View Shopping History</a>
+
+
+
+
+
+
+    <style>
+        /* Custom CSS to style the search button text */
+        .input-group {
+            display: flex;
+            align-items: center; /* Vertically align items */
+        }
+    
+        #searchOrder {
+            border-radius: 0;
+            height: 40px;
+            flex-grow: 1; /* Allow the input to grow and take remaining space */
+        }
+    
+        #searchOrderButton {
+            border-radius: 0;
+            height: 40px;
+            display: flex;
+            align-items: center; /* Vertically align the button content */
+        }
+    
+        #searchButtonText {
+            margin: 0 auto; /* Center the text horizontally */
+        }
+    </style>
+
+
+    <div class="headLine text-center">
+        <h2 class="filtered-text">Order History:</h2>
     </div>
+    <div class="col-md-6 offset-md-3 mt-4">
+        <div class="input-group">
+            <input type="text" id="searchOrder" class="form-control" placeholder="Search by Order ID...">
+            <button class="btn btn-primary" id="searchOrderButton" type="button">Search</button>
+        </div>
+
+    </div>  
+    <div id="orderTable" class="container text-center mt-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User Email</th>
+                    <th>Date</th>
+                    <th>Cost</th>
+                    <th>Products List</th>
+                    <th>Delete</th>
+                    <th>Update</th>
+
+
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
+
+
+
+
+
 </div>
+
+
 
 
   <footer class="bg-primary-gradient"></footer>
