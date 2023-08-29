@@ -19,8 +19,6 @@ router.get("/api/store-products", (req, res) => {
       });
   });
 
- 
-
  // Get details for a single product by ID
 router.get("/api/store-products/:productId", (req, res) => {
   const productId = req.params.productId;
@@ -38,16 +36,7 @@ router.get("/api/store-products/:productId", (req, res) => {
     });
 }); 
 
-/*
-//router.put("/api/store-products", adminAuthMiddleware, (req, res) => {
-router.put("/api/store-products", (req, res) => {
-    C_products.update(req.body).then((data) => {
-        res.json(data);
-    })
-});
-*/
-
-
+// update a product 
 router.put("/api/store-products/:productId", adminAuthMiddleware, async (req, res) => {
   const productId = req.params.productId;
   const updatedProductData = req.body;
@@ -59,17 +48,9 @@ router.put("/api/store-products/:productId", adminAuthMiddleware, async (req, re
       res.status(500).json({ error: 'Failed to update product' });
   }
 });
-/*
-//router.delete("/api/store-products", adminAuthMiddleware, (req, res) => {
-    router.delete("/api/store-products", (req, res) => {
-        C_products.deleteProduct(req.body._id).then((data) => {
-            res.json(data);
-        })
-    });
 
-*/
-
-router.delete('/api/store-products/:productId', async (req, res) => {
+// delete a product
+router.delete('/api/store-products/:productId', adminAuthMiddleware, async (req, res) => {
   const productId = req.params.productId;
   try {
     const deletedProduct = await C_products.deleteProduct(productId);
@@ -82,6 +63,7 @@ router.delete('/api/store-products/:productId', async (req, res) => {
     res.status(500).json({ success: false, message: 'Error deleting product' });
   }
 });
+
 // Add a single product manually
 router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
     const { name, image, brand, category, price, countInStock, rating, numReviews, description, color,popularity} = req.body;
@@ -96,7 +78,7 @@ router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
   });
   
   // Add products from data file
-  router.post('/api/store-products/bulk', adminAuthMiddleware, async (req, res) => {
+  router.post('/api/store-products/bulk', async (req, res) => {
     try {
       const result = await C_products.addProductsFromData(Products); // Use your products data file
       res.json(result);
@@ -105,28 +87,5 @@ router.post('/api/store-products', adminAuthMiddleware, async (req, res) => {
       res.status(500).json({ error: 'Failed to add products from data' });
     }
   });
-
-
-  /*
- // NOYAS WORK - ASK HERE IS NEEDED 
-  router.post('/addProduct', C_products.addProduct);
-
-
-    router.get("/api/store-products", (req, res) => {
-    const productName = req.session.productName;
-    
-    C_products.getProductByNameSearch(productName)
-      .then((product) => {
-        if (!product) {
-          return res.status(404).json({ error: 'product not found' });
-        }
-        res.json(product);
-      })
-      .catch((error) => {
-        console.error('Error fetching product details:', error);
-        res.status(500).json({ error: 'Failed to fetch product details' });
-      });
-  });
-  */
 
 module.exports = router;

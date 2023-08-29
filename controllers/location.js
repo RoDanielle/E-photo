@@ -2,7 +2,6 @@ const S_location = require("../services/location");
 
 const C_location = {
 
-    // returns all Locations without the id of each Location
     getAll: async ()=> {
         return await S_location.getAll();
     },
@@ -35,7 +34,7 @@ const C_location = {
         return await S_location.deleteLocation(_id);
     },
     
-    // manually 
+    // manually (for admin) 
     addLocation: async (name, lat, lng) => {
       try {
         return await S_location.addLocation(name, lat, lng);
@@ -45,7 +44,7 @@ const C_location = {
       }
     },
 
-    // from data file
+    // add locations from data file
     addLocationsFromData: async (locations) => {
         try {
           const result =  await S_location.addLocationsFromData(locations);

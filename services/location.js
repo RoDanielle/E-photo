@@ -3,7 +3,6 @@ const StoreLocation = require("../models/location");
 const S_location = {
 
     addLocation: async (name, lat, lng)=> {
-
         const location = new StoreLocation({
             name,
             lat,
@@ -56,11 +55,11 @@ const S_location = {
     getAll: async ()=> {
         return await StoreLocation.find({})
     },
+
     getLocationById: async (locationId) => {
       try {
         // Query the database to retrieve the location by its ID
         const location = await StoreLocation.findById(locationId);
-  
         return location; // Return the retrieved product or null if not found
       } catch (error) {
         console.error('Error fetching location by ID:', error);
