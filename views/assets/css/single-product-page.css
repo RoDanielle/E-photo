@@ -1,37 +1,46 @@
-/* admin product edit from style*/
+/* admin product edit form style */
 #editForm {
     display: none;
-    margin-top: 20px;
+    margin-top: 10%; /* Move the form a bit higher */
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
     z-index: 2;
     background-color: white;
-    padding: 10px; 
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 300px; 
-    margin: 0 auto; 
-}
-
-#editForm input {
-    width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background-color: #fff;
-    font-size: 14px;
-    transition: border-color 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    left: 5%; /* Move the form to the left */
+    top: 15%; /* Move the form higher */
+    transform: translateX(-50%); /* Center the form horizontally */
 }
 
-#editForm input:focus {
-    border-color: #007bff;
+.product-info {
+    position: relative;
+    text-align: center; /* Center product details */
+}
+
+.edit-button {
+    display: inline-block;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 5px 10px;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #0056b3;
+}
+
+.product-info.open-form #editForm {
+    left: 50%; /* Slide in the form to the center */
 }
 
 #editForm button {
@@ -61,7 +70,7 @@
 
 .product-image-container img {
     width: 100%; /* Adjust the width as needed */
-    max-width: 400px; /* Set a maximum width to prevent image overflow */
+    max-width: 600px; /* Set a maximum width to prevent image overflow */
 }
 
 .product-details-container {
