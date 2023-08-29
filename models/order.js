@@ -1,4 +1,8 @@
 
+/*
+The code defines a Mongoose schema and model for storing information about orders in our online shop. 
+*/
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 

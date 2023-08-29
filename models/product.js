@@ -54,18 +54,11 @@ const productSchema = new mongoose.Schema(
       type:String,
       required: true,
     }
-
-   /* store: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Store",
-    },*/
   },
   {
     timestamps: true,
   }
 );
-
-//module.exports = mongoose.model('Product', productSchema);
 
 const ProductsMod = mongoose.model('Product', productSchema);
 module.exports = ProductsMod;

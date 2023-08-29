@@ -40,21 +40,6 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
-    /*
-    numOfPurchases:
-    {
-      type: Number,
-      required: true,
-      default: 0,
-    }
-   
-
-    userShoppingBasket: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'ShoppingBasket',
-    },
-     */
-
   },
   {
     timestamps: true,
@@ -62,5 +47,4 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model("user", userSchema);
-
 module.exports = User;
