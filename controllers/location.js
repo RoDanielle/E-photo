@@ -7,9 +7,15 @@ const C_location = {
         return await S_location.getAll();
     },
 
-    updateLocation: async (location)=> {
-        return await S_location.updateLocation(location);
-    },
+    updateLocation: async (locationId,updatedLocationData)=> {
+        try {
+          const updatedLocation = await S_location.updateLocation(locationId, updatedLocationData);
+          return updatedLocation;
+      } catch (e) {
+          console.log(e);
+          throw e;
+    }
+  },
 
     getLocationByNameSearch: async (name)=> {
         if(name)

@@ -36,9 +36,18 @@ const S_location = {
         return await StoreLocation.find({ name: {$regex: '^.*' + name + '.*$', $options: 'i'} });
     },
 
-    updateLocation: async (location)=> {
-        return await StoreLocation.findOneAndUpdate({ _id: location._id }, location);
-    },
+
+    updateLocation: async (locationId, updatedLocationData) => {
+      try {
+          // Find the location by its ID and update its fields
+          const updatedLocation = await StoreLocation.findByIdAndUpdate(locationId, updatedLocationData, { new: true });
+
+          return updatedLocation;
+      } catch (e) {
+          console.error(e);
+          throw e;
+      }
+  },  
 
     deleteLocation: async (_id)=> {
         return await StoreLocation.findOneAndDelete({ _id });

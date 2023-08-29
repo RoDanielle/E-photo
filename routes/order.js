@@ -87,7 +87,7 @@ router.put("/api/store-orders/:orderId", async (req, res) => {
   const orderId = req.params.orderId;
   const updatedOrderData = req.body;
   try {
-      const updatedOrder = await orderControllers.updateOrder(orderId, updatedOrderData);
+      const updatedOrder = await orderControllers.editOrder(orderId, updatedOrderData);
       res.json({ message: 'Order updated successfully', order: updatedOrder });
   } catch (error) {
       console.error('Error updating order:', error);

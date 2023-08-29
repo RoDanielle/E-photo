@@ -258,7 +258,7 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
 const productsTable = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
 
 async function fetchProductData() {
-const response = await fetch('/api/products');
+const response = await fetch('/api/store-products');
 const data = await response.json();
 return data;
 }
@@ -549,6 +549,9 @@ async function deleteLocation(locationId) {
 // Function to update a location
 async function updateLocation(locationId,updatedData) {
   try {
+    console.log("location id:", locationId);
+    console.log("updated location data:", updatedData);
+
     const response = await fetch(`/api/store-location/${locationId}`, {
       method: 'PUT',
       headers: {
@@ -626,6 +629,8 @@ try {
           locationData[editedLocationIndex] = updatedData;
         }
 */
+updateLocation(locationId,updatedData);
+updateLocationTable(updatedData);
     } else {
         console.error('Failed to update location.');
     }
