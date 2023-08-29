@@ -3,7 +3,6 @@ These actions check who the user is currently connected to the site,
 then displays his information on the screen - in a generic way
 */
 
-
 const userConsent = true;
 
 if (userConsent) {
@@ -43,11 +42,7 @@ if (userConsent) {
 
 
 
-
-
-
-
-
+//display Orders 
 
 const orderTable = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
 
@@ -68,64 +63,15 @@ async function fetchUserEmail() {
     }
 }
 
-async function renderOrderTable() {
-    const currentUserEmail = await fetchUserEmail();
-    const orderData = await fetchOrderData(currentUserEmail);
-
-  // Clear existing table
-  orderTable.innerHTML = '';
-
-  orderData.forEach(order => {
-
-    const row = orderTable.insertRow();
-    row.setAttribute('data-id', order._id);
-
-    const orderIdCell = row.insertCell(0);
-    const userOrderIdCell = row.insertCell(1);
-    const dateCell = row.insertCell(2);
-    const costCell = row.insertCell(3);
-    const productsListCell = row.insertCell(4);
-
-
-    orderIdCell.textContent = order._id;
-    userOrderIdCell.textContent = order.idUserOrdered;
-    dateCell.textContent = order.date;
-    costCell.textContent = order.cost;
-    
-    var productsNames = new Array(); 
-    order.productList.forEach(object => {
-      productsNames.push(object.productName);
-    });
-    
-    productsListCell.textContent = productsNames;
-
-    /*
-    // Hidden row for editing
-    const editRow = orderTable.insertRow();
-    editRow.style.display = 'none';
-    editRow.insertCell(0);
-    const editCell = editRow.insertCell(1);
-    editCell.colSpan = 5; // Span the entire row for input fields
-
-    const editForm = document.createElement('form');
-    for (const key in order) {
-      if (key !== '_id') {
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.name = key;
-        input.value = order[key];
-        editForm.appendChild(input);
-      }
+// Function to fetch all orders of the current user and display them
+async function displayAllUserOrders() {
+    try {
+        const currentUserEmail = await fetchUserEmail();
+        const orderData = await fetchOrderData(currentUserEmail);
+        updateOrderTable(orderData);
+    } catch (error) {
+        console.error('Error displaying user orders:', error);
     }
-    */
-
-    //const confirmUpdateButton = document.createElement('button');
-    //confirmUpdateButton.textContent = 'Confirm Update';
-    //confirmUpdateButton.addEventListener('click', () => handleUpdateClickOrder(order._id, editForm));
-    //editForm.appendChild(confirmUpdateButton);
-
-    //editCell.appendChild(editForm);
-  });
 }
 
 // Function to fetch order data from MongoDB using an API endpoint
@@ -134,7 +80,7 @@ async function fetchOrderData(currentUserEmail) {
         console.log("Email:", currentUserEmail);
         const response = await fetch(`/api/orderByUser/${currentUserEmail}`);
         console.log("fetch order:", response);
-            if (!response.ok) {
+        if (!response.ok) {
             throw new Error('Failed to fetch orders.');
         }
         const data = await response.json();
@@ -145,6 +91,29 @@ async function fetchOrderData(currentUserEmail) {
     }
 }
 
+async function updateOrderTable(data) {
+  // Clear existing table
+  orderTable.innerHTML = '';
+
+  data.forEach(order => {
+      const row = orderTable.insertRow();
+      row.setAttribute('data-id', order._id);
+
+      const orderIdCell = row.insertCell(0);
+      const userOrderIdCell = row.insertCell(1);
+      const dateCell = row.insertCell(2);
+      const costCell = row.insertCell(3);
+      const productsListCell = row.insertCell(4);
+
+      orderIdCell.textContent = order._id;
+      userOrderIdCell.textContent = order.idUserOrdered;
+      dateCell.textContent = order.date;
+      costCell.textContent = order.cost;
+
+      const productsNames = order.productList.map(object => object.productName).join(', ');
+      productsListCell.textContent = productsNames;
+  });
+}
 
 /*
 // Function to delete an order
@@ -173,6 +142,7 @@ async function deleteOrder(orderId) {
 }
 */
 
+//search by ID 
 // Add event listeners
 document.getElementById('searchOrderButton').addEventListener('click', async () => {
   const searchQuery = document.getElementById('searchOrder').value;
@@ -199,7 +169,85 @@ async function findOrderById(orderId) {
   }
 }
 
-// Initial rendering of the order table
-renderOrderTable();
+// Add event listeners
+document.getElementById('searchOrderButton').addEventListener('click', async () => {
+  const searchQuery = document.getElementById('searchOrder').value;
+  if (searchQuery) {
+      const searchData = await findOrderById(searchQuery);
+      updateOrderTable(searchData);
+  } else {
+      renderOrderTable(); // Revert to original data when search is cleared
+  }
+});
+
+// Add event listener for the "Filter by Cost" dropdown
+document.getElementById('filterCost').addEventListener('change', async () => {
+  const selectedFilter = document.getElementById('filterCost').value;
+  const filteredData = await applyCostFilter(selectedFilter);
+  updateOrderTable(filteredData);
+});
+
+// Add event listener for the "Filter by Items" dropdown
+document.getElementById('filterItems').addEventListener('change', async () => {
+  const selectedFilter = document.getElementById('filterItems').value;
+  const filteredData = await applyItemsFilter(selectedFilter);
+  updateOrderTable(filteredData);
+});
 
 
+// Function to apply cost filter
+async function applyCostFilter(filterValue, data) {
+  if (filterValue === 'over50') {
+    return data.filter(order => order.cost > 50);
+  } else if (filterValue === 'under50') {
+    return data.filter(order => order.cost <= 50);
+  } else {
+    return data;
+  }
+}
+
+// Function to apply items filter
+async function applyItemsFilter(filterValue, data) {
+  if (filterValue === 'singleItem') {
+    return data.filter(order => order.productList.length === 1);
+  } else if (filterValue === 'multipleItems') {
+    return data.filter(order => order.productList.length > 1);
+  } else {
+    return data;
+  }
+}
+
+// Function to update the order table based on filters
+async function updateFilteredTable() {
+  const selectedCostFilter = document.getElementById('filterCost').value;
+  const selectedItemsFilter = document.getElementById('filterItems').value;
+
+  const currentUserEmail = await fetchUserEmail();
+  const orderData = await fetchOrderData(currentUserEmail);
+
+  const filteredByCost = await applyCostFilter(selectedCostFilter, orderData);
+  const filteredData = await applyItemsFilter(selectedItemsFilter, filteredByCost);
+
+  updateOrderTable(filteredData);
+}
+
+// Add event listeners
+document.getElementById('searchOrderButton').addEventListener('click', async () => {
+  const searchQuery = document.getElementById('searchOrder').value;
+  if (searchQuery) {
+    const searchData = await findOrderById(searchQuery);
+    updateOrderTable(searchData);
+  } else {
+    updateFilteredTable(); // Update based on filters when search is cleared
+  }
+});
+
+// Add event listener for the "Filter by Cost" dropdown
+document.getElementById('filterCost').addEventListener('change', updateFilteredTable);
+
+// Add event listener for the "Filter by Items" dropdown
+document.getElementById('filterItems').addEventListener('change', updateFilteredTable);
+
+
+// Display all user orders on page load
+displayAllUserOrders();
