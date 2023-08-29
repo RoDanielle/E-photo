@@ -44,3 +44,148 @@ if (userConsent) {
 
 
 
+
+
+
+
+
+
+
+
+// Orders
+const orderTable = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
+
+// Function to fetch order data from MongoDB using an API endpoint
+async function fetchOrderData() {
+  try {
+    const response = await fetch('/api/all-orders');
+    if (!response.ok) {
+      throw new Error('Failed to fetch orders.');
+    }
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching order data:', error);
+    return [];
+  }
+}
+
+async function renderOrderTable() {
+  const orderData = await fetchOrderData();
+
+  // Clear existing table
+  orderTable.innerHTML = '';
+
+  orderData.forEach(order => {
+    const row = orderTable.insertRow();
+    row.setAttribute('data-id', order._id);
+
+    const orderIdCell = row.insertCell(0);
+    const userOrderIdCell = row.insertCell(1);
+    const dateCell = row.insertCell(2);
+    const costCell = row.insertCell(3);
+    const productsListCell = row.insertCell(4);
+    const deleteCell = row.insertCell(5);
+    const updateCell = row.insertCell(6);
+
+    orderIdCell.textContent = order._id;
+    userOrderIdCell.textContent = order.idUserOrdered;
+    dateCell.textContent = order.date;
+    costCell.textContent = order.cost;
+    productsListCell.textContent = order.productList;
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.className = 'red-delete-button';
+    deleteButton.setAttribute('data-id', order._id);
+    deleteButton.addEventListener('click', () => deleteOrder(order._id));
+    deleteCell.appendChild(deleteButton);
+
+    const updateButton = document.createElement('button');
+    updateButton.textContent = 'Update';
+    updateButton.setAttribute('data-id', order._id);
+    updateButton.addEventListener('click', () => handleEditClickOrder(order._id));
+    updateCell.appendChild(updateButton);
+
+    // Hidden row for editing
+    const editRow = orderTable.insertRow();
+    editRow.style.display = 'none';
+    editRow.insertCell(0);
+    const editCell = editRow.insertCell(1);
+    editCell.colSpan = 5; // Span the entire row for input fields
+
+    const editForm = document.createElement('form');
+    for (const key in order) {
+      if (key !== '_id') {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = key;
+        input.value = order[key];
+        editForm.appendChild(input);
+      }
+    }
+
+    const confirmUpdateButton = document.createElement('button');
+    confirmUpdateButton.textContent = 'Confirm Update';
+    confirmUpdateButton.addEventListener('click', () => handleUpdateClickOrder(order._id, editForm));
+    editForm.appendChild(confirmUpdateButton);
+
+    editCell.appendChild(editForm);
+  });
+}
+
+// Function to delete an order
+async function deleteOrder(orderId) {
+  try {
+    const response = await fetch(`/api/delete-order/${orderId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) {
+      throw new Error('Failed to delete order.');
+    }
+    const data = await response.json();
+    if (data.success) {
+      // Remove the deleted order from the table and re-render the table
+      const deletedRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+      if (deletedRow) {
+        orderTable.removeChild(deletedRow);
+      }
+    }
+  } catch (error) {
+    console.error('Error deleting order:', error);
+  }
+}
+
+// Add event listeners
+document.getElementById('searchOrderButton').addEventListener('click', async () => {
+  const searchQuery = document.getElementById('searchOrder').value;
+  if (searchQuery) {
+    const searchData = await findOrderById(searchQuery);
+    updateOrderTable(searchData);
+  } else {
+    renderOrderTable(); // Revert to original data when search is cleared
+  }
+});
+
+// Function to fetch order data by ID
+async function findOrderById(orderId) {
+  try {
+    const response = await fetch(`/api/orders/${orderId}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch order by ID.');
+    }
+    const data = await response.json();
+    return Array.isArray(data) ? data : [data];
+  } catch (error) {
+    console.error('Error fetching order by ID:', error);
+    return [];
+  }
+}
+
+// Initial rendering of the order table
+renderOrderTable();
+
+
