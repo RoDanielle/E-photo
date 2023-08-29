@@ -3,10 +3,6 @@ const axios = require('axios');
 //https://openweathermap.org/city/5742126
 const API_KEY = process.env.API_KEY_WEATHER;
 
-
-
-
-
 module.exports = {
   async getWeatherByLocation(req, res) {
     try {

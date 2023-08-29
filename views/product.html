@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -11,44 +10,9 @@
     <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/cart.css">
+    <link rel="stylesheet" href="assets/css/single-product-page.css">
     <script src="../views/assets/js/auth.js"></script>
-
-    <style>
-        #editForm {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-    
-        #editForm input {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-    
-        #editForm button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-    
-        #editForm button:hover {
-            background-color: #0056b3;
-        }
-    </style>
 </head>
-
 <body>
     <nav class="navbar navbar-light navbar-expand-md sticky-top navbar-shrink py-3" id="mainNav">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href=""><img src="assets/img/logo3.jpg" width="172" height="82"></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
@@ -71,7 +35,6 @@
             </div>
         </div>
     </nav>
-        <!-- Shopping Cart Aside -->
         <aside id="shopping-cart" class="shopping-cart">
             <h3>Shopping Cart</h3>
             <ul id="cart-items"></ul>
@@ -79,8 +42,9 @@
             <button id="payButton">Pay</button>
         </aside>
     <div class="container py-5">
-        <div class="product-details">
-            <div class="product-image">
+        <div class="product-details-container">
+                    <div class="product-details">
+            <div class="product-image-container">
                 <img src="" alt="Product Image" width="300" id="product-image">
             </div>
             <div class="product-info">
@@ -104,7 +68,7 @@
                 <p id="product-rating">Rating: <span id="rating-value">4.7</span></p>
                 <p id="product-availability">Availability: <span id="availability-status">In Stock</span></p>
                 <button class="btn btn-primary add-to-cart-button">Add to Cart</button>
-                <button class="btn btn-primary edit-button">Edit</button>
+                <button class="btn btn-primary edit-button">Update Product Information</button>
             </div>
         </div>
     </div>
@@ -117,7 +81,5 @@
     <script src="assets/js/product.js"></script>
     <script src="assets/js/cart.js"></script>
     <script src="assets/js/font-face.js"></script>
-
 </body>
-
 </html>
