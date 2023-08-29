@@ -32,15 +32,25 @@ const orderService = {
     },
 
     // get an order by users email
-    getOrderByUser: async (email) => {
-        try{
-            const order=await Order.findById(email);
-            return order;
+    getOrderByUser: async(email) => {
+        //check if the user with the provided currentUserId exists
+        const userExists = await User.exists({email: email });
+        if (userExists) {
+            //if the user exists, find and return their orders until the current date
+            const orders = await Order.find({
+                idUserOrdered: email
+            });
+        
+            if (orders.length > 0) {
+                return orders;
+            } else {
+                //the case where the user has no orders
+                return [];
+            }
+        } else {
+          //if the user does not exist
+          throw new Error("User with ID " + email + " does not exist.");
         }
-        catch (error) {
-            console.error('Error fetching order by email:', error);
-            throw error;
-          }
     },
 
     // find all orders a user made (used for user personal info page)

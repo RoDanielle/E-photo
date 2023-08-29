@@ -32,6 +32,17 @@ const orderControllers  = {
             throw e;
           }
         },
+    
+    // Controller to get an order by user email (form admin)
+    getOrderByUser : async (email) =>{
+        try {
+            return orders = await orderService.getOrderByUser(email);
+        } catch (error) {
+            console.log(e);
+            throw e;
+        }
+    },
+
 
     // Controller to get orders for the currently logged-in user
     getOrdersForCurrentUser: async (currentUserEmail) => {
