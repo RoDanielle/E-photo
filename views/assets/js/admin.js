@@ -22,3 +22,25 @@ document.addEventListener("DOMContentLoaded", function() {
       console.error("Error checking session:", error);
     });
 });
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const isAdmin = await checkAdminStatus();
+
+  if (isAdmin) {
+    const searchInput = document.querySelector('#searchInput');
+    if (searchInput) {
+      searchInput.style.display = 'block';
+    }
+  }
+});
+
+async function checkAdminStatus() {
+  try {
+    const response = await fetch("/checkLoggedIn");
+    const data = await response.json();
+    return data.isAdmin;
+  } catch (error) {
+    console.error("Error checking admin status:", error);
+    return false; // Default to non-admin status
+  }
+}
