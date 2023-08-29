@@ -956,3 +956,80 @@ function updateOrderTable(data) {
  
   });
 }
+
+// Function to update an order
+ 
+async function updateOrder(orderId,updatedData) {
+  try {
+    const response = await fetch(`/api/store-orders/${orderId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+       // Find the row in the table that needs to be updated
+       const updatedRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+      if (updatedRow) {
+         // Update the cells with the new data
+         const cells = updatedRow.cells;
+         cells[1].textContent = updatedData.idUserOrdered;
+         cells[2].textContent = updatedData.date;
+         cells[3].textContent = updatedData.cost;
+         cells[4].textContent = updatedData.productList;
+          // Hide the edit form row
+        const editRow = updatedRow.nextElementSibling;
+        editRow.style.display = 'none';
+      }
+    } else {
+      console.error('Failed to update order.');
+    }
+  } catch (error) {
+    console.error('Error updating order:', error);
+  }
+}
+function handleEditClickOrder(orderId) {
+  const orderRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+  const editRow = orderRow.nextElementSibling;
+ // Toggle visibility of the edit form row
+ editRow.style.display = editRow.style.display === 'none' ? 'table-row' : 'none';
+}
+async function handleUpdateClickOrder(orderId, editForm) {
+console.log('Updating order:', orderId);
+const updatedData = {};
+for (const input of editForm.elements) {
+    if (input.type === 'text') {
+        updatedData[input.name] = input.value;
+    }
+}
+console.log('Updated data:', updatedData);
+try {
+    const response = await fetch(`/api/store-orders/${orderId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log('API Response:',data);
+    if (data.success) {
+        // Update the table with the new data
+        const orderRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+        const editRow = orderRow.nextElementSibling;
+        editRow.style.display = 'none'; // Hide the edit row
+        // Update the visible row cells with the new data
+        for (let i = 1; i < orderRow.cells.length - 2; i++) {
+            const key = orderRow.cells[i].getAttribute('data-key');
+            orderRow.cells[i].textContent = updatedData[key];
+        }
+    } else {
+        console.error('Failed to update order.');
+    }
+} catch (error) {
+    console.error('Error updating order:', error);
+}
+}
