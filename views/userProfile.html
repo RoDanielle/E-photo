@@ -100,6 +100,43 @@
             <button class="btn btn-primary" id="searchOrderButton" type="button">Search</button>
         </div>
 
+
+        
+
+
+
+
+
+
+<!-- Search Bar and Filtering Options -->
+<div class="container mt-4">
+    <div class="row justify-content-center"> <!-- Center the filter boxes horizontally -->
+        
+        
+
+        <div class="col-md-6">
+            <label for="filterCost">Filter by Cost:</label>
+            <select id="filterCost" class="form-select">
+                <option value="">All Costs</option>
+                <option value="over50">Cost over $50</option>
+                <option value="under50">Cost under $50</option>
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label for="filterItems">Filter by Items:</label>
+            <select id="filterItems" class="form-select">
+                <option value="">All Orders</option>
+                <option value="singleItem">Single Item Orders</option>
+                <option value="multipleItems">Multiple Items Orders</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+
+<!-------------------------------- orderTable --------------------------------->
+
     </div>  
     <div id="orderTable" class="container text-center mt-4">
         <table class="table">
@@ -110,10 +147,6 @@
                     <th>Date</th>
                     <th>Cost</th>
                     <th>Products List</th>
-                    <!--<th>Delete</th>-->
-                    <!--<th>Update</th>-->
-
-
                 </tr>
             </thead>
             <tbody></tbody>
@@ -121,12 +154,7 @@
     </div>
 
 
-
-
-
-
 </div>
-
 
 
 
@@ -140,6 +168,13 @@
   <script src="assets/js/cart.js"></script>
   <script src="assets/js/font-face.js"></script>
   <script src="assets/js/admin.js"></script>
+
+
+
+
+
+
+
 </body>
 
 </html>
