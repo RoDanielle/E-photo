@@ -37,11 +37,10 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
       popularity
     };
   
-    // Call the addProduct function with the extracted data
+   // Call the addProduct function with the extracted data
    await addProduct(productData, event);
   });
-  
-  //add products 
+  //add proudoct + facebook API ! 
   async function addProduct(productData, event) {
     console.log("inside addProduct");
     try {
@@ -65,48 +64,51 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
             // Reset the form after successful product addition
             event.target.reset();
             
+            // Wait for the Facebook SDK to finish loading
+            await new Promise(resolve => {
+                window.fbAsyncInit = function () {
+                    FB.init({
+                        appId: "107114659160317", // Your App ID
+                        status: true,
+                        cookie: true,
+                        xfbml: true,
+                    });
+                    resolve(); // Resolve the promise to indicate that the SDK has loaded
+                };
+
+                (function(d){
+                    var id = 'facebook-jssdk';
+                    if (d.getElementById(id)) {return;}
+                    var js = d.createElement('script');
+                    js.id = id;
+                    js.async = true;
+                    js.src = "//connect.facebook.net/en_US/all.js";
+                    d.getElementsByTagName('head')[0].appendChild(js);
+                }(document));
+            });
 
             // Publish to Facebook
-            window.fbAsyncInit = function () {
-              FB.init({
-                appId: "107114659160317", // Your App ID
-                status: true,
-                cookie: true,
-                xfbml: true,
-              });
-              alert("FB.init ok");
-            };
-            (function(d){
-              var id = 'facebook-jssdk';
-              if (d.getElementById(id)) {return;}
-              var js = d.createElement('script');
-              js.id = id;
-              js.async = true;
-              js.src = "//connect.facebook.net/en_US/all.js";
-              d.getElementsByTagName('head')[0].appendChild(js);
-            }(document));
             FB.api(
-              '/107114659160317/feed', // Replace PAGE_ID with your actual page ID
-              'POST',
-              {"message": "New product added: " + productData.name ,access_token: 'EAALttJIAcYgBO07zS7rqXgzNbH6hfggRbm1UmBFDbliFRIpXdCOqBZASMCgE1MCKqZAUbdUlZCoZALkqlJ4vlwgqqdM734OjDDkiiFW2HijgEZBLXKuXV9ZAdskbl5iAecGhauEuii9VFJvVxT3xWWoa4lHqdN2a9qydg74YKQqXwFyk67TsPbuNZCTU6ZBHwkxFbphqlUUZD' },
-              function(response) {
-                  if (!response || response.error) {
-                      console.error("Error publishing to Facebook:", response ? response.error : "Unknown error");
-                  } else {
-                      console.log("Posted to Facebook:", response);
-                  }
-              }
-          );
+                '/107114659160317/feed', // Replace PAGE_ID with your actual page ID
+                'POST',
+                {"message": "New product added: " + productData.name ,access_token: 'EAALttJIAcYgBO07zS7rqXgzNbH6hfggRbm1UmBFDbliFRIpXdCOqBZASMCgE1MCKqZAUbdUlZCoZALkqlJ4vlwgqqdM734OjDDkiiFW2HijgEZBLXKuXV9ZAdskbl5iAecGhauEuii9VFJvVxT3xWWoa4lHqdN2a9qydg74YKQqXwFyk67TsPbuNZCTU6ZBHwkxFbphqlUUZD' },
+                function(response) {
+                    if (!response || response.error) {
+                        console.error("Error publishing to Facebook:", response ? response.error : "Unknown error");
+                    } else {
+                        console.log("Posted to Facebook:", response);
+                    }
+                }
+            );
         } else {
             console.error("Failed to add product.");
         }
     } catch (error) {
         console.error("Error adding product:", error);
     }
-// Refresh the page
-//location.reload();
 
 }
+
   //Registered users 
     // Fetch user data from MongoDB using an API endpoint
     async function fetchUserData() {
