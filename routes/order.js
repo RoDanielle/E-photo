@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const orderControllers  = require('../controllers/order');
+const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
+
 
 
 // Create a new order
@@ -83,7 +85,7 @@ router.get('/api/orderByUser/:currentUserEmail', async (req, res) => {
 });
 
 
-router.put("/api/store-orders/:orderId", async (req, res) => {
+router.put("/api/store-orders/:orderId",adminAuthMiddleware, async (req, res) => {
   const orderId = req.params.orderId;
   const updatedOrderData = req.body;
   try {
@@ -94,7 +96,6 @@ router.put("/api/store-orders/:orderId", async (req, res) => {
       res.status(500).json({ error: 'Failed to update order' });
   }
 });
-
 
 
 

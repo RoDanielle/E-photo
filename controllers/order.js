@@ -63,17 +63,13 @@ const orderControllers  = {
         },
 
     // Edit an order by ID
-    editOrder: async (req, res) => {
+    editOrder: async (orderId, updatedOrderData) => {
         try {
-            const orderId = req.params.id;
-            const updatedData = req.body;
-
-            // Call the editOrder function from the orderService
-            const updatedOrder = await orderService.editOrder(orderId, updatedData);
-
-            res.status(200).json(updatedOrder);
-        } catch (error) {
-            res.status(500).json({ error: `Error editing order: ${error.message}` });
+            const updatedOrder = await orderService.editOrder(orderId, updatedOrderData);
+            return updatedOrder;
+        } catch (e) {
+            console.log(e);
+            throw e;
         }
     },
 

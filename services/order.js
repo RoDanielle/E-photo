@@ -72,7 +72,7 @@ const orderService = {
 
 
     // Edit an order by ID
-    updateOrder: async (orderId, updatedOrderData) => {
+    editOrder: async (orderId, updatedOrderData) => {
         try {
             // Find the order by its ID and update its fields
             const updatedOrder = await Order.findByIdAndUpdate(orderId, updatedOrderData, { new: true });

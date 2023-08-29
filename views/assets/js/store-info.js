@@ -1043,6 +1043,8 @@ try {
             const key = orderRow.cells[i].getAttribute('data-key');
             orderRow.cells[i].textContent = updatedData[key];
         }
+        updateOrder(orderId,updatedData);
+updateOrderTable(updatedData);
     } else {
         console.error('Failed to update order.');
     }
