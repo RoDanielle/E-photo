@@ -25,13 +25,42 @@ router.put("/api/store-user", adminAuthMiddleware, (req, res) => {
     })
 });
 
+// only admin - update
+// delete a user
+router.put("/api/store-user/:userId", adminAuthMiddleware, async (req, res) => {
+  const userId = req.params.userId;
+  const updatedUserData = req.body;
+  try {
+      const updatedUser = await C_user.updateUser(userId, updatedUserData);
+      res.json({ message: 'User updated successfully', user: updatedUser});
+  } catch (error) {
+      console.error('Error updating user:', error);
+      res.status(500).json({ error: 'Failed to update user' });
+  }
+});
+// only admin - delete
+router.delete("/api/store-user/:userId", adminAuthMiddleware, async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const deletedUser = await C_user.deleteUser(userId);
+    if (deletedUser) {
+      res.json({ success: true, message: 'User deleted successfully' });
+    } else {
+      res.status(404).json({ success: false, message: 'User not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error deleting user' });
+  }
+});
+/*
+
 // delete a user
 router.delete("/api/store-user", adminAuthMiddleware, (req, res) => {
         C_user.deleteUser(req.body._id).then((data) => {
             res.json(data);
         })
     });
-
+*/
 // add a new user (registration)
 router.post('/register', C_user.register);
 

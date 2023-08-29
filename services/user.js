@@ -50,9 +50,16 @@ const S_user={
     },
 
     // update user info
-    updateUser: async (user)=> {
-        return await User.findOneAndUpdate({ _id: user._id }, user);
-    },
+    updateUser: async (userId, updatedUserData) => {
+            try {
+                // Find the user by its ID and update its fields
+                const updatedUser = await User.findByIdAndUpdate(userId, updatedUserData, { new: true });
+                return updatedUser;
+            } catch (e) {
+                console.error(e);
+                throw e;
+            }
+        }, 
 
     // delete user
     deleteUser: async (_id)=> {
