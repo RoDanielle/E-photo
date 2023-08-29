@@ -2,7 +2,8 @@ const StoreUser = require('../models/user');
 const S_user = require('../services/user');
 
 const C_user = {
-  // returns all Users without the id of each user
+
+// returns all Users 
 getAll : async ()=> {
   try {
     return await S_user.getAll();
@@ -12,6 +13,7 @@ catch (e) {
 }
 },
 
+// get a user by its id
 getUserById: async (_id) => {
   try {
     return await S_user.getUserById(_id);
@@ -21,6 +23,7 @@ getUserById: async (_id) => {
   }
 },
 
+// update a users info
 updateUser :  async (user)=> {
   try{
     return await S_user.updateUser(user);
@@ -30,6 +33,7 @@ updateUser :  async (user)=> {
   }
 },
 
+// get a user by its name
 getUserByNameSearch : async (name)=> {
   try {
     if(name)
@@ -40,6 +44,7 @@ getUserByNameSearch : async (name)=> {
 }
 },
 
+// find a user by email and password
 findUserByEmailAndPassword: async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -55,6 +60,7 @@ findUserByEmailAndPassword: async (req, res) => {
   }
 },
 
+// find a user by email
 findUserByEmail: async (email) => {
   try {
       if (email) {
@@ -73,7 +79,7 @@ findUserByEmail: async (email) => {
   }
 },
 
-
+// delete a user
 deleteUser : async (_id)=> {
   try {
     return await S_user.deleteUser(_id);
@@ -82,6 +88,7 @@ deleteUser : async (_id)=> {
 }
 },
 
+// create a new user (register a user)
 register: async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -109,15 +116,16 @@ register: async (req, res) => {
   }
 },
 
+// login
 login: async (req, res) => {
   const { email, password } = req.body; 
   try {
     const user = await S_user.findUserByEmailAndPassword(email, password);
 
     if (user) {
-      req.session.isLoggedIn = true;
+      req.session.isLoggedIn = true; 
       req.session.userId = user._id;
-      req.session.userEmail = email; // -------------check --------------
+      req.session.userEmail = email; 
       req.session.type = user.isManager ? 'admin' : 'basic';
       return res.json({ message: 'User authenticated', user: user });
     } else {
@@ -129,28 +137,15 @@ login: async (req, res) => {
   }
 },
 
+// logout
 logout: async (req, res) => {
   await req.session.destroy(() => {
       res.json({ message: "Logged out successfully." });
   });
-
 },
 
-
-
-addUsersFromData: async (users) => {
-  try {
-    const result =  await S_user.addUsersFromData(users);
-      return { message: result.message};
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
-},
-
-
-
-addUsersFromData: async (users) => { // take note that the users password is not encrypted this way
+// add users from data file
+addUsersFromData: async (users) => { 
   try {
     const insertPromises = users.map(async (user) => {
       const {name, email, password, description, location, date, isManager} = user;
@@ -174,7 +169,6 @@ addUsersFromData: async (users) => { // take note that the users password is not
     throw e;
   }
 },
-
 
 }
 module.exports = C_user;

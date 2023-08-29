@@ -2,10 +2,18 @@ const S_location = require("../services/location");
 
 const C_location = {
 
+    // get all locations
     getAll: async ()=> {
+      try{
         return await S_location.getAll();
+
+      }catch (e) {
+        console.log(e);
+        throw e;
+      }
     },
 
+    // update location info
     updateLocation: async (locationId,updatedLocationData)=> {
         try {
           const updatedLocation = await S_location.updateLocation(locationId, updatedLocationData);
@@ -13,14 +21,17 @@ const C_location = {
       } catch (e) {
           console.log(e);
           throw e;
-    }
-  },
+      }
+    },
 
+    // get a location by its name
     getLocationByNameSearch: async (name)=> {
         if(name)
             return await S_location.getLocationByNameSearch(name);
         return await S_location.getAll();
     },
+
+    // get a location by its id
     getLocationById: async (_id) => {
       try {
         return await S_location.getLocationById(_id);
@@ -30,11 +41,18 @@ const C_location = {
       }
     },
 
+    // delete a location
     deleteLocation: async (_id)=> {
+      try{
         return await S_location.deleteLocation(_id);
+      }
+      catch(e){
+        console.log(e);
+        throw e;
+      }
     },
     
-    // manually (for admin) 
+    // add a location manually (for admin) 
     addLocation: async (name, lat, lng) => {
       try {
         return await S_location.addLocation(name, lat, lng);
@@ -55,6 +73,5 @@ const C_location = {
           }
       },
     };
-
 
 module.exports = C_location;

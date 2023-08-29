@@ -32,30 +32,11 @@ const orderControllers  = {
             throw e;
           }
         },
-   
-    /*
+
     // Controller to get orders for the currently logged-in user
-    getOrdersForCurrentUser: async (req,res) => {
+    getOrdersForCurrentUser: async (currentUserEmail) => {
         try {
-            // Assuming you have access to the currently logged-in user's ID
-            const currentUserId = req.user._id;
-            const currentDate = new Date();
-            const orders = await orderService.findOrdersForCurrentUser(currentUserId, currentDate);
-            res.status(200).json(orders);
-        } catch (error) {
-            res.status(500).json({ error: 'An error occurred while retrieving the orders for the current user.' });
-        }
-    },
-    */
-
-
-        // Controller to get orders for the currently logged-in user
-        getOrdersForCurrentUser: async (currentUserEmail) => {
-            console.log("controller:", currentUserEmail);
-            try {
-                // Assuming you have access to the currently logged-in user's ID
                 const orders = await orderService.findOrdersForCurrentUser(currentUserEmail);
-                console.log("orders controller:", orders);
                 return orders;
             } catch (error) {
                 res.status(500).json({ error: 'An error occurred while retrieving the orders for the current user.' });
@@ -78,6 +59,7 @@ const orderControllers  = {
         return await orderService.deleteOrder(_id);
     },
     
+    // Add orders from data file 
     addOrdersFromData: async (orders) => {
         try {
           const insertPromises = orders.map(async (order) => {

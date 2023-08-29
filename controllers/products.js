@@ -2,10 +2,12 @@ const S_products = require('../services/products');
 const StoreProduct = require('../models/product');
 
 const C_products = {
+  // get all products
   getAll: async () => {
     return await S_products.getAll();
   },
 
+  // get a product by its id
   getProductById: async (_id) => {
     try {
       return await S_products.getProductById(_id);
@@ -15,6 +17,7 @@ const C_products = {
     }
   },
 
+  // update a products info
   updateProduct: async (productId, updatedProductData) => {
     try {
         const updatedProduct = await S_products.updateProduct(productId, updatedProductData);
@@ -25,22 +28,19 @@ const C_products = {
     }
   },
 
-  /*
-  updateProduct: async (product) => {
-    return await S_products.updateProduct(product);
-  },
-  */
-
+  // get a product by its name
   getProductByNameSearch: async (name) => {
     if (name)
       return await S_products.getProductByNameSearch(name);
     return await S_products.getAll();
   },
 
+  // delete a product
   deleteProduct: async (_id) => {
     return await S_products.deleteProduct(_id);
   },
 
+  // add a new product
   addProduct: async (name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity) => {
     try {
       return await S_products.addProduct(name, image, brand, category, price, countInStock, rating, numReviews, description,color,popularity);
@@ -50,6 +50,7 @@ const C_products = {
     }
   },
 
+  // add products from data file
   addProductsFromData: async (products) => {
     try {
       const insertPromises = products.map(async (product) => {
@@ -79,11 +80,13 @@ const C_products = {
     }
   },
 
+  // check if a product exists by its name
   checkIfProductExists: async (name) => {
     const product = await Product.findOne({ name });
     return product !== null;
   },
 
+  // get the avarage price for the categories
   getAveragePricesByCategory: async (req, res) => {
     try {
       const averagePrices = await S_products.calculateAveragePricesByCategory();
@@ -93,52 +96,7 @@ const C_products = {
       res.status(500).json({ error: 'An error occurred' });
     }
   }
-
-
-
-  
 };
-
 
 module.exports = C_products;
 
-
-/*
-// returns all Products without the id of each product
-const getAll = async ()=> {
-  return await S_products.getAll();
-}
-
-const updateProduct =  async (product)=> {
-  return await S_products.updateProduct(product);
-}
-
-const getProductByNameSearch = async (name)=> {
-  if(name)
-      return await S_products.getProductByNameSearch(name);
-  return await S_products.getAll();
-}
-const deleteProduct =  async (_id)=> {
-  return await S_products.deleteProduct(_id);
-}
-
-
- const addProduct = async (name,image,brand,category,price,countInStock,rating,numReviews,description)=> {
-  try{
-      return await S_products.addProduct(name,image,brand,category,price,countInStock,rating,numReviews,description);
-  }
-  catch(e){
-      console.log(e);
-      res.json({error:e});
-  }
-}
-
-module.exports = {
-    getAll,
-    updateProduct,
-    getProductByNameSearch,
-    deleteProduct,
-    addProduct,
-}
-
-*/
