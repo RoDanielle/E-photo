@@ -16,8 +16,6 @@ const orderControllers  = {
 
     // Controller to get all orders
     getAllOrders: async (req,res) => {
-        console.log("controller:", currentUserEmail);
-
         try {
             const orders = await orderService.getAllOrders();
             res.status(200).json(orders);
