@@ -2,6 +2,8 @@ let originalUserData = []; // Initialize as an empty array
 let originalProductData = []; // Initialize as an empty array
 let originalLocationData = []; // Initialize as an empty array
 let originalOrderData = []; // Initialize as an empty array
+let locationData = []; // Initialize an array to hold location data
+
 
 
 // Add an event listener for form submission - add new product 
@@ -35,11 +37,10 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
       popularity
     };
   
-    // Call the addProduct function with the extracted data
+   // Call the addProduct function with the extracted data
    await addProduct(productData, event);
   });
-  
-  //add products 
+  //add proudoct + facebook API ! 
   async function addProduct(productData, event) {
     console.log("inside addProduct");
     try {
@@ -63,48 +64,51 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
             // Reset the form after successful product addition
             event.target.reset();
             
+            // Wait for the Facebook SDK to finish loading
+            await new Promise(resolve => {
+                window.fbAsyncInit = function () {
+                    FB.init({
+                        appId: "107114659160317", // Your App ID
+                        status: true,
+                        cookie: true,
+                        xfbml: true,
+                    });
+                    resolve(); // Resolve the promise to indicate that the SDK has loaded
+                };
+
+                (function(d){
+                    var id = 'facebook-jssdk';
+                    if (d.getElementById(id)) {return;}
+                    var js = d.createElement('script');
+                    js.id = id;
+                    js.async = true;
+                    js.src = "//connect.facebook.net/en_US/all.js";
+                    d.getElementsByTagName('head')[0].appendChild(js);
+                }(document));
+            });
 
             // Publish to Facebook
-            window.fbAsyncInit = function () {
-              FB.init({
-                appId: "107114659160317", // Your App ID
-                status: true,
-                cookie: true,
-                xfbml: true,
-              });
-              alert("FB.init ok");
-            };
-            (function(d){
-              var id = 'facebook-jssdk';
-              if (d.getElementById(id)) {return;}
-              var js = d.createElement('script');
-              js.id = id;
-              js.async = true;
-              js.src = "//connect.facebook.net/en_US/all.js";
-              d.getElementsByTagName('head')[0].appendChild(js);
-            }(document));
             FB.api(
-              '/107114659160317/feed', // Replace PAGE_ID with your actual page ID
-              'POST',
-              {"message": "New product added: " + productData.name ,access_token: 'EAALttJIAcYgBO07zS7rqXgzNbH6hfggRbm1UmBFDbliFRIpXdCOqBZASMCgE1MCKqZAUbdUlZCoZALkqlJ4vlwgqqdM734OjDDkiiFW2HijgEZBLXKuXV9ZAdskbl5iAecGhauEuii9VFJvVxT3xWWoa4lHqdN2a9qydg74YKQqXwFyk67TsPbuNZCTU6ZBHwkxFbphqlUUZD' },
-              function(response) {
-                  if (!response || response.error) {
-                      console.error("Error publishing to Facebook:", response ? response.error : "Unknown error");
-                  } else {
-                      console.log("Posted to Facebook:", response);
-                  }
-              }
-          );
+                '/107114659160317/feed', // Replace PAGE_ID with your actual page ID
+                'POST',
+                {"message": "New product added: " + productData.name ,access_token: 'EAALttJIAcYgBO07zS7rqXgzNbH6hfggRbm1UmBFDbliFRIpXdCOqBZASMCgE1MCKqZAUbdUlZCoZALkqlJ4vlwgqqdM734OjDDkiiFW2HijgEZBLXKuXV9ZAdskbl5iAecGhauEuii9VFJvVxT3xWWoa4lHqdN2a9qydg74YKQqXwFyk67TsPbuNZCTU6ZBHwkxFbphqlUUZD' },
+                function(response) {
+                    if (!response || response.error) {
+                        console.error("Error publishing to Facebook:", response ? response.error : "Unknown error");
+                    } else {
+                        console.log("Posted to Facebook:", response);
+                    }
+                }
+            );
         } else {
             console.error("Failed to add product.");
         }
     } catch (error) {
         console.error("Error adding product:", error);
     }
-// Refresh the page
-//location.reload();
 
 }
+
   //Registered users 
     // Fetch user data from MongoDB using an API endpoint
     async function fetchUserData() {
@@ -581,6 +585,8 @@ function handleEditClickLocation(locationId) {
   const editRow = locationRow.nextElementSibling;
  // Toggle visibility of the edit form row
  editRow.style.display = editRow.style.display === 'none' ? 'table-row' : 'none';
+ //updateLocationTable(locationData); // You may need to pass additional data here
+ 
 }
 
 
@@ -614,6 +620,12 @@ try {
             const key = locationRow.cells[i].getAttribute('data-key');
             locationRow.cells[i].textContent = updatedData[key];
         }
+        /*
+        const editedLocationIndex = locationData.findIndex(location => location._id === locationId);
+        if (editedLocationIndex !== -1) {
+          locationData[editedLocationIndex] = updatedData;
+        }
+*/
     } else {
         console.error('Failed to update location.');
     }
@@ -702,7 +714,7 @@ function updateLocationTable(data) {
 document.getElementById("addLocationForm").addEventListener("submit", async function(event) {
   event.preventDefault(); // Prevent the form from submitting normally
 
-  // Get values from form fields
+  // Get values form fields
   const name = document.getElementById("locname").value;
   const lat = parseFloat(document.getElementById("lat").value);
   const lng = parseFloat(document.getElementById("lng").value);yScale
@@ -955,4 +967,81 @@ function updateOrderTable(data) {
        editCell.appendChild(editForm);
  
   });
+}
+
+// Function to update an order
+ 
+async function updateOrder(orderId,updatedData) {
+  try {
+    const response = await fetch(`/api/store-orders/${orderId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+       // Find the row in the table that needs to be updated
+       const updatedRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+      if (updatedRow) {
+         // Update the cells with the new data
+         const cells = updatedRow.cells;
+         cells[1].textContent = updatedData.idUserOrdered;
+         cells[2].textContent = updatedData.date;
+         cells[3].textContent = updatedData.cost;
+         cells[4].textContent = updatedData.productList;
+          // Hide the edit form row
+        const editRow = updatedRow.nextElementSibling;
+        editRow.style.display = 'none';
+      }
+    } else {
+      console.error('Failed to update order.');
+    }
+  } catch (error) {
+    console.error('Error updating order:', error);
+  }
+}
+function handleEditClickOrder(orderId) {
+  const orderRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+  const editRow = orderRow.nextElementSibling;
+ // Toggle visibility of the edit form row
+ editRow.style.display = editRow.style.display === 'none' ? 'table-row' : 'none';
+}
+async function handleUpdateClickOrder(orderId, editForm) {
+console.log('Updating order:', orderId);
+const updatedData = {};
+for (const input of editForm.elements) {
+    if (input.type === 'text') {
+        updatedData[input.name] = input.value;
+    }
+}
+console.log('Updated data:', updatedData);
+try {
+    const response = await fetch(`/api/store-orders/${orderId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log('API Response:',data);
+    if (data.success) {
+        // Update the table with the new data
+        const orderRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+        const editRow = orderRow.nextElementSibling;
+        editRow.style.display = 'none'; // Hide the edit row
+        // Update the visible row cells with the new data
+        for (let i = 1; i < orderRow.cells.length - 2; i++) {
+            const key = orderRow.cells[i].getAttribute('data-key');
+            orderRow.cells[i].textContent = updatedData[key];
+        }
+    } else {
+        console.error('Failed to update order.');
+    }
+} catch (error) {
+    console.error('Error updating order:', error);
+}
 }
