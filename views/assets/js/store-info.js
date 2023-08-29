@@ -2,6 +2,8 @@ let originalUserData = []; // Initialize as an empty array
 let originalProductData = []; // Initialize as an empty array
 let originalLocationData = []; // Initialize as an empty array
 let originalOrderData = []; // Initialize as an empty array
+let locationData = []; // Initialize an array to hold location data
+
 
 
 // Add an event listener for form submission - add new product 
@@ -581,6 +583,8 @@ function handleEditClickLocation(locationId) {
   const editRow = locationRow.nextElementSibling;
  // Toggle visibility of the edit form row
  editRow.style.display = editRow.style.display === 'none' ? 'table-row' : 'none';
+ //updateLocationTable(locationData); // You may need to pass additional data here
+ 
 }
 
 
@@ -614,6 +618,12 @@ try {
             const key = locationRow.cells[i].getAttribute('data-key');
             locationRow.cells[i].textContent = updatedData[key];
         }
+        /*
+        const editedLocationIndex = locationData.findIndex(location => location._id === locationId);
+        if (editedLocationIndex !== -1) {
+          locationData[editedLocationIndex] = updatedData;
+        }
+*/
     } else {
         console.error('Failed to update location.');
     }
@@ -702,7 +712,7 @@ function updateLocationTable(data) {
 document.getElementById("addLocationForm").addEventListener("submit", async function(event) {
   event.preventDefault(); // Prevent the form from submitting normally
 
-  // Get values from form fields
+  // Get values form fields
   const name = document.getElementById("locname").value;
   const lat = parseFloat(document.getElementById("lat").value);
   const lng = parseFloat(document.getElementById("lng").value);yScale
