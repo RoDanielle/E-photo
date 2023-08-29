@@ -32,25 +32,30 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
-  /*facebook API photos*/
-  .section-title {
-    font-size: 24px;
-    margin-bottom: 10px;
+/* Facebook API photos */
+.section-title {
+  font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .section-description {
-    font-size: 18px;
-    margin-bottom: 20px;
+  font-size: 18px;
+  margin-bottom: 20px;
 }
 
 .image-container {
-    text-align: center;
-    padding: 20px;
-    background-color: #f0f0f0;
+  text-align: center;
+  padding: 20px;
+  background-color: #f0f0f0;
+}
+
+.image-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 .image-container img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 10px;
+  max-width: 100%;
+  height: auto;
 }
