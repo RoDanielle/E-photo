@@ -41,10 +41,9 @@ if (userConsent) {
 }
 
 
-
 //display Orders 
-
 const orderTable = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
+
 
 // Fetch user email
 async function fetchUserEmail() {
@@ -63,6 +62,7 @@ async function fetchUserEmail() {
     }
 }
 
+
 // Function to fetch all orders of the current user and display them
 async function displayAllUserOrders() {
     try {
@@ -73,6 +73,7 @@ async function displayAllUserOrders() {
         console.error('Error displaying user orders:', error);
     }
 }
+
 
 // Function to fetch order data from MongoDB using an API endpoint
 async function fetchOrderData(currentUserEmail) {
@@ -90,6 +91,7 @@ async function fetchOrderData(currentUserEmail) {
         return [];
     }
 }
+
 
 async function updateOrderTable(data) {
   // Clear existing table
@@ -115,32 +117,6 @@ async function updateOrderTable(data) {
   });
 }
 
-/*
-// Function to delete an order
-async function deleteOrder(orderId) {
-  try {
-    const response = await fetch(`/api/delete-order/${orderId}`, {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!response.ok) {
-      throw new Error('Failed to delete order.');
-    }
-    const data = await response.json();
-    if (data.success) {
-      // Remove the deleted order from the table and re-render the table
-      const deletedRow = orderTable.querySelector(`[data-id="${orderId}"]`);
-      if (deletedRow) {
-        orderTable.removeChild(deletedRow);
-      }
-    }
-  } catch (error) {
-    console.error('Error deleting order:', error);
-  }
-}
-*/
 
 //search by ID 
 // Add event listeners
@@ -153,6 +129,7 @@ document.getElementById('searchOrderButton').addEventListener('click', async () 
     renderOrderTable(); // Revert to original data when search is cleared
   }
 });
+
 
 // Function to fetch order data by ID
 async function findOrderById(orderId) {
@@ -169,6 +146,7 @@ async function findOrderById(orderId) {
   }
 }
 
+
 // Add event listeners
 document.getElementById('searchOrderButton').addEventListener('click', async () => {
   const searchQuery = document.getElementById('searchOrder').value;
@@ -180,12 +158,14 @@ document.getElementById('searchOrderButton').addEventListener('click', async () 
   }
 });
 
+
 // Add event listener for the "Filter by Cost" dropdown
 document.getElementById('filterCost').addEventListener('change', async () => {
   const selectedFilter = document.getElementById('filterCost').value;
   const filteredData = await applyCostFilter(selectedFilter);
   updateOrderTable(filteredData);
 });
+
 
 // Add event listener for the "Filter by Items" dropdown
 document.getElementById('filterItems').addEventListener('change', async () => {
@@ -206,6 +186,7 @@ async function applyCostFilter(filterValue, data) {
   }
 }
 
+
 // Function to apply items filter
 async function applyItemsFilter(filterValue, data) {
   if (filterValue === 'singleItem') {
@@ -216,6 +197,7 @@ async function applyItemsFilter(filterValue, data) {
     return data;
   }
 }
+
 
 // Function to update the order table based on filters
 async function updateFilteredTable() {
@@ -231,6 +213,7 @@ async function updateFilteredTable() {
   updateOrderTable(filteredData);
 }
 
+
 // Add event listeners
 document.getElementById('searchOrderButton').addEventListener('click', async () => {
   const searchQuery = document.getElementById('searchOrder').value;
@@ -242,8 +225,10 @@ document.getElementById('searchOrderButton').addEventListener('click', async () 
   }
 });
 
+
 // Add event listener for the "Filter by Cost" dropdown
 document.getElementById('filterCost').addEventListener('change', updateFilteredTable);
+
 
 // Add event listener for the "Filter by Items" dropdown
 document.getElementById('filterItems').addEventListener('change', updateFilteredTable);
