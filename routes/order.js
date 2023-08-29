@@ -20,11 +20,8 @@ router.get('/api/all-orders', adminAuthMiddleware, async (req, res) => {
 // Delete an order by ID
 router.delete('/api/delete-order/:orderId', adminAuthMiddleware, async (req, res) => {
   const orderId = req.params.orderId;
-  console.log(orderId);
-  console.log(".");
   try {
     const deletedOrder = await orderControllers.deleteOrder(orderId);
-    console.log(deletedOrder);
 
     if (deletedOrder) {
       res.json({ success: true, message: 'Order deleted successfully' });

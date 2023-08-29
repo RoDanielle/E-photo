@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10; 
 
 const S_user={
+    //add a new user
     addUser: async (name, email, password)=> {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const user = new User({
@@ -12,17 +13,18 @@ const S_user={
         });
         return await user.save()
     },
+
+    // get a user by its name
     getUserByNameSearch: async (name) => {
         return await User.find({ name: {$regex: '^.*' + name + '.*$', $options: 'i'} });
     },
 
+    // get a user by its email and password
     findUserByEmailAndPassword: async (email, password) => { 
         const user = await User.findOne({ email });
-        
         if (user) {
             console.log("email found");
             const passwordMatches = await bcrypt.compare(password, user.password);
-            
             if (passwordMatches) {
                 console.log("match found");
                 return user; // Successfully authenticated
@@ -36,27 +38,33 @@ const S_user={
         }
     },
     
+    // get a user by its email 
     findUserByEmail:async(email)=>{
         return await User.findOne({ email });
     },
     
+    // check if an email is listed for a user 
     checkIfEmailExists: async (email) => {
         const user = await User.findOne({ email });
         return user !== null;
     },
 
+    // update user info
     updateUser: async (user)=> {
         return await User.findOneAndUpdate({ _id: user._id }, user);
     },
 
+    // delete user
     deleteUser: async (_id)=> {
         return await User.findOneAndDelete({ _id });
     },
 
+    // get all users
     getAll: async ()=> {
         return await User.find({})
     },
 
+    // get a user by its id 
     getUserById: async (UserId) => {
         try {
           // Query the database to retrieve the user by its ID
@@ -68,8 +76,6 @@ const S_user={
           throw error;
         }
       }, 
-
-
 }
 
 module.exports = S_user;

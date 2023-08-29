@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 const orderService = {
 
-
+    // add a new order
     addNewOrder: async (idUserOrdered, cost, productList)=> {
         const order = new Order({
             idUserOrdered,
@@ -14,12 +14,12 @@ const orderService = {
         return await order.save()
     },
 
-
+    // get all orders
     getAllOrders: async () => {
         return await Order.find();
     },
 
-
+    // get an order by its id
     getOrderByIDSearch: async (id) => {
         try{
             const order=await Order.findById(id);
@@ -30,6 +30,8 @@ const orderService = {
             throw error;
           }
     },
+
+    // get an order by users email
     getOrderByUser: async (email) => {
         try{
             const order=await Order.findById(email);
@@ -41,24 +43,17 @@ const orderService = {
           }
     },
 
-
+    // find all orders a user made (used for user personal info page)
     findOrdersForCurrentUser: async(currentUserEmail) => {
-        console.log("services:", currentUserEmail);
-
         //check if the user with the provided currentUserId exists
         const userExists = await User.exists({email: currentUserEmail });
-
         if (userExists) {
-            console.log ("services if");
             //if the user exists, find and return their orders until the current date
             const orders = await Order.find({
               idUserOrdered: currentUserEmail
             });
 
-            console.log ("services save");
-
             if (orders.length > 0) {
-                console.log("orders services:", orders);
                 return orders;
             } else {
                 //the case where the user has no orders
@@ -69,7 +64,6 @@ const orderService = {
             throw new Error("User with ID " + currentUserEmail + " does not exist.");
         }
     },
-
 
     // Edit an order by ID
     editOrder: async (orderId, updatedOrderData) => {
@@ -84,12 +78,10 @@ const orderService = {
         }
     },  
 
-
     // Delete an order by ID
     deleteOrder: async (_id) => {
         return await Order.findOneAndDelete({ _id });
     },
 };
-
 
 module.exports = orderService;
