@@ -133,7 +133,8 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
       newRow.append('td').text(user => user.name);
       newRow.append('td').text(user => user.email);
       const actionsCell = newRow.append('td');
-      const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
+      const deleteButton = actionsCell.append('button')  .attr('class', 'btn btn-danger red-delete-button').text('Delete');
+      //const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
       deleteButton.on('click', user => deleteUser(user._id)); // Call a function to delete the user
       rows.merge(newRow); // Merge new and existing rows
   }
@@ -290,6 +291,7 @@ productData.forEach(product => {
   
   const deleteButton = document.createElement('button');
   deleteButton.textContent = 'Delete';
+  deleteButton.className = 'red-delete-button'; // Apply the CSS class
   deleteButton.setAttribute('data-id', product._id); // Set the data-id attribute
   deleteButton.addEventListener('click', () => deleteProduct(product._id)); // Pass product ID
   deleteCell.appendChild(deleteButton);
@@ -460,6 +462,7 @@ async function renderLocationTable(data) {
 
       const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
+      deleteButton.className = 'red-delete-button'; // Apply the CSS class
       deleteButton.setAttribute('data-id', location._id);
       deleteButton.addEventListener('click', () => deleteLocation(location._id));
       deleteCell.appendChild(deleteButton);
@@ -467,7 +470,7 @@ async function renderLocationTable(data) {
       const updateButton = document.createElement('button');
       updateButton.textContent = 'Update';
       updateButton.setAttribute('data-id', location._id);
-      updateButton.addEventListener('click', () => handleEditClick(location._id));
+      updateButton.addEventListener('click', () => handleEditClickLocation(location._id));
       updateCell.appendChild(updateButton);
 
       // Hidden row for editing
@@ -490,7 +493,7 @@ async function renderLocationTable(data) {
 
       const confirmUpdateButton = document.createElement('button');
       confirmUpdateButton.textContent = 'Confirm Update';
-      confirmUpdateButton.addEventListener('click', () => handleUpdateClick(location._id, editForm));
+      confirmUpdateButton.addEventListener('click', () => handleUpdateClickLocation(location._id, editForm));
       editForm.appendChild(confirmUpdateButton);
 
       editCell.appendChild(editForm);
@@ -544,6 +547,10 @@ async function updateLocation(locationId,updatedData) {
          cells[1].textContent = updatedData.name;
          cells[2].textContent = updatedData.lat;
          cells[3].textContent = updatedData.lng;
+
+          // Hide the edit form row
+        const editRow = updatedRow.nextElementSibling;
+        editRow.style.display = 'none';
       }
     } else {
       console.error('Failed to update location.');
@@ -552,12 +559,15 @@ async function updateLocation(locationId,updatedData) {
     console.error('Error updating location:', error);
   }
 }
-function handleEditClick(locationId) {
-  const editRow = locationTable.querySelector(`[data-id="${locationId}"]`).nextElementSibling;
-  editRow.style.display = 'table-row'; // Show the hidden row
+function handleEditClickLocation(locationId) {
+  const locationRow = locationTable.querySelector(`[data-id="${locationId}"]`);
+  const editRow = locationRow.nextElementSibling;
+ // Toggle visibility of the edit form row
+ editRow.style.display = editRow.style.display === 'none' ? 'table-row' : 'none';
 }
 
-async function handleUpdateClick(locationId, editForm) {
+
+async function handleUpdateClickLocation(locationId, editForm) {
 console.log('Updating location:', locationId);
 
 const updatedData = {};
@@ -637,13 +647,14 @@ function updateLocationTable(data) {
     lngCell.textContent = location.lng;
     const deleteButton = document.createElement('button');
       deleteButton.textContent = 'Delete';
+      deleteButton.className = 'red-delete-button'; // Apply the CSS class
       deleteButton.setAttribute('data-id', location._id);
       deleteButton.addEventListener('click', () => deleteLocation(location._id));
       deleteCell.appendChild(deleteButton);
       const updateButton = document.createElement('button');
       updateButton.textContent = 'Update';
       updateButton.setAttribute('data-id', location._id);
-      updateButton.addEventListener('click', () => handleEditClick(location._id));
+      updateButton.addEventListener('click', () => handleEditClickLocation(location._id));
       updateCell.appendChild(updateButton);
 
       // Hidden row for editing
@@ -664,7 +675,7 @@ function updateLocationTable(data) {
       }
       const confirmUpdateButton = document.createElement('button');
       confirmUpdateButton.textContent = 'Confirm Update';
-      confirmUpdateButton.addEventListener('click', () => handleUpdateClick(location._id, editForm));
+      confirmUpdateButton.addEventListener('click', () => handleUpdateClickLocation(location._id, editForm));
       editForm.appendChild(confirmUpdateButton);
       editCell.appendChild(editForm);
   });
@@ -675,9 +686,9 @@ document.getElementById("addLocationForm").addEventListener("submit", async func
   event.preventDefault(); // Prevent the form from submitting normally
 
   // Get values from form fields
-  const name = document.getElementById("name").value;
-  const lat = document.getElementById("lat").value;
-  const lng = document.getElementById("lng").value;
+  const name = document.getElementById("locname").value;
+  const lat = parseFloat(document.getElementById("lat").value);
+  const lng = parseFloat(document.getElementById("lng").value);yScale
 
   const locationData = {
     name,
@@ -756,6 +767,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
   
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
+        deleteButton.className = 'red-delete-button'; // Apply the CSS class
         deleteButton.setAttribute('data-id', order._id);
         deleteButton.addEventListener('click', () => deleteOrder(order._id));
         deleteCell.appendChild(deleteButton);
@@ -763,7 +775,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         const updateButton = document.createElement('button');
         updateButton.textContent = 'Update';
         updateButton.setAttribute('data-id', order._id);
-        updateButton.addEventListener('click', () => handleEditClick(order._id));
+        updateButton.addEventListener('click', () => handleEditClickOrder(order._id));
         updateCell.appendChild(updateButton);
   
         // Hidden row for editing
@@ -786,7 +798,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
   
         const confirmUpdateButton = document.createElement('button');
         confirmUpdateButton.textContent = 'Confirm Update';
-        confirmUpdateButton.addEventListener('click', () => handleUpdateClick(order._id, editForm));
+        confirmUpdateButton.addEventListener('click', () => handleUpdateClickOrder(order._id, editForm));
         editForm.appendChild(confirmUpdateButton);
   
         editCell.appendChild(editForm);
@@ -821,7 +833,7 @@ async function deleteOrder(orderId) {
   }
 }
 
-  // Add an event listener for search form submission
+  // Add an event listener for search by order id form submission
 document.getElementById("searchOrderButton").addEventListener("click", async function() {
   // Get the search query from the input field
   const searchQuery = document.getElementById("searchOrder").value;
@@ -833,7 +845,20 @@ document.getElementById("searchOrderButton").addEventListener("click", async fun
   }
 });
 
-// Function to fetch location data by id
+// Add an event listener for search by user form submission
+document.getElementById("searchOrderByUserButton").addEventListener("click", async function() {
+  // Get the search query from the input field
+  const searchQuery = document.getElementById("searchOrderByUser").value;
+  if (searchQuery) {
+    const searchData = await findOrderByUser(searchQuery);
+    updateOrderTable(searchData); // Use the correct function here
+  } else {
+    updateOrderTable(originalOrderData);  // Revert to original data when search is cleared
+  }
+});
+
+
+// Function to fetch order data by id
 async function findOrderById(orderId) {
   try {
       const response = await fetch(`/api/orders/${orderId}`); // Replace with your actual API endpoint
@@ -844,6 +869,19 @@ async function findOrderById(orderId) {
       return [];
   }
 }
+
+// Function to fetch order data by user
+async function findOrderByUser(orderUser) {
+  try {
+      const response = await fetch(`/api/store-orders/${orderUser}`); // Replace with your actual API endpoint
+      const data = await response.json();
+      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
+  } catch (error) {
+      console.error("Error fetching order by user:", error);
+      return [];
+  }
+}
+
 function updateOrderTable(data) {
   const tableBody = document.getElementById("orderTable").getElementsByTagName("tbody")[0];
   // Clear existing table
@@ -856,8 +894,8 @@ function updateOrderTable(data) {
         const dateCell = row.insertCell(2);
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
-         const deleteCell = row.insertCell(5);
-       // const updateCell = row.insertCell(6);
+        const deleteCell = row.insertCell(5);
+        const updateCell = row.insertCell(6);
   
        orderIdCell.textContent = order._id;
        userOrderIdCell.textContent = order.idUserOrdered;
@@ -867,8 +905,118 @@ function updateOrderTable(data) {
 
        const deleteButton = document.createElement('button');
        deleteButton.textContent = 'Delete';
+       deleteButton.className = 'red-delete-button'; // Apply the CSS class
        deleteButton.setAttribute('data-id', order._id);
        deleteButton.addEventListener('click', () => deleteOrder(order._id));
        deleteCell.appendChild(deleteButton);
+       const updateButton = document.createElement('button');
+       updateButton.textContent = 'Update';
+       updateButton.setAttribute('data-id', order._id);
+       updateButton.addEventListener('click', () => handleEditClickOrder(order._id));
+       updateCell.appendChild(updateButton);
+ 
+       // Hidden row for editing
+       const editRow = orderTable.insertRow();
+       editRow.style.display = 'none';
+       editRow.insertCell(0);
+       const editCell = editRow.insertCell(1);
+       editCell.colSpan = 5; // Span the entire row for input fields
+       const editForm = document.createElement('form');
+       for (const key in order) {
+           if (key !== '_id') { // Exclude _id
+               const input = document.createElement('input');
+               input.type = 'text';
+               input.name = key;
+               input.value = order[key];
+               editForm.appendChild(input);
+           }
+       }
+       const confirmUpdateButton = document.createElement('button');
+       confirmUpdateButton.textContent = 'Confirm Update';
+       confirmUpdateButton.addEventListener('click', () => handleUpdateClickOrder(order._id, editForm));
+       editForm.appendChild(confirmUpdateButton);
+       editCell.appendChild(editForm);
+ 
   });
+}
+
+// Function to update an order
+async function updateOrder(orderId,updatedData) {
+  try {
+    const response = await fetch(`/api/store-orders/${orderId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+       // Find the row in the table that needs to be updated
+       const updatedRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+
+      if (updatedRow) {
+         // Update the cells with the new data
+         const cells = updatedRow.cells;
+         cells[1].textContent = updatedData.idUserOrdered;
+         cells[2].textContent = updatedData.date;
+         cells[3].textContent = updatedData.cost;
+         cells[4].textContent = updatedData.productList;
+
+
+          // Hide the edit form row
+        const editRow = updatedRow.nextElementSibling;
+        editRow.style.display = 'none';
+      }
+    } else {
+      console.error('Failed to update order.');
+    }
+  } catch (error) {
+    console.error('Error updating order:', error);
+  }
+}
+function handleEditClickOrder(orderId) {
+  const orderRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+  const editRow = orderRow.nextElementSibling;
+ // Toggle visibility of the edit form row
+ editRow.style.display = editRow.style.display === 'none' ? 'table-row' : 'none';
+}
+
+
+async function handleUpdateClickOrder(orderId, editForm) {
+console.log('Updating order:', orderId);
+const updatedData = {};
+for (const input of editForm.elements) {
+    if (input.type === 'text') {
+        updatedData[input.name] = input.value;
+    }
+}
+console.log('Updated data:', updatedData);
+try {
+    const response = await fetch(`/api/store-orders/${orderId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log('API Response:',data);
+    if (data.success) {
+        // Update the table with the new data
+        const orderRow = orderTable.querySelector(`[data-id="${orderId}"]`);
+        const editRow = orderRow.nextElementSibling;
+        editRow.style.display = 'none'; // Hide the edit row
+        // Update the visible row cells with the new data
+        for (let i = 1; i < orderRow.cells.length - 2; i++) {
+            const key = orderRow.cells[i].getAttribute('data-key');
+            orderRow.cells[i].textContent = updatedData[key];
+        }
+    } else {
+        console.error('Failed to update order.');
+    }
+} catch (error) {
+    console.error('Error updating order:', error);
+}
 }

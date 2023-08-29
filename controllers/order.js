@@ -33,6 +33,15 @@ const orderControllers  = {
             throw e;
           }
         },
+        // Controller to get an order by its user
+    getOrderByUser: async (email) => {
+        try{
+            return await orderService.getOrderByUser(email);
+        } catch (e) {
+            console.log(e);
+            throw e;
+          }
+        },
    
 
     // Controller to get orders for the currently logged-in user
@@ -49,19 +58,15 @@ const orderControllers  = {
     },
 
     // Edit an order by ID
-    editOrder: async (req, res) => {
+    updateOrder: async (orderId, updatedOrderData) => {
         try {
-            const orderId = req.params.id;
-            const updatedData = req.body;
-
-            // Call the editOrder function from the orderService
-            const updatedOrder = await orderService.editOrder(orderId, updatedData);
-
-            res.status(200).json(updatedOrder);
-        } catch (error) {
-            res.status(500).json({ error: `Error editing order: ${error.message}` });
+            const updatedOrder = await orderService.updateOrder(orderId, updatedOrderData);
+            return updatedOrder;
+        } catch (e) {
+            console.log(e);
+            throw e;
         }
-    },
+      },
 
     // Delete an order by ID
     deleteOrder: async (_id) => {
