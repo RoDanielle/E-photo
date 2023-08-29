@@ -16,6 +16,8 @@ const orderControllers  = {
 
     // Controller to get all orders
     getAllOrders: async (req,res) => {
+        console.log("controller:", currentUserEmail);
+
         try {
             const orders = await orderService.getAllOrders();
             res.status(200).json(orders);
@@ -33,17 +35,8 @@ const orderControllers  = {
             throw e;
           }
         },
-        // Controller to get an order by its user
-    getOrderByUser: async (email) => {
-        try{
-            return await orderService.getOrderByUser(email);
-        } catch (e) {
-            console.log(e);
-            throw e;
-          }
-        },
    
-
+    /*
     // Controller to get orders for the currently logged-in user
     getOrdersForCurrentUser: async (req,res) => {
         try {
@@ -56,17 +49,36 @@ const orderControllers  = {
             res.status(500).json({ error: 'An error occurred while retrieving the orders for the current user.' });
         }
     },
+    */
+
+
+        // Controller to get orders for the currently logged-in user
+        getOrdersForCurrentUser: async (currentUserEmail) => {
+            console.log("controller:", currentUserEmail);
+            try {
+                // Assuming you have access to the currently logged-in user's ID
+                const orders = await orderService.findOrdersForCurrentUser(currentUserEmail);
+                console.log("orders controller:", orders);
+                return orders;
+            } catch (error) {
+                res.status(500).json({ error: 'An error occurred while retrieving the orders for the current user.' });
+            }
+        },
 
     // Edit an order by ID
-    updateOrder: async (orderId, updatedOrderData) => {
+    editOrder: async (req, res) => {
         try {
-            const updatedOrder = await orderService.updateOrder(orderId, updatedOrderData);
-            return updatedOrder;
-        } catch (e) {
-            console.log(e);
-            throw e;
+            const orderId = req.params.id;
+            const updatedData = req.body;
+
+            // Call the editOrder function from the orderService
+            const updatedOrder = await orderService.editOrder(orderId, updatedData);
+
+            res.status(200).json(updatedOrder);
+        } catch (error) {
+            res.status(500).json({ error: `Error editing order: ${error.message}` });
         }
-      },
+    },
 
     // Delete an order by ID
     deleteOrder: async (_id) => {

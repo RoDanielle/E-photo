@@ -72,9 +72,9 @@ router.get('/api/store-orders/:email', (req, res) => {
 
 
 // Get orders for the currently logged-in user
-router.get('/api/orders/current-user', async (req, res) => {
+router.get('/api/orderByUser/:currentUserEmail', async (req, res) => {
     try {
-        const currentUserEmail = req.params.email;
+        const currentUserEmail = req.params.currentUserEmail;
         const orders = await orderControllers.getOrdersForCurrentUser(currentUserEmail);
         res.status(200).json(orders);
     } catch (error) {

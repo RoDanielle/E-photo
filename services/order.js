@@ -16,6 +16,7 @@ const orderService = {
 
 
     getAllOrders: async () => {
+        console.log("services:", currentUserEmail);
         return await Order.find();
     },
 
@@ -42,22 +43,23 @@ const orderService = {
     },
 
 
-    //const currentUserId = req.user._id;
-    //const currentDate = new Date();
-
-    findOrdersForCurrentUser: async(currentUserId, currentDate) => {
+    findOrdersForCurrentUser: async(currentUserEmail) => {
+        console.log("services:", currentUserEmail);
 
         //check if the user with the provided currentUserId exists
-        const userExists = await User.exists({ _id: currentUserId });
+        const userExists = await User.exists({email: currentUserEmail });
 
         if (userExists) {
+            console.log ("services if");
             //if the user exists, find and return their orders until the current date
             const orders = await Order.find({
-              idUserOrdered: currentUserId,
-              date: { $lte: currentDate }, //$lte operator to find orders until the current date
-            }).save;
+              idUserOrdered: currentUserEmail
+            });
+
+            console.log ("services save");
 
             if (orders.length > 0) {
+                console.log("orders services:", orders);
                 return orders;
             } else {
                 //the case where the user has no orders
@@ -65,7 +67,7 @@ const orderService = {
             }
         } else {
             //if the user does not exist
-            throw new Error("User with ID " + currentUserId + " does not exist.");
+            throw new Error("User with ID " + currentUserEmail + " does not exist.");
         }
     },
 

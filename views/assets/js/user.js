@@ -49,34 +49,34 @@ if (userConsent) {
 
 
 
-
-
-
-// Orders
 const orderTable = document.getElementById('orderTable').getElementsByTagName('tbody')[0];
 
-// Function to fetch order data from MongoDB using an API endpoint
-async function fetchOrderData() {
-  try {
-    const response = await fetch('/api/all-orders');
-    if (!response.ok) {
-      throw new Error('Failed to fetch orders.');
+// Fetch user email
+async function fetchUserEmail() {
+    try {
+        const response = await fetch('/getLoggedInID');
+        if (response.ok) {
+            const data = await response.json();
+            return data.userEmail; // This might be null if the user is not logged in
+        } else {
+            console.error('Failed to fetch user email');
+            return null;
+        }
+    } catch (error) {
+        console.error('An error occurred while fetching user email', error);
+        return null;
     }
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching order data:', error);
-    return [];
-  }
 }
 
 async function renderOrderTable() {
-  const orderData = await fetchOrderData();
+    const currentUserEmail = await fetchUserEmail();
+    const orderData = await fetchOrderData(currentUserEmail);
 
   // Clear existing table
   orderTable.innerHTML = '';
 
   orderData.forEach(order => {
+
     const row = orderTable.insertRow();
     row.setAttribute('data-id', order._id);
 
@@ -85,8 +85,7 @@ async function renderOrderTable() {
     const dateCell = row.insertCell(2);
     const costCell = row.insertCell(3);
     const productsListCell = row.insertCell(4);
-    const deleteCell = row.insertCell(5);
-    const updateCell = row.insertCell(6);
+
 
     orderIdCell.textContent = order._id;
     userOrderIdCell.textContent = order.idUserOrdered;
@@ -94,19 +93,7 @@ async function renderOrderTable() {
     costCell.textContent = order.cost;
     productsListCell.textContent = order.productList;
 
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Delete';
-    deleteButton.className = 'red-delete-button';
-    deleteButton.setAttribute('data-id', order._id);
-    deleteButton.addEventListener('click', () => deleteOrder(order._id));
-    deleteCell.appendChild(deleteButton);
-
-    const updateButton = document.createElement('button');
-    updateButton.textContent = 'Update';
-    updateButton.setAttribute('data-id', order._id);
-    updateButton.addEventListener('click', () => handleEditClickOrder(order._id));
-    updateCell.appendChild(updateButton);
-
+    /*
     // Hidden row for editing
     const editRow = orderTable.insertRow();
     editRow.style.display = 'none';
@@ -124,16 +111,36 @@ async function renderOrderTable() {
         editForm.appendChild(input);
       }
     }
+    */
 
-    const confirmUpdateButton = document.createElement('button');
-    confirmUpdateButton.textContent = 'Confirm Update';
-    confirmUpdateButton.addEventListener('click', () => handleUpdateClickOrder(order._id, editForm));
-    editForm.appendChild(confirmUpdateButton);
+    //const confirmUpdateButton = document.createElement('button');
+    //confirmUpdateButton.textContent = 'Confirm Update';
+    //confirmUpdateButton.addEventListener('click', () => handleUpdateClickOrder(order._id, editForm));
+    //editForm.appendChild(confirmUpdateButton);
 
-    editCell.appendChild(editForm);
+    //editCell.appendChild(editForm);
   });
 }
 
+// Function to fetch order data from MongoDB using an API endpoint
+async function fetchOrderData(currentUserEmail) {
+    try {
+        console.log("Email:", currentUserEmail);
+        const response = await fetch(`/api/orderByUser/${currentUserEmail}`);
+        console.log("fetch order:", response);
+            if (!response.ok) {
+            throw new Error('Failed to fetch orders.');
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching order data:', error);
+        return [];
+    }
+}
+
+
+/*
 // Function to delete an order
 async function deleteOrder(orderId) {
   try {
@@ -158,6 +165,7 @@ async function deleteOrder(orderId) {
     console.error('Error deleting order:', error);
   }
 }
+*/
 
 // Add event listeners
 document.getElementById('searchOrderButton').addEventListener('click', async () => {
