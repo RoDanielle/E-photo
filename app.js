@@ -21,7 +21,6 @@ const R_AuthRoutes = require('./routes/authRoutes');
 const R_Products = require('./routes/products');
 const R_Location = require('./routes/location');
 const R_Users = require('./routes/user');
-const R_ShoppingCart = require('./routes/shoppingCart');
 const R_Weather = require('./routes/weather');
 const R_Order = require('./routes/order');
 
@@ -178,7 +177,6 @@ app.get('/', function (req, res) {
 
 // Routes
 app.use(R_AuthRoutes);
-app.use(R_ShoppingCart);
 app.use(R_Products);
 app.use(R_Location);
 app.use(R_Users);
