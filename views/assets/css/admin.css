@@ -335,3 +335,8 @@ footer {
     cursor: pointer;
     border-radius: 8px; /* Adjust this value for the desired level of roundness */
 }
+
+.product-image {
+    width: 60px; /* Set your desired width */
+    height: 60px; /* Set your desired height */
+  }
