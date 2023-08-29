@@ -11,7 +11,6 @@ router.get('/api/average-prices', C_products.getAveragePricesByCategory);
 router.get("/api/store-products", (req, res) => {
     C_products.getAll()
       .then((data) => {
-        console.log(data)
         res.json(data);
       })
       .catch((error) => {

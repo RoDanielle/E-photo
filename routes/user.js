@@ -9,7 +9,6 @@ const userAuthMiddleware = require('../middleware/costumer');
 router.get("/api/store-user", (req, res) => {
     C_user.getAll()
       .then((data) => {
-        console.log(data)
         res.json(data);
       })
       .catch((error) => {
