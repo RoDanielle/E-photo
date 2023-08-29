@@ -52,6 +52,22 @@ router.get('/api/orders/:id', (req, res) => {
       res.status(500).json({ error: 'Failed to fetch order details' });
     });
 }); 
+// Get an order by user email
+router.get('/api/store-orders/:email', (req, res) => {
+  const orderUser = req.params.email;
+  console.log(orderUser);
+  orderControllers.getOrderByUser(orderUser)
+    .then((order) => {
+      if (!order) {
+        return res.status(404).json({ error: 'Order not found' });
+      }
+      res.json(order);
+    })
+    .catch((error) => {
+      console.error('Error fetching order details:', error);
+      res.status(500).json({ error: 'Failed to fetch order details' });
+    });
+}); 
 
 
 
@@ -67,17 +83,16 @@ router.get('/api/orders/current-user', async (req, res) => {
 });
 
 
-// Edit an order by ID
-router.put('/api/orders/:id', async (req, res) => {
-    try {
-        const orderId = req.params.id;
-        const updatedData = req.body;
-        const updatedOrder = await orderControllers.editOrder(orderId, updatedData);
-        res.status(200).json(updatedOrder);
-    } catch (error) {
-        res.status(500).json({ error: `Error editing order: ${error.message}` });
-    }
-
+router.put("/api/store-orders/:orderId", async (req, res) => {
+  const orderId = req.params.orderId;
+  const updatedOrderData = req.body;
+  try {
+      const updatedOrder = await orderControllers.updateOrder(orderId, updatedOrderData);
+      res.json({ message: 'Order updated successfully', order: updatedOrder });
+  } catch (error) {
+      console.error('Error updating order:', error);
+      res.status(500).json({ error: 'Failed to update order' });
+  }
 });
 
 

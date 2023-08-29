@@ -30,6 +30,16 @@ const orderService = {
             throw error;
           }
     },
+    getOrderByUser: async (email) => {
+        try{
+            const order=await Order.findById(email);
+            return order;
+        }
+        catch (error) {
+            console.error('Error fetching order by email:', error);
+            throw error;
+          }
+    },
 
 
     //const currentUserId = req.user._id;
@@ -61,24 +71,17 @@ const orderService = {
 
 
     // Edit an order by ID
-    editOrder: async (orderID, updatedData) => {
+    updateOrder: async (orderId, updatedOrderData) => {
         try {
-            // Find the order by ID
-            const order = await Order.findById(orderId);
+            // Find the order by its ID and update its fields
+            const updatedOrder = await Order.findByIdAndUpdate(orderId, updatedOrderData, { new: true });
 
-            if (!order) {
-                throw new Error(`Order with ID ${orderId} not found.`);
-            }
-
-            // Update the order data
-            Object.assign(order, updatedData);
-
-            // Save the updated order
-            return await order.save();
-        } catch (error) {
-            throw new Error(`Error editing order: ${error.message}`);
+            return updatedOrder;
+        } catch (e) {
+            console.error(e);
+            throw e;
         }
-    },
+    },  
 
 
     // Delete an order by ID
