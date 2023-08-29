@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const orderControllers  = require('../controllers/order');
-const adminAuthMiddleware = require('../middleware/adminAuth'); // Import your admin authentication middleware
-
-
+const adminAuthMiddleware = require('../middleware/adminAuth');
+const userAuthMiddleware = require('../middleware/costumer');
 
 // Create a new order
-router.post('/api/create', orderControllers.createOrder);
-
+router.post('/api/create', userAuthMiddleware, orderControllers.createOrder);
 
 // Get all orders
-router.get('/api/all-orders', async (req, res) => {
+router.get('/api/all-orders', adminAuthMiddleware, async (req, res) => {
     try {
         const orders = await orderControllers.getAllOrders();
         res.status(200).json(orders);
@@ -20,7 +18,7 @@ router.get('/api/all-orders', async (req, res) => {
 });
 
 // Delete an order by ID
-router.delete('/api/delete-order/:orderId', async (req, res) => {
+router.delete('/api/delete-order/:orderId', adminAuthMiddleware, async (req, res) => {
   const orderId = req.params.orderId;
   console.log(orderId);
   console.log(".");
@@ -54,6 +52,7 @@ router.get('/api/orders/:id', (req, res) => {
       res.status(500).json({ error: 'Failed to fetch order details' });
     });
 }); 
+
 // Get an order by user email
 router.get('/api/store-orders/:email', (req, res) => {
   const orderUser = req.params.email;
@@ -71,8 +70,6 @@ router.get('/api/store-orders/:email', (req, res) => {
     });
 }); 
 
-
-
 // Get orders for the currently logged-in user
 router.get('/api/orderByUser/:currentUserEmail', async (req, res) => {
     try {
@@ -84,7 +81,7 @@ router.get('/api/orderByUser/:currentUserEmail', async (req, res) => {
     }
 });
 
-
+// update an order info
 router.put("/api/store-orders/:orderId",adminAuthMiddleware, async (req, res) => {
   const orderId = req.params.orderId;
   const updatedOrderData = req.body;
@@ -96,9 +93,5 @@ router.put("/api/store-orders/:orderId",adminAuthMiddleware, async (req, res) =>
       res.status(500).json({ error: 'Failed to update order' });
   }
 });
-
-
-
-router.get('/api/all-orders', orderControllers.getAllOrders);
 
 module.exports = router;

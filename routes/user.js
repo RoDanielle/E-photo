@@ -6,7 +6,8 @@ const { route } = require('./products');
 const adminAuthMiddleware = require('../middleware/adminAuth'); 
 const userAuthMiddleware = require('../middleware/costumer'); 
 
-router.get("/api/store-user", (req, res) => {
+// get all users
+router.get("/api/store-user", adminAuthMiddleware, (req, res) => {
     C_user.getAll()
       .then((data) => {
         res.json(data);
@@ -17,24 +18,30 @@ router.get("/api/store-user", (req, res) => {
       });
   });
 
+// update a users info
 router.put("/api/store-user", adminAuthMiddleware, (req, res) => {
     C_user.update(req.body).then((data) => {
         res.json(data);
     })
 });
 
+// delete a user
 router.delete("/api/store-user", adminAuthMiddleware, (req, res) => {
         C_user.deleteUser(req.body._id).then((data) => {
             res.json(data);
         })
     });
 
-
+// add a new user (registration)
 router.post('/register', C_user.register);
+
+// login
 router.post('/login',  C_user.login);
+
+//logout
 router.post('/logout', C_user.logout);
 
-
+// get the logged in user
 router.get("/api/current-user", userAuthMiddleware, (req, res) => {
   const userId = req.session.userId;  
   C_user.getUserById(userId)
@@ -50,6 +57,7 @@ router.get("/api/current-user", userAuthMiddleware, (req, res) => {
     });
 });
 
+// get a user that matches a provided email
 router.get("/api/user-by-email",userAuthMiddleware, (req, res) => {
   const { email } = req.query; // Get the email from the query parameters
   if (!email) {

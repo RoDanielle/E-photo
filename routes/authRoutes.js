@@ -11,6 +11,7 @@ router.get('/checkLoggedIn', (req, res) => {
   }
 });
 
+// Middleware to get the logged user email (this is our key for a user)
 router.get('/getLoggedInID', (req, res) => {
   if (req.session.isLoggedIn)
   {
