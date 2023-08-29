@@ -797,7 +797,11 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         userOrderIdCell.textContent = order.idUserOrdered;
         dateCell.textContent = order.date;
         costCell.textContent = order.cost;
-        productsListCell.textContent = order.productList;
+        var productsNames = new Array(); 
+        order.productList.forEach(object => {
+          productsNames.push(object.productName);
+        });    
+        productsListCell.textContent = productsNames;
   
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete';
@@ -935,8 +939,12 @@ function updateOrderTable(data) {
        userOrderIdCell.textContent = order.idUserOrdered;
        dateCell.textContent = order.date;
        costCell.textContent = order.cost;
-       productsListCell.textContent = order.productList;
-
+       var productsNames = new Array(); 
+       order.productList.forEach(object => {
+         productsNames.push(object.productName);
+       });    
+       productsListCell.textContent = productsNames;
+       
        const deleteButton = document.createElement('button');
        deleteButton.textContent = 'Delete';
        deleteButton.className = 'red-delete-button'; // Apply the CSS class

@@ -91,7 +91,13 @@ async function renderOrderTable() {
     userOrderIdCell.textContent = order.idUserOrdered;
     dateCell.textContent = order.date;
     costCell.textContent = order.cost;
-    productsListCell.textContent = order.productList;
+    
+    var productsNames = new Array(); 
+    order.productList.forEach(object => {
+      productsNames.push(object.productName);
+    });
+    
+    productsListCell.textContent = productsNames;
 
     /*
     // Hidden row for editing
