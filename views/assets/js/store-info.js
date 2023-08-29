@@ -259,14 +259,25 @@ const data = await response.json();
 return data;
 }
 
+// Function to render the products table
 async function renderProductsTable() {
 const productData = await fetchProductData();
 productData.forEach(product => {
   const row = productsTable.insertRow();
-  row.setAttribute('data-id', product._id); // Set the data-id attribute for the row
-  const idCell=row.insertCell(0);
+  row.setAttribute('data-id', product._id);
+  const idCell = row.insertCell(0);
   const nameCell = row.insertCell(1);
   const imageCell = row.insertCell(2);
+
+  // Create an <img> element for the image
+  const imageElement = document.createElement('img');
+  imageElement.src = product.image;
+  imageElement.alt = 'Product Image';
+  imageElement.className = 'product-image'; // Add the CSS class
+  // Append the <img> element to the imageCell
+  imageCell.innerHTML = '';
+  imageCell.appendChild(imageElement);
+
   const brandCell = row.insertCell(3);
   const categoryCell = row.insertCell(4);
   const countInStockCell = row.insertCell(5);
@@ -279,7 +290,6 @@ productData.forEach(product => {
 
   idCell.textContent = product._id;
   nameCell.textContent = product.name;
-  imageCell.textContent = product.image;
   brandCell.textContent = product.brand;
   categoryCell.textContent = product.category;
   countInStockCell.textContent = product.countInStock;
@@ -398,6 +408,14 @@ function updateProductsTable(data) {
     const idCell = row.insertCell(0);
     const nameCell = row.insertCell(1);
     const imageCell = row.insertCell(2);
+
+    // Create an <img> element for the image
+    const imageElement = document.createElement("img");
+    imageElement.src = product.image;
+    imageElement.alt = "Product Image";
+    // Append the <img> element to the imageCell
+    imageCell.appendChild(imageElement);
+
     const brandCell = row.insertCell(3);
     const categoryCell = row.insertCell(4);
     const countInStockCell = row.insertCell(5);
@@ -409,7 +427,6 @@ function updateProductsTable(data) {
     const actionsCell = row.insertCell(11);
     idCell.textContent = product._id;
     nameCell.textContent = product.name;
-    imageCell.textContent = product.image;
     brandCell.textContent = product.brand;
     categoryCell.textContent = product.category;
     countInStockCell.textContent = product.countInStock;
