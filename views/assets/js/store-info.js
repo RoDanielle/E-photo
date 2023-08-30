@@ -657,6 +657,8 @@ function updateProductsTable(data) {
     const imageElement = document.createElement("img");
     imageElement.src = product.image;
     imageElement.alt = "Product Image";
+    imageElement.className='product-image';
+    imageCell.innerHTML='';
     // Append the <img> element to the imageCell
     imageCell.appendChild(imageElement);
 
