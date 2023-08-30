@@ -16,7 +16,7 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     const brand = document.getElementById("brand").value;
     const category = document.getElementById("category").value;
     const price = parseFloat(document.getElementById("price").value);
-    const countInStock = parseInt(document.getElementById("countInStock").value);
+    const countInStock = document.getElementById("countInStock").value;
     const rating = parseFloat(document.getElementById("rating").value);
     const numReviews = parseInt(document.getElementById("numReviews").value);
     const description = document.getElementById("description").value;

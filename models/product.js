@@ -28,9 +28,8 @@ const productSchema = new mongoose.Schema(
       required: true,
     },
     countInStock: {
-      type: Number,
+      type: String,
       required: true,
-      min: [0, "Only greater than 0"],
     },
     rating: {
       type: Number,

@@ -41,37 +41,45 @@
             <p id="cartTotal"></p>
             <button id="payButton">Pay</button>
         </aside>
-    <div class="container py-5">
-        <div class="product-details-container">
-                    <div class="product-details">
-            <div class="product-image-container">
-                <img src="" alt="Product Image" width="300" id="product-image">
-            </div>
-            <div class="product-info">
-                <h2 id="product-name">Product Name</h2>
-                <form id="editForm">
-                    <input type="text" id="editedName" placeholder="Edited Name">
-                    <input type="text" id="editedImage" placeholder="Edited Image">
-                    <input type="text" id="editedBrand" placeholder="Edited Brand">
-                    <input type="text" id="editedCategory" placeholder="Edited Category">
-                    <input type="number" id="editedPrice" placeholder="Edited Price">
-                    <input type="number" id="editedCountInStock" placeholder="Edited CountInStock">
-                    <input type="number" id="editedRating" placeholder="Edited Rating">
-                    <input type="number" id="editedNumReviews" placeholder="Edited NumReviews">
-                    <input type="text" id="editedDescription" placeholder="Edited Description">
-                    <input type="text" id="editedColor" placeholder="Edited Color">
-                    <input type="text" id="editedPopularity" placeholder="Edited Popularity">
-                    <button type="button" class="btn btn-primary" id="saveButton">Save</button>
-                </form>
-                <p id="product-description">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <p id="product-price">Price: $XX.XX</p>
-                <p id="product-rating">Rating: <span id="rating-value">4.7</span></p>
-                <p id="product-availability">Availability: <span id="availability-status">In Stock</span></p>
-                <button class="btn btn-primary add-to-cart-button">Add to Cart</button>
-                <button class="btn btn-primary edit-button">Update Product Information</button>
+        <div class="container py-5">
+            <div class="product-details-container">
+                        <div class="product-details">
+                <div class="product-image-container">
+                    <img src="" alt="Product Image" width="300" id="product-image">
+                </div>
+                <div class="product-info">
+                    <h2 id="product-name">Product Name</h2>
+                    <form id="editForm">
+                        <input type="text" id="editedName" placeholder="Edited Name">
+                        <input type="text" id="editedImage" placeholder="Edited Image">
+                        <input type="text" id="editedBrand" placeholder="Edited Brand">
+                        <input type="text" id="editedCategory" placeholder="Edited Category">
+                        <input type="number" id="editedPrice" placeholder="Edited Price">
+                        
+                        <!-- Use a select element for editedCountInStock -->
+                        <select id="editedCountInStock">
+                            <option value="available">Available</option>
+                            <option value="not Available">Not Available</option>
+                        </select>
+                        
+                        <input type="number" id="editedRating" placeholder="Edited Rating">
+                        <input type="number" id="editedNumReviews" placeholder="Edited NumReviews">
+                        <input type="text" id="editedDescription" placeholder="Edited Description">
+                        <input type="text" id="editedColor" placeholder="Edited Color">
+                        <input type="text" id="editedPopularity" placeholder="Edited Popularity">
+                        
+                        <button type="button" class="btn btn-primary" id="saveButton">Save</button>
+                    </form>
+                    <p id="product-description">Description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p id="product-price">Price: $XX.XX</p>
+                    <p id="product-rating">Rating: <span id="rating-value">4.7</span></p>
+                    <p id="product-availability">Availability: <span id="availability-status">In Stock</span></p>
+                    <button class="btn btn-primary add-to-cart-button">Add to Cart</button>
+                    <button class="btn btn-primary edit-button">Update Product Information</button>
+                </div>
             </div>
         </div>
-    </div>
+        
     <footer class="bg-primary-gradient"></footer>
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
     <script src="https://cdn.reflowhq.com/v2/toolkit.min.js"></script>
