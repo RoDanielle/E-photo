@@ -65,3 +65,26 @@ body {
     background: linear-gradient(45deg, rgb(53, 160, 209), rgb(160, 98, 185));
     height: 70px;
 }
+
+    /* Custom CSS to style the search button text */
+    .input-group {
+        display: flex;
+        align-items: center; /* Vertically align items */
+    }
+
+    #searchOrder {
+        border-radius: 0;
+        height: 40px;
+        flex-grow: 1; /* Allow the input to grow and take remaining space */
+    }
+
+    #searchOrderButton {
+        border-radius: 0;
+        height: 40px;
+        display: flex;
+        align-items: center; /* Vertically align the button content */
+    }
+
+    #searchButtonText {
+        margin: 0 auto; /* Center the text horizontally */
+    }

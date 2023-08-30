@@ -15,8 +15,8 @@
 
 .shopping-cart h3 {
   margin-top: 0;
-  font-size: 24px; /* כאן אתה יכול לשנות את גודל הגופן */
-  font-weight: bold; /* אפשר גם להוסיף עובי הגופן */
+  font-size: 24px; 
+  font-weight: bold; 
 }
 
 .shopping-cart.show {

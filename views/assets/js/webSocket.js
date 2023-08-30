@@ -1,7 +1,4 @@
 
-
-
-
 const ws = new WebSocket("ws://localhost:4440");
 
 ws.addEventListener("message", function (event) {

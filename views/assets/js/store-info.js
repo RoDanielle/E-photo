@@ -108,61 +108,7 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     }
 
 }
-/*
-  //Registered users 
-    // Fetch user data from MongoDB using an API endpoint
-    async function fetchUserData() {
-      const response = await fetch('/api/store-user'); // Replace with your API endpoint
-      const data = await response.json();
-      return data;
-  }
-  
-  // Function to render the user table
-  function renderUserTable(data) {
-      const tableContainer = d3.select('#userTable');
-      const table = tableContainer.selectAll('table').empty() ? tableContainer.append('table').attr('class', 'table') : tableContainer.select('table');
-      // Table header
-      const thead = table.selectAll('thead').data([null]).enter().append('thead').append('tr');
-      thead.append('th').text('ID');
-      thead.append('th').text('Username');
-      thead.append('th').text('Email');
-      thead.append('th').text('Actions');
-  
-      // Table body
-      const tbody = table.selectAll('tbody').data([null]).enter().append('tbody');
-      const rows = tbody.selectAll('tr').data(data, user => user._id);
-      rows.exit().remove(); // Remove extra rows
-      const newRow = rows.enter().append('tr');
-      newRow.append('td').text(user => user._id); // Assuming the user document has _id field
-      newRow.append('td').text(user => user.name);
-      newRow.append('td').text(user => user.email);
-      const actionsCell = newRow.append('td');
-      const deleteButton = actionsCell.append('button')  .attr('class', 'btn btn-danger red-delete-button').text('Delete');
-      //const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
-      deleteButton.on('click', user => deleteUser(user._id)); // Call a function to delete the user
-      rows.merge(newRow); // Merge new and existing rows
-  }
-  
-  // Function to delete a user
-  async function deleteUser(userId) {
-  const response = await fetch(`/api/store-user`, {
-  method: 'DELETE',
-  headers: {
-      'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({ _id: userId })
-  });
-  const data = await response.json();
-  if (data.success) {
-  // Reload the user table after successful deletion
-  const userData = await fetchUserData();
-  d3.select('#userTable').selectAll('*').remove(); // Clear existing table
-  renderUserTable(userData);
-  } else {
-  console.error('Failed to delete user.');
-  }
-  }
-*/
+
 //user
 const userTable = document.getElementById('userTable').getElementsByTagName('tbody')[0];
 async function fetchUserData() {
@@ -330,19 +276,7 @@ document.getElementById("searchUserButton").addEventListener("click", async func
     updateUserTable(originalUserData);  // Revert to original data when search is cleared
   }
 });
-/*
-// Function to fetch user data by id
-async function findUserById(userId) {
-  try {
-      const response = await fetch(`/api/store-user/${userId}`); // Replace with your actual API endpoint
-      const data = await response.json();
-      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
-  } catch (error) {
-      console.error("Error fetching user by id:", error);
-      return [];
-  }
-}
-*/
+
 // Function to fetch user data by id
 async function findUserById(userId) {
   try {
@@ -601,23 +535,7 @@ async function findUserByEmail(email) {
       return [];
   }
 }
-/*
-function updateUserTable(data) {
-  const tableContainer = d3.select('#userTable');
-  const table = tableContainer.select('table'); // Select the existing table
-  const tbody = table.select('tbody');
-  const rows = tbody.selectAll('tr').data(data, user => user._id);
-  rows.exit().remove(); // Remove extra rows
-  const newRow = rows.enter().append('tr');
-  newRow.append('td').text(user => user._id);
-  newRow.append('td').text(user => user.name);
-  newRow.append('td').text(user => user.email);
-  const actionsCell = newRow.append('td');
-  const deleteButton = actionsCell.append('button').attr('class', 'btn btn-danger').text('Delete');
-  deleteButton.on('click', user => deleteUser(user._id));
-  rows.merge(newRow); // Merge new and existing rows
-}
-*/
+
 // Add an event listener for search form submission
 document.getElementById("searchProductIdButton").addEventListener("click", async function() {
   // Get the search query from the input field
@@ -1000,15 +918,6 @@ async function addLocation(locationData, event) {
     console.error("Error adding location:", error);
   }
 }
-
-
-
-
-
-
-
-
-
 
 //Orders 
 const orderTable = document.getElementById('orderTable').getElementsByTagName('tbody')[0];

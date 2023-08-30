@@ -192,18 +192,6 @@ app.use('/views/assets/js', express.static('js'));
 app.use(express.static('public'));
 
 
-/*
-app.get('/api/products', async (req, res) => {
-  try {
-    const products = await M_Product.find(); // Using the getAll function from C_products controller
-    res.json(products);
-  } catch (error) {
-    console.log('hello')
-  }
-});
-*/
-
-
 // --- web socket - autoResponse ---
 const WebSocket = require('ws');
 
