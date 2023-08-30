@@ -50,11 +50,11 @@
                 <div class="product-info">
                     <h2 id="product-name">Product Name</h2>
                     <form id="editForm">
-                        <input type="text" id="editedName" placeholder="Edited Name">
-                        <input type="text" id="editedImage" placeholder="Edited Image">
-                        <input type="text" id="editedBrand" placeholder="Edited Brand">
-                        <input type="text" id="editedCategory" placeholder="Edited Category">
-                        <input type="number" id="editedPrice" placeholder="Edited Price">
+                        <input type="text" id="editedName" placeholder="Edited Name" required>
+                        <input type="text" id="editedImage" placeholder="Edited Image" required>
+                        <input type="text" id="editedBrand" placeholder="Edited Brand" required>
+                        <input type="text" id="editedCategory" placeholder="Edited Category" required>
+                        <input type="text" id="editedPrice" placeholder="Edited Price" step="0.1" required>
                         
                         <!-- Use a select element for editedCountInStock -->
                         <select id="editedCountInStock">
@@ -62,11 +62,11 @@
                             <option value="not Available">Not Available</option>
                         </select>
                         
-                        <input type="number" id="editedRating" placeholder="Edited Rating">
-                        <input type="number" id="editedNumReviews" placeholder="Edited NumReviews">
-                        <input type="text" id="editedDescription" placeholder="Edited Description">
-                        <input type="text" id="editedColor" placeholder="Edited Color">
-                        <input type="text" id="editedPopularity" placeholder="Edited Popularity">
+                        <input type="number" id="editedRating" placeholder="Edited Rating" step="0.1" required>
+                        <input type="number" id="editedNumReviews" placeholder="Edited NumReviews" required>
+                        <input type="text" id="editedDescription" placeholder="Edited Description" required>
+                        <input type="text" id="editedColor" placeholder="Edited Color" required>
+                        <input type="text" id="editedPopularity" placeholder="Edited Popularity" required>
                         
                         <button type="button" class="btn btn-primary" id="saveButton">Save</button>
                     </form>

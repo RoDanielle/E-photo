@@ -118,9 +118,6 @@ addToCartButton.addEventListener('click', () => {
         });
 });
 
-// ... (rest of your code) ...
-
-
             // Show the edit form and populate it with current product information
             const editButton = document.querySelector('.edit-button');
             editButton.style.display = "none"; // Hide the edit button by default
@@ -146,7 +143,9 @@ addToCartButton.addEventListener('click', () => {
             // Save edited product details
             const saveButton = document.getElementById('saveButton');
             saveButton.addEventListener('click', () => {
-                saveEditedProduct(productId);
+                if (editForm.checkValidity()) {
+                    saveEditedProduct(productId);
+                }
             });
         })
         .catch(error => console.error('Error fetching product:', error));
