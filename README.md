@@ -4,7 +4,7 @@
 The application employs the MVC (Model-View-Controller) architecture and is supported by a MongoDB database. Users can buy photos from the store, view their profiles, contact the website administrators, and access site information.
 Authentication requires users to log in using their registered email and password.
 
-*The project is intended as a learning experience and practical application of web development concepts. It involves building an e-commerce platform for purchasing photos and incorporates modern design and development practices.
+* The project is intended as a learning experience and practical application of web development concepts. It involves building an e-commerce platform for purchasing photos and incorporates modern design and development practices.
 
 ## Project Description
 Here's a breakdown of the project components:
