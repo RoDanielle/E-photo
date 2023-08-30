@@ -10,6 +10,7 @@ Overall, the code ensures secure user authentication and session handling within
 
 */
 
+/*
 const bcrypt = require("bcryptjs");
 LocalStrategy = require("passport-local").Strategy;
 // Load model
@@ -55,3 +56,4 @@ const loginCheck = passport => {
 module.exports = {
   loginCheck,
 };
+*/

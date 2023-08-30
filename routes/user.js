@@ -18,15 +18,7 @@ router.get("/api/store-user", adminAuthMiddleware, (req, res) => {
       });
   });
 
-// update a users info
-router.put("/api/store-user", adminAuthMiddleware, (req, res) => {
-    C_user.update(req.body).then((data) => {
-        res.json(data);
-    })
-});
-
-// only admin - update
-// delete a user
+// only admin - update a user
 router.put("/api/store-user/:userId", adminAuthMiddleware, async (req, res) => {
   const userId = req.params.userId;
   const updatedUserData = req.body;
@@ -38,6 +30,7 @@ router.put("/api/store-user/:userId", adminAuthMiddleware, async (req, res) => {
       res.status(500).json({ error: 'Failed to update user' });
   }
 });
+
 // only admin - delete
 router.delete("/api/store-user/:userId", adminAuthMiddleware, async (req, res) => {
   const userId = req.params.userId;
@@ -52,15 +45,7 @@ router.delete("/api/store-user/:userId", adminAuthMiddleware, async (req, res) =
     res.status(500).json({ success: false, message: 'Error deleting user' });
   }
 });
-/*
 
-// delete a user
-router.delete("/api/store-user", adminAuthMiddleware, (req, res) => {
-        C_user.deleteUser(req.body._id).then((data) => {
-            res.json(data);
-        })
-    });
-*/
 // add a new user (registration)
 router.post('/register', C_user.register);
 
@@ -86,9 +71,28 @@ router.get("/api/current-user", userAuthMiddleware, (req, res) => {
     });
 });
 
+// get a user that matches a provided id
+router.get("/api/user-by-id/:id",userAuthMiddleware, (req, res) => {
+  const userId = req.params.id;
+  if (!userId) {
+    return res.status(400).json({ error: 'ID is required' });
+  }
+  C_user.getUserById(userId)
+  .then((user) => {
+    if (!user) {
+      return res.status(404).json({ error: 'user not found' });
+    }
+    res.json(user);
+  })
+  .catch((error) => {
+    console.error('Error fetching user details:', error);
+    res.status(500).json({ error: 'Failed to fetch user details' });
+  });
+},);
+
 // get a user that matches a provided email
-router.get("/api/user-by-email",userAuthMiddleware, (req, res) => {
-  const { email } = req.query; // Get the email from the query parameters
+router.get("/api/user-by-email/:email",userAuthMiddleware, (req, res) => {
+  const email = req.params.email;
   if (!email) {
     return res.status(400).json({ error: 'Email is required' });
   }

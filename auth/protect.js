@@ -5,7 +5,7 @@ For example, to order a product you need to register, to view the products you d
 
 */
 
-
+/*
 const protectRoute = (req, res, next) =>{
   if (req.isAuthenticated()) {
     return next();
@@ -24,3 +24,4 @@ module.exports = {
     protectRoute,
     allowIf,
   };
+  */

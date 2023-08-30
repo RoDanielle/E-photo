@@ -5,9 +5,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const passport=require("passport");
-const { loginCheck }=require("./auth/passport");
-loginCheck(passport);
+//const passport=require("passport");
+//const { loginCheck }=require("./auth/passport");
+//loginCheck(passport);
 const customEnv = require('custom-env');
 const path = require('path'); 
 customEnv.env(process.env.NODE_ENV, './config');
@@ -67,8 +67,8 @@ app.use(session({
   resave: false, // Set to false to save only if changes were made
   saveUninitialized: true
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 
 // --- google map ---
 const fs = require('fs'); // Import the 'fs' module

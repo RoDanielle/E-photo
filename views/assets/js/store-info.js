@@ -280,7 +280,7 @@ document.getElementById("searchUserButton").addEventListener("click", async func
 // Function to fetch user data by id
 async function findUserById(userId) {
   try {
-      const response = await fetch(`/api/current-user`); // Replace with your actual API endpoint
+      const response = await fetch(`/api/user-by-id/${userId}`); 
       const data = await response.json();
       return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
   } catch (error) {
@@ -958,7 +958,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
         const deleteCell = row.insertCell(5);
-        const updateCell = row.insertCell(6);
+        //const updateCell = row.insertCell(6);
   
         orderIdCell.textContent = order._id;
         userOrderIdCell.textContent = order.idUserOrdered;
@@ -977,11 +977,13 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         deleteButton.addEventListener('click', () => deleteOrder(order._id));
         deleteCell.appendChild(deleteButton);
   
+        /*
         const updateButton = document.createElement('button');
         updateButton.textContent = 'Update';
         updateButton.setAttribute('data-id', order._id);
         updateButton.addEventListener('click', () => handleEditClickOrder(order._id));
         updateCell.appendChild(updateButton);
+       
   
         // Hidden row for editing
         const editRow = orderTable.insertRow();
@@ -1007,7 +1009,7 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         editForm.appendChild(confirmUpdateButton);
   
         editCell.appendChild(editForm);
-        
+         */
     });
   }
   
@@ -1100,7 +1102,7 @@ function updateOrderTable(data) {
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
         const deleteCell = row.insertCell(5);
-        const updateCell = row.insertCell(6);
+        //const updateCell = row.insertCell(6);
   
        orderIdCell.textContent = order._id;
        userOrderIdCell.textContent = order.idUserOrdered;
@@ -1122,8 +1124,8 @@ function updateOrderTable(data) {
        updateButton.textContent = 'Update';
        updateButton.setAttribute('data-id', order._id);
        updateButton.addEventListener('click', () => handleEditClickOrder(order._id));
-       updateCell.appendChild(updateButton);
- 
+       //updateCell.appendChild(updateButton);
+       /*
        // Hidden row for editing
        const editRow = orderTable.insertRow();
        editRow.style.display = 'none';
@@ -1145,7 +1147,7 @@ function updateOrderTable(data) {
        confirmUpdateButton.addEventListener('click', () => handleUpdateClickOrder(order._id, editForm));
        editForm.appendChild(confirmUpdateButton);
        editCell.appendChild(editForm);
- 
+       */
   });
 }
 
