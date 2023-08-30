@@ -3,7 +3,7 @@ const S_user = require('../services/user');
 
 const C_user = {
 
-// returns all Users 
+// returns all Users without the id of each user
 getAll : async ()=> {
   try {
     return await S_user.getAll();
@@ -23,15 +23,15 @@ getUserById: async (_id) => {
   }
 },
 
-// update a users info
-updateUser :  async (user)=> {
-  try{
-    return await S_user.updateUser(user);
-  }
-  catch (e){
-    console.log(e);
-  }
-},
+updateUser: async (userId,updatedUserData)=> {
+    try {
+      const updatedUser = await S_user.updateUser(userId, updatedUserData);
+      return updatedUser;
+    } catch (e){
+      console.log(e);
+      throw e;
+    }
+  },
 
 // get a user by its name
 getUserByNameSearch : async (name)=> {
