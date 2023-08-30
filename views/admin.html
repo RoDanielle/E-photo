@@ -195,7 +195,7 @@
                 <input type="text" id="image" placeholder="Image URL" required>
                 <input type="text" id="brand" placeholder="Brand" required>
                 <input type="text" id="category" placeholder="Category" required>
-                <input type="number" id="price" placeholder="Price" required>
+                <input type="number" id="price" placeholder="Price" step="0.01" required>
                 
                 <!-- Use a select element for countInStock -->
                 <select id="countInStock" required>
@@ -203,7 +203,7 @@
                     <option value="notAvailable">Not Available</option>
                 </select>
                 
-                <input type="number" id="rating" placeholder="Rating" required>
+                <input type="number" id="rating" placeholder="Rating" step="0.1" required>
                 <input type="number" id="numReviews" placeholder="Number Of Reviews" required>
                 <input type="text" id="description" placeholder="Description" required>
                 <input type="text" id="color" placeholder="Color" required>
@@ -218,8 +218,8 @@
             </div>
             <form id="addLocationForm" class="form-container">
                 <input type="text" id="locname" placeholder="Location Name" required>
-                <input type="number" id="lat" placeholder="Lat" required>
-                <input type="number" id="lng" placeholder="Lng" required>
+                <input type="number" id="lat" placeholder="Lat" step="0.000001" required>
+                <input type="number" id="lng" placeholder="Lng" step="0.000001" required>
                 <button type="submit">Add Location</button>
             </form>
         </div>

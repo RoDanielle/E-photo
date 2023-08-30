@@ -42,7 +42,6 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   });
   //add proudoct + facebook API ! 
   async function addProduct(productData, event) {
-    console.log("inside addProduct");
     try {
         const response = await fetch("/api/store-products", {
             method: "POST",
@@ -53,7 +52,6 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
         });
 
         const data = await response.json();
-        console.log("log:", data);
 
         if (data.message === 'Product added successfully') {
             console.log("Product added successfully!");
@@ -100,6 +98,8 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
                     }
                 }
             );
+            const updatedProductsData = await fetchProductData();
+            updateProductsTable(updatedProductsData);
         } else {
             console.error("Failed to add product.");
         }
@@ -906,11 +906,12 @@ async function addLocation(locationData, event) {
       body: JSON.stringify(locationData)
     });
     const data = await response.json();
-    console.log("log:", data)
     if (data.message === 'Location added successfully') {
       console.log("Location added successfully!");
       // Reset the form after successful location addition
       event.target.reset();
+      const updatedLocationData = await fetchLocationData();
+      updateLocationTable(updatedLocationData);
       } else {
       console.error("Failed to add location.");
     }

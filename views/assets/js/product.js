@@ -81,13 +81,21 @@ document.addEventListener('DOMContentLoaded', () => {
             // Assign the fetched product data to the product variable
             product = productData;
 
-           // Update product details on the page
-document.getElementById('product-image').src = product.image;
-document.getElementById('product-name').innerText = product.name;
-document.getElementById('product-description').innerText = `Description: ${product.description}`;
-document.getElementById('product-price').innerText = `Price: $${product.price}`;
-document.getElementById('product-rating').innerText = `Rating: ${product.rating}`; 
-document.getElementById('availability-status').innerText = product.countInStock ;
+            const productImage = document.getElementById('product-image');
+            productImage.src = product.image;
+            productImage.onerror = function () {
+                // Handle image load error by replacing with a default image
+                productImage.src = 'assets/img/failed-to-load.png'; // default image URL
+                productImage.alt = 'Image not available';
+            };
+
+    // Update product details on the page
+    document.getElementById('product-name').innerText = product.name;
+    document.getElementById('product-description').innerText = `Description: ${product.description}`;
+    document.getElementById('product-price').innerText = `Price: $${product.price}`;
+    document.getElementById('product-rating').innerText = `Rating: ${product.rating}`; 
+    document.getElementById('availability-status').innerText = product.countInStock ;
+
 
 
 // Check if countInStock is "available" before showing the "Add to Cart" button
@@ -150,3 +158,14 @@ addToCartButton.addEventListener('click', () => {
         })
         .catch(error => console.error('Error fetching product:', error));
 });
+
+/*
+// Handle image load errors by setting a fallback image
+function imageLoadError(imgElement) {
+    imgElement.onerror = null;
+    imgElement.src = 'assets/img/failed-to-load.png'; // Replace with the URL of your fallback image
+    imgElement.alt = 'Image not available';
+}
+*/
+
+
