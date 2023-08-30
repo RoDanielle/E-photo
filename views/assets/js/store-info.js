@@ -764,8 +764,6 @@ function handleEditClickLocation(locationId) {
   const editRow = locationRow.nextElementSibling;
  // Toggle visibility of the edit form row
  editRow.style.display = editRow.style.display === 'none' ? 'table-row' : 'none';
- //updateLocationTable(locationData); // You may need to pass additional data here
- 
 }
 
 
@@ -799,12 +797,7 @@ try {
             const key = locationRow.cells[i].getAttribute('data-key');
             locationRow.cells[i].textContent = updatedData[key];
         }
-        /*
-        const editedLocationIndex = locationData.findIndex(location => location._id === locationId);
-        if (editedLocationIndex !== -1) {
-          locationData[editedLocationIndex] = updatedData;
-        }
-*/
+
 updateLocation(locationId,updatedData);
 updateLocationTable(updatedData);
     } else {
@@ -958,7 +951,6 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
         const deleteCell = row.insertCell(5);
-        //const updateCell = row.insertCell(6);
   
         orderIdCell.textContent = order._id;
         userOrderIdCell.textContent = order.idUserOrdered;
@@ -976,40 +968,6 @@ const orderTable = document.getElementById('orderTable').getElementsByTagName('t
         deleteButton.setAttribute('data-id', order._id);
         deleteButton.addEventListener('click', () => deleteOrder(order._id));
         deleteCell.appendChild(deleteButton);
-  
-        /*
-        const updateButton = document.createElement('button');
-        updateButton.textContent = 'Update';
-        updateButton.setAttribute('data-id', order._id);
-        updateButton.addEventListener('click', () => handleEditClickOrder(order._id));
-        updateCell.appendChild(updateButton);
-       
-  
-        // Hidden row for editing
-        const editRow = orderTable.insertRow();
-        editRow.style.display = 'none';
-        editRow.insertCell(0);
-        const editCell = editRow.insertCell(1);
-        editCell.colSpan = 5; // Span the entire row for input fields
-  
-        const editForm = document.createElement('form');
-        for (const key in order) {
-            if (key !== '_id') { // Exclude _id 
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.name = key;
-                input.value = order[key];
-                editForm.appendChild(input);
-            }
-        }
-  
-        const confirmUpdateButton = document.createElement('button');
-        confirmUpdateButton.textContent = 'Confirm Update';
-        confirmUpdateButton.addEventListener('click', () => handleUpdateClickOrder(order._id, editForm));
-        editForm.appendChild(confirmUpdateButton);
-  
-        editCell.appendChild(editForm);
-         */
     });
   }
   
@@ -1102,7 +1060,6 @@ function updateOrderTable(data) {
         const costCell = row.insertCell(3);
         const productsListCell = row.insertCell(4);
         const deleteCell = row.insertCell(5);
-        //const updateCell = row.insertCell(6);
   
        orderIdCell.textContent = order._id;
        userOrderIdCell.textContent = order.idUserOrdered;
@@ -1124,30 +1081,6 @@ function updateOrderTable(data) {
        updateButton.textContent = 'Update';
        updateButton.setAttribute('data-id', order._id);
        updateButton.addEventListener('click', () => handleEditClickOrder(order._id));
-       //updateCell.appendChild(updateButton);
-       /*
-       // Hidden row for editing
-       const editRow = orderTable.insertRow();
-       editRow.style.display = 'none';
-       editRow.insertCell(0);
-       const editCell = editRow.insertCell(1);
-       editCell.colSpan = 5; // Span the entire row for input fields
-       const editForm = document.createElement('form');
-       for (const key in order) {
-           if (key !== '_id') { // Exclude _id
-               const input = document.createElement('input');
-               input.type = 'text';
-               input.name = key;
-               input.value = order[key];
-               editForm.appendChild(input);
-           }
-       }
-       const confirmUpdateButton = document.createElement('button');
-       confirmUpdateButton.textContent = 'Confirm Update';
-       confirmUpdateButton.addEventListener('click', () => handleUpdateClickOrder(order._id, editForm));
-       editForm.appendChild(confirmUpdateButton);
-       editCell.appendChild(editForm);
-       */
   });
 }
 

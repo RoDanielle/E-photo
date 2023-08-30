@@ -5,9 +5,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-//const passport=require("passport");
-//const { loginCheck }=require("./auth/passport");
-//loginCheck(passport);
 const customEnv = require('custom-env');
 const path = require('path'); 
 customEnv.env(process.env.NODE_ENV, './config');
@@ -44,7 +41,7 @@ const locationData = require('./data/location');
 const ordersData = require('./data/orders');
 
 // --- Mongo DB connection ---
-const database = process.env.CONNECTION_STRING // || 'mongodb://127.0.0.1:27017/proddb';
+const database = process.env.CONNECTION_STRING 
 
 const connectToMongoDB = async () => {
   try {
@@ -52,7 +49,7 @@ const connectToMongoDB = async () => {
     console.log('MongoDB connected successfully');
 
     // Start the server after the connection is successful
-    const PORT = process.env.PORT // || 4111;
+    const PORT = process.env.PORT 
     app.listen(PORT, () => console.log('Server started on port: ' + PORT));
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
@@ -67,8 +64,7 @@ app.use(session({
   resave: false, // Set to false to save only if changes were made
   saveUninitialized: true
 }));
-//app.use(passport.initialize());
-//app.use(passport.session());
+
 
 // --- google map ---
 const fs = require('fs'); // Import the 'fs' module
