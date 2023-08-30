@@ -9,16 +9,16 @@ Authentication requires users to log in using their registered email and passwor
 ## Project Description
 Here's a breakdown of the project components:
 
-Model:
+* Model:
 The project supports two user types: client users and administrator users. This distinction leads to the inclusion of additional pages and functionalities for administrator users. The model represents the underlying data structure and business logic. In this case, it encompasses user data, photo details, and purchase records.
 
-View:
+* View:
 The view is responsible for translating the data from the model into a user-friendly interface. It primarily consists of HTML pages. The source code of these pages dynamically populates content, allowing users to interact with the application. This interaction includes actions like browsing photos, making purchases, and viewing profiles.
 
-Controller:
+* Controller:
 The controller manages user input and responds to various events that occur in the view. It serves as an intermediary between the view and the model. When users interact with the interface, the controller processes their actions and may trigger changes in the model's data. It operates using predefined services and functions that facilitate these interactions.
 
-Installation:
+* Installation:
 The project is a web application developed using JavaScript, HTML, and CSS. To access the application, users need to run the server.
 
 
