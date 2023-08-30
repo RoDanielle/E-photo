@@ -45,14 +45,13 @@ function updateShoppingCart(cartData) {
 
 
 
-// Function to add product to cart
 function addToCart(product) {
     // Retrieve existing cart data from local storage
     const existingCart = JSON.parse(localStorage.getItem('cart')) || {};
 
     // Check if the product is already in the cart
     if (existingCart[product._id]) {
-        existingCart[product._id].quantity++;
+        alert('Product is already in the cart.');
     } else {
         existingCart[product._id] = {
             name: product.name,

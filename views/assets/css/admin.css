@@ -177,26 +177,54 @@ header {
     background-color: #f2f2f2;
 }
 
-/* Styling for the Add Product form */
-#addProductForm {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+/* Styling for the select element */
+/* Styling for the select container */
+.form-container {
+    position: relative;
 }
 
-/* Styling for form inputs */
-#addProductForm input {
+/* Styling for the select element */
+.form-container select {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    /* Add the border and box-shadow for consistency */
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Add outline styles */
+    outline: none;
+}
+
+/* Styling for the outline when not focused */
+.form-container select:focus {
+    border: 1px solid #007bff; /* Change border color when focused */
+}
+
+/* Styling for the outline when not focused */
+.form-container select:not(:focus) {
+    border: 1px solid #000; /* Black border when not focused */
+}
+
+
+/* Styling for the Add Product form */
+#addProductForm {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+/* Styling for input fields */
+#addProductForm input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 /* Styling for the Add Product button */
@@ -212,6 +240,43 @@ header {
 }
 
 #addProductForm button:hover {
+    background-color: #0056b3;
+}
+
+/* Styling for the Add Location form */
+#addLocationForm {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Styling for form inputs */
+#addLocationForm input {
+    margin: 10px;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Styling for the Add Location button */
+#addLocationForm button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#addLocationForm button:hover {
     background-color: #0056b3;
 }
 

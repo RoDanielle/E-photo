@@ -103,55 +103,57 @@
           
        // Create HTML element for each product and populate the content
        function createProductElement(product) {
-           const productCard = document.createElement('div');
-           productCard.classList.add('card', 'mb-3');
-           productCard.style.flex = '0 0 calc(33.33% - 20px)';
-              
-           // Create and set the card content based on your product schema
-           productCard.innerHTML = `
-           <a href="product.html?id=${product._id}">
-              <img src="${product.image}" class="card-img-top" alt="${product.name}" onerror="imageLoadError(this)">
-           </a>
+        const productCard = document.createElement('div');
+        productCard.classList.add('card', 'mb-3');
+        productCard.style.flex = '0 0 calc(33.33% - 20px)';
+    
+        // Check if countInStock is "available" before rendering the button
+        const isAvailable = product.countInStock === "available";
+        
+        // Create and set the card content based on your product schema
+        productCard.innerHTML = `
+            <a href="product.html?id=${product._id}">
+                <img src="${product.image}" class="card-img-top" alt="${product.name}" onerror="imageLoadError(this)">
+            </a>
             <div class="card-body">
-              <h5 class="card-title">${product.name}</h5>
-                          <p class="card-text">${product.description}</p>
-                          <p class="card-text"><strong>Price: $${product.price}</strong></p>
-                          <p class="card-text">Rating: ${product.rating} (${product.numReviews} reviews)</p>
-                          <p class="card-text">Availability: ${product.countInStock} in stock</p>
-                          <button class="btn btn-primary add-to-cart-button" data-product='${JSON.stringify(product)}'>Add to Cart</button>
-                      </div>
-                  `;
-          
-                  const addToCartButton = productCard.querySelector('.add-to-cart-button');
-                 
-              
-
-                  addToCartButton.addEventListener('click', () => {
-                    console.log('Add to Cart button clicked');
+                <h5 class="card-title">${product.name}</h5>
+                <p class="card-text">${product.description}</p>
+                <p class="card-text"><strong>Price: $${product.price}</strong></p>
+                <p class="card-text">Rating: ${product.rating} (${product.numReviews} reviews)</p>
+                <p class="card-text">Availability: ${product.countInStock} in stock</p>
+                ${isAvailable ? '<button class="btn btn-primary add-to-cart-button" data-product=\'${JSON.stringify(product)}\'>Add to Cart</button>' : ''}
+            </div>
+        `;
+    
+        if (isAvailable) {
+            const addToCartButton = productCard.querySelector('.add-to-cart-button');
+            addToCartButton.addEventListener('click', () => {
+                console.log('Add to Cart button clicked');
                 
-                    // Fetch user login status
-                    fetch("/checkLoggedIn")
-                        .then(response => response.json())
-                        .then(data => {
-                            const isLoggedIn = data.isLoggedIn;
-                            console.log('User logged in:', isLoggedIn);
-                            
-                            if (isLoggedIn) {
-                                // User is logged in, proceed to add to cart
-                                addToCart(product);
-                            } else {
-                                // User is not logged in, show a message
-                                alert('Please log in first to add to cart.');
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Error checking session:", error);
-                        });
-                });
-                
-
-                      return productCard;
-                  }
+                // Fetch user login status
+                fetch("/checkLoggedIn")
+                    .then(response => response.json())
+                    .then(data => {
+                        const isLoggedIn = data.isLoggedIn;
+                        console.log('User logged in:', isLoggedIn);
+                        
+                        if (isLoggedIn) {
+                            // User is logged in, proceed to add to cart
+                            addToCart(product);
+                        } else {
+                            // User is not logged in, show a message
+                            alert('Please log in first to add to cart.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error checking session:", error);
+                    });
+            });
+        }
+    
+        return productCard;
+    }
+    
               
                   // Handle image load errors by setting a fallback image
                   function imageLoadError(imgElement) {

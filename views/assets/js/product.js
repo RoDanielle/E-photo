@@ -23,7 +23,7 @@ async function saveEditedProduct(productId) {
     const editedBrand = document.getElementById('editedBrand').value;
     const editedCategory = document.getElementById('editedCategory').value;
     const editedPrice = parseFloat(document.getElementById('editedPrice').value);
-    const editedCountInStock = parseFloat(document.getElementById('editedCountInStock').value);
+    const editedCountInStock = document.getElementById('editedCountInStock').value;
     const editedRating = parseFloat(document.getElementById('editedRating').value);
     const editedNumReviews = parseFloat(document.getElementById('editedNumReviews').value);
     const editedDescription = document.getElementById('editedDescription').value;
@@ -81,34 +81,45 @@ document.addEventListener('DOMContentLoaded', () => {
             // Assign the fetched product data to the product variable
             product = productData;
 
-            // Update product details on the page
-            document.getElementById('product-image').src = product.image;
-            document.getElementById('product-name').innerText = product.name;
-            document.getElementById('product-description').innerText = `Description: ${product.description}`;
-            document.getElementById('product-price').innerText = `Price: $${product.price}`;
-            document.getElementById('product-rating').innerText = `Rating: ${product.rating}`; 
-            document.getElementById('availability-status').innerText = product.countInStock > 0 ? 'In Stock' : 'Out of Stock';  
+           // Update product details on the page
+document.getElementById('product-image').src = product.image;
+document.getElementById('product-name').innerText = product.name;
+document.getElementById('product-description').innerText = `Description: ${product.description}`;
+document.getElementById('product-price').innerText = `Price: $${product.price}`;
+document.getElementById('product-rating').innerText = `Rating: ${product.rating}`; 
+document.getElementById('availability-status').innerText = product.countInStock ;
 
-            // Attach click event listener to the "Add to Cart" button
-            const addToCartButton = document.querySelector('.add-to-cart-button');
-            addToCartButton.addEventListener('click', () => {
-                // Fetch user login status and handle cart addition
-                fetch("/checkLoggedIn")
-                    .then(response => response.json())
-                    .then(data => {
-                        const isLoggedIn = data.isLoggedIn;
-                        if (isLoggedIn) {
-                            // Proceed to add to cart
-                            addToCart(product);
-                        } else {
-                            // Show login message
-                            alert('Please log in first to add to cart.');
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Error checking session:", error);
-                    });
-            });
+
+// Check if countInStock is "available" before showing the "Add to Cart" button
+const addToCartButton = document.querySelector('.add-to-cart-button');
+if (product.countInStock === "available") {
+    addToCartButton.style.display = "block"; // Show the "Add to Cart" button
+} else {
+    addToCartButton.style.display = "none"; // Hide the "Add to Cart" button
+}
+
+// Attach click event listener to the "Add to Cart" button
+addToCartButton.addEventListener('click', () => {
+    // Fetch user login status and handle cart addition
+    fetch("/checkLoggedIn")
+        .then(response => response.json())
+        .then(data => {
+            const isLoggedIn = data.isLoggedIn;
+            if (isLoggedIn) {
+                // Proceed to add to cart
+                addToCart(product);
+            } else {
+                // Show login message
+                alert('Please log in first to add to cart.');
+            }
+        })
+        .catch(error => {
+            console.error("Error checking session:", error);
+        });
+});
+
+// ... (rest of your code) ...
+
 
             // Show the edit form and populate it with current product information
             const editButton = document.querySelector('.edit-button');

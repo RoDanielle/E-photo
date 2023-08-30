@@ -51,11 +51,7 @@
         <p id="cartTotal"></p>
         <button id="payButton">Pay</button>
     </aside>
-    <div class="content">
-        <div class="facebook-post-form">
-            <!-- Facebook post form section SEE IF WE CAN DELETE THAT PART ---------------------------------->
-        </div>
-    </div>
+    
     <div class="headLine">
         <h2 class="filtered-text">All Registers</h2>
     </div>
@@ -200,12 +196,19 @@
                 <input type="text" id="brand" placeholder="Brand" required>
                 <input type="text" id="category" placeholder="Category" required>
                 <input type="number" id="price" placeholder="Price" required>
-                <input type="number" id="countInStock" placeholder="Count In Stock" required>
+                
+                <!-- Use a select element for countInStock -->
+                <select id="countInStock" required>
+                    <option value="available">Available</option>
+                    <option value="notAvailable">Not Available</option>
+                </select>
+                
                 <input type="number" id="rating" placeholder="Rating" required>
                 <input type="number" id="numReviews" placeholder="Number Of Reviews" required>
                 <input type="text" id="description" placeholder="Description" required>
                 <input type="text" id="color" placeholder="Color" required>
                 <input type="text" id="popularity" placeholder="Popularity" required>
+                
                 <button type="submit">Add Product</button>
             </form>
         </div>
