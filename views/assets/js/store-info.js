@@ -452,7 +452,15 @@ productData.forEach(product => {
   const imageElement = document.createElement('img');
   imageElement.src = product.image;
   imageElement.alt = 'Product Image';
-  imageElement.className = 'product-image'; // Add the CSS class
+  imageElement.className = 'product-image';
+  
+  // Add an error handler for image load errors
+  imageElement.onerror = function () {
+      // Replace the faulty image with a default image
+      imageElement.src = 'assets/img/failed-to-load.png'; // default image URL
+      imageElement.alt = 'Image not available';
+  };
+  
   // Append the <img> element to the imageCell
   imageCell.innerHTML = '';
   imageCell.appendChild(imageElement);
@@ -572,12 +580,20 @@ function updateProductsTable(data) {
     const imageCell = row.insertCell(2);
 
     // Create an <img> element for the image
-    const imageElement = document.createElement("img");
+    const imageElement = document.createElement('img');
     imageElement.src = product.image;
-    imageElement.alt = "Product Image";
-    imageElement.className='product-image';
-    imageCell.innerHTML='';
+    imageElement.alt = 'Product Image';
+    imageElement.className = 'product-image';
+    
+    // Add an error handler for image load errors
+    imageElement.onerror = function () {
+        // Replace the faulty image with a default image
+        imageElement.src = 'assets/img/failed-to-load.png'; // default image URL
+        imageElement.alt = 'Image not available';
+    };
+    
     // Append the <img> element to the imageCell
+    imageCell.innerHTML = '';
     imageCell.appendChild(imageElement);
 
     const brandCell = row.insertCell(3);
@@ -882,7 +898,7 @@ document.getElementById("addLocationForm").addEventListener("submit", async func
   // Get values form fields
   const name = document.getElementById("locname").value;
   const lat = parseFloat(document.getElementById("lat").value);
-  const lng = parseFloat(document.getElementById("lng").value);yScale
+  const lng = parseFloat(document.getElementById("lng").value);
 
   const locationData = {
     name,
@@ -896,7 +912,6 @@ document.getElementById("addLocationForm").addEventListener("submit", async func
 
 // add a new location to mongoDB
 async function addLocation(locationData, event) {
-  console.log("inside addLocation");
   try {
     const response = await fetch("/api/add-location", {
       method: "POST",

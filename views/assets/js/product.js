@@ -159,13 +159,6 @@ addToCartButton.addEventListener('click', () => {
         .catch(error => console.error('Error fetching product:', error));
 });
 
-/*
-// Handle image load errors by setting a fallback image
-function imageLoadError(imgElement) {
-    imgElement.onerror = null;
-    imgElement.src = 'assets/img/failed-to-load.png'; // Replace with the URL of your fallback image
-    imgElement.alt = 'Image not available';
-}
-*/
+
 
 
