@@ -108,7 +108,7 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
     }
 
 }
-
+/*
   //Registered users 
     // Fetch user data from MongoDB using an API endpoint
     async function fetchUserData() {
@@ -162,6 +162,247 @@ document.getElementById("addProductForm").addEventListener("submit", async funct
   console.error('Failed to delete user.');
   }
   }
+*/
+//user
+const userTable = document.getElementById('userTable').getElementsByTagName('tbody')[0];
+async function fetchUserData() {
+const response = await fetch('/api/store-user');
+const data = await response.json();
+return data;
+}
+async function renderUserTable(data) {
+  const userData = await fetchUserData();
+  userData.forEach(user => {
+      const row = userTable.insertRow();
+      row.setAttribute('data-id', user._id);
+      const userIdCell = row.insertCell(0);
+      const userNameCell = row.insertCell(1);
+      const emailCell = row.insertCell(2);
+      const deleteCell = row.insertCell(3);
+      const updateCell = row.insertCell(4);
+      userIdCell.textContent = user._id;
+      userNameCell.textContent = user.name;
+      emailCell.textContent = user.email;
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.className = 'red-delete-button'; // Apply the CSS class
+      deleteButton.setAttribute('data-id', user._id);
+      deleteButton.addEventListener('click', () => deleteUser(user._id));
+      deleteCell.appendChild(deleteButton);
+      const updateButton = document.createElement('button');
+      updateButton.textContent = 'Update';
+      updateButton.setAttribute('data-id', user._id);
+      updateButton.addEventListener('click', () => handleEditClickUser(user._id));
+      updateCell.appendChild(updateButton);
+      // Hidden row for editing
+      const editRow = userTable.insertRow();
+      editRow.style.display = 'none';
+      editRow.insertCell(0);
+      const editCell = editRow.insertCell(1);
+      editCell.colSpan = 5; // Span the entire row for input fields
+      const editForm = document.createElement('form');
+      for (const key in user) {
+          if (key == 'name' || key == 'email') { // Exclude _id and __v fields
+              const input = document.createElement('input');
+              input.type = 'text';
+              input.name = key;
+              input.value = user[key];
+              editForm.appendChild(input);
+          }
+      }
+      const confirmUpdateButton = document.createElement('button');
+      confirmUpdateButton.textContent = 'Confirm Update';
+      confirmUpdateButton.addEventListener('click', () => handleUpdateClickUser(user._id, editForm));
+      editForm.appendChild(confirmUpdateButton);
+      editCell.appendChild(editForm);
+  });
+}
+// Function to delete a user
+async function deleteUser(userId) {
+  console.log(userId);
+  try {
+    const response = await fetch(`/api/store-user/${userId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+      // Remove the deleted user from the table and re-render the table
+      const deletedRow = userTable.querySelector(`[data-id="${userId}"]`);
+      if (deletedRow) {
+        userTable.removeChild(deletedRow);
+      }
+    } else {
+      console.error('Failed to delete user.');
+    }
+  } catch (error) {
+    console.error('Error deleting user:', error);
+  }
+}
+// Function to update a user
+async function updateUser(userId,updatedData) {
+  try {
+    console.log("user id:", userId);
+    console.log("updated user data:", updatedData);
+    const response = await fetch(`/api/store-user/${userId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log(data);
+    if (data.success) {
+       // Find the row in the table that needs to be updated
+       const updatedRow = userTable.querySelector(`[data-id="${userId}"]`);
+      if (updatedRow) {
+         // Update the cells with the new data
+         const cells = updatedRow.cells;
+         cells[1].textContent = updatedData.name;
+         cells[2].textContent = updatedData.email;
+          // Hide the edit form row
+        const editRow = updatedRow.nextElementSibling;
+        editRow.style.display = 'none';
+      }
+    } else {
+      console.error('Failed to update user.');
+    }
+  } catch (error) {
+    console.error('Error updating user:', error);
+  }
+}
+function handleEditClickUser(userId) {
+  const userRow = userTable.querySelector(`[data-id="${userId}"]`);
+  const editRow = userRow.nextElementSibling;
+ // Toggle visibility of the edit form row
+ editRow.style.display = editRow.style.display === 'none' ? 'table-row' : 'none';
+}
+async function handleUpdateClickUser(userId, editForm) {
+console.log('Updating user:', userId);
+const updatedData = {};
+for (const input of editForm.elements) {
+    if (input.type === 'text') {
+        updatedData[input.name] = input.value;
+    }
+}
+console.log('Updated data:', updatedData);
+try {
+    const response = await fetch(`/api/store-user/${userId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+    });
+    const data = await response.json();
+    console.log('API Response:',data);
+    if (data.success) {
+        // Update the table with the new data
+        const userRow = userTable.querySelector(`[data-id="${userId}"]`);
+        const editRow = userRow.nextElementSibling;
+        editRow.style.display = 'none'; // Hide the edit row
+        // Update the visible row cells with the new data
+        for (let i = 1; i < userRow.cells.length - 2; i++) {
+            const key = userRow.cells[i].getAttribute('data-key');
+            userRow.cells[i].textContent = updatedData[key];
+        }
+updateUser(userId,updatedData);
+updateUserTable(updatedData);
+    } else {
+        console.error('Failed to update user.');
+    }
+} catch (error) {
+    console.error('Error updating user:', error);
+}
+}
+// Add an event listener for search form submission
+document.getElementById("searchUserButton").addEventListener("click", async function() {
+  // Get the search query from the input field
+  const searchQuery = document.getElementById("searchUser").value;
+  if (searchQuery) {
+    const searchData = await findUserById(searchQuery);
+    updateUserTable(searchData); // Use the correct function here
+  } else {
+    updateUserTable(originalUserData);  // Revert to original data when search is cleared
+  }
+});
+/*
+// Function to fetch user data by id
+async function findUserById(userId) {
+  try {
+      const response = await fetch(`/api/store-user/${userId}`); // Replace with your actual API endpoint
+      const data = await response.json();
+      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
+  } catch (error) {
+      console.error("Error fetching user by id:", error);
+      return [];
+  }
+}
+*/
+// Function to fetch user data by id
+async function findUserById(userId) {
+  try {
+      const response = await fetch(`/api/current-user`); // Replace with your actual API endpoint
+      const data = await response.json();
+      return Array.isArray(data) ? data : [data]; // Wrap data in an array if it's not an array
+  } catch (error) {
+      console.error("Error fetching location by id:", error);
+      return [];
+  }
+}
+function updateUserTable(data) {
+  const tableBody = document.getElementById("userTable").getElementsByTagName("tbody")[0];
+  // Clear existing table
+  tableBody.innerHTML = "";
+  data.forEach(user => {
+    const row = tableBody.insertRow();
+    row.setAttribute("data-id", user._id); // Set the data-id attribute for the row
+    const userIdCell = row.insertCell(0);
+    const userNameCell = row.insertCell(1);
+    const emailCell = row.insertCell(2);
+    const deleteCell = row.insertCell(3);
+    const updateCell = row.insertCell(4);
+    userIdCell.textContent = user._id;
+    userNameCell.textContent = user.name;
+    emailCell.textContent = user.email;
+    const deleteButton = document.createElement('button');
+      deleteButton.textContent = 'Delete';
+      deleteButton.className = 'red-delete-button'; // Apply the CSS class
+      deleteButton.setAttribute('data-id', user._id);
+      deleteButton.addEventListener('click', () => deleteUser(user._id));
+      deleteCell.appendChild(deleteButton);
+      const updateButton = document.createElement('button');
+      updateButton.textContent = 'Update';
+      updateButton.setAttribute('data-id', user._id);
+      updateButton.addEventListener('click', () => handleEditClickUser(user._id));
+      updateCell.appendChild(updateButton);
+      // Hidden row for editing
+      const editRow = userTable.insertRow();
+      editRow.style.display = 'none';
+      editRow.insertCell(0);
+      const editCell = editRow.insertCell(1);
+      editCell.colSpan = 5; // Span the entire row for input fields
+      const editForm = document.createElement('form');
+      for (const key in user) {
+          if (key == 'name' || key !== 'email') {
+              const input = document.createElement('input');
+              input.type = 'text';
+              input.name = key;
+              input.value = user[key];
+              editForm.appendChild(input);
+          }
+      }
+      const confirmUpdateButton = document.createElement('button');
+      confirmUpdateButton.textContent = 'Confirm Update';
+      confirmUpdateButton.addEventListener('click', () => handleUpdateClickUser(user._id, editForm));
+      editForm.appendChild(confirmUpdateButton);
+      editCell.appendChild(editForm);
+  });
+}
 
   async function init() {
     const userData = await fetchUserData();
@@ -336,12 +577,11 @@ async function deleteProduct(productId) {
     console.error('Error deleting product:', error);
   }
 }
-//renderProductsTable();
 
 // Add an event listener for search form submission
-document.getElementById("searchButton").addEventListener("click", async function() {
+document.getElementById("searchUser").addEventListener("click", async function() {
   // Get the search query from the input field
-  const searchQuery = document.getElementById("searchEmail").value;
+  const searchQuery = document.getElementById("searchUserButton").value;
   if (searchQuery) {
     const searchData = await findUserByEmail(searchQuery);
     updateUserTable(searchData);
@@ -361,7 +601,7 @@ async function findUserByEmail(email) {
       return [];
   }
 }
-
+/*
 function updateUserTable(data) {
   const tableContainer = d3.select('#userTable');
   const table = tableContainer.select('table'); // Select the existing table
@@ -377,7 +617,7 @@ function updateUserTable(data) {
   deleteButton.on('click', user => deleteUser(user._id));
   rows.merge(newRow); // Merge new and existing rows
 }
-
+*/
 // Add an event listener for search form submission
 document.getElementById("searchProductIdButton").addEventListener("click", async function() {
   // Get the search query from the input field
@@ -417,6 +657,8 @@ function updateProductsTable(data) {
     const imageElement = document.createElement("img");
     imageElement.src = product.image;
     imageElement.alt = "Product Image";
+    imageElement.className='product-image';
+    imageCell.innerHTML='';
     // Append the <img> element to the imageCell
     imageCell.appendChild(imageElement);
 
