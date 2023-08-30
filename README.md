@@ -16,22 +16,22 @@ View:
 The view is responsible for translating the data from the model into a user-friendly interface. It primarily consists of HTML pages. The source code of these pages dynamically populates content, allowing users to interact with the application. This interaction includes actions like browsing photos, making purchases, and viewing profiles.
 
 Controller:
-The controller manages user input and responds to various events that occur in the view. It serves as an intermediary between the view and the model. When users interact with the interface, the controller processes their actions and may trigger changes in the model's data.It operates using predefined services and functions that facilitate these interactions.
+The controller manages user input and responds to various events that occur in the view. It serves as an intermediary between the view and the model. When users interact with the interface, the controller processes their actions and may trigger changes in the model's data. It operates using predefined services and functions that facilitate these interactions.
 
 Installation:
 The project is a web application developed using JavaScript, HTML, and CSS. To access the application, users need to run the server.
 
 
-##Technologies Used:
+## Technologies Used:
 The project employs various technologies, including but not limited to:
 
-JavaScript
-HTML
-CSS
-MongoDB database for data storage
-MVC architecture for organizing code and logic
-jQuery for enhanced JavaScript functionality
-Bootstrap for responsive and visually appealing design
+* JavaScript
+* HTML
+* CSS
+* MongoDB database for data storage
+* MVC architecture for organizing code and logic
+* jQuery for enhanced JavaScript functionality
+* Bootstrap for responsive and visually appealing design
 
 ## Authors
 The project was collaboratively developed by several individuals. 
