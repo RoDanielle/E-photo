@@ -1,42 +1,41 @@
 # E-photo
 
-"E-photo" is a web application that manages a store for purchasing photos.
-On this site, users can purchase photos from the store, view their profile containing their data, contact us and receive information about the site.
-Each user connects to the website using the email and password they registered with.
+"E-photo" is a web application designed to facilitate the purchasing and management of photos. 
+The application employs the MVC (Model-View-Controller) architecture and is supported by a MongoDB database. Users can buy photos from the store, view their profiles, contact the website administrators, and access site information.
+Authentication requires users to log in using their registered email and password.
 
-
+*The project is intended as a learning experience and practical application of web development concepts. It involves building an e-commerce platform for purchasing photos and incorporates modern design and development practices.
 
 ## Project Description
-Our project is based on the MVC architecture and uses MongoDB database.
+Here's a breakdown of the project components:
+
+Model:
+The project supports two user types: client users and administrator users. This distinction leads to the inclusion of additional pages and functionalities for administrator users. The model represents the underlying data structure and business logic. In this case, it encompasses user data, photo details, and purchase records.
+
+View:
+The view is responsible for translating the data from the model into a user-friendly interface. It primarily consists of HTML pages. The source code of these pages dynamically populates content, allowing users to interact with the application. This interaction includes actions like browsing photos, making purchases, and viewing profiles.
+
+Controller:
+The controller manages user input and responds to various events that occur in the view. It serves as an intermediary between the view and the model. When users interact with the interface, the controller processes their actions and may trigger changes in the model's data.It operates using predefined services and functions that facilitate these interactions.
+
+Installation:
+The project is a web application developed using JavaScript, HTML, and CSS. To access the application, users need to run the server.
 
 
+##Technologies Used:
+The project employs various technologies, including but not limited to:
 
-MODEL-
-We support two different user types: client users and administrator users.
-As a result, additional pages and functionality are displayed when logged in as an administrator user.
-
-
-
-VIEW-
-Its role is to convert the model data into a representation that allows users to perform action.
-The view is an HTML page, and the source code collects dynamic information for the page.
-
-
-
-CONTROLLER-
-Our controller processes and responds to events that occur on the display, usually in response to the user's actions.
-In processing the events, the controller may change the information in the model through the operation of services defined in it.
-
-
-
-## Installation
-This project is a web application implemented in JavaScript, HTML and CSS.
-
-To connect to the site, you need to run the server.
-
-
+JavaScript
+HTML
+CSS
+MongoDB database for data storage
+MVC architecture for organizing code and logic
+jQuery for enhanced JavaScript functionality
+Bootstrap for responsive and visually appealing design
 
 ## Authors
+The project was collaboratively developed by several individuals. 
+The initial work can be found on GitHub at the link provided, which includes contributions from different team members. 
 We initially started writing the website in another project on GitHub, where you can see part of the work at the following link:
 https://github.com/ShirazSorijoun/Web_application-E.PHOTO
 
