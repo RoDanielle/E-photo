@@ -1,5 +1,6 @@
-# E-photo
+
 ![LOGO](views/assets/img/logo3.jpg)
+
 "E-photo" is a web application designed to facilitate the purchasing and management of photos. 
 The application employs the MVC (Model-View-Controller) architecture and is supported by a MongoDB database. Users can buy photos from the store, view their profiles, contact the website administrators, and access site information.
 Authentication requires users to log in using their registered email and password.
