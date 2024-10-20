@@ -40,6 +40,11 @@ The initial work can be found on GitHub at the link provided, which includes con
 We initially started writing the website in another project on GitHub, where you can see part of the work at the following link:
 https://github.com/ShirazSorijoun/Web_application-E.PHOTO
 
+The final project can be found at the following link:
+https://github.com/Danielhay016/E-photo
+
+**NOTE**: this repository was cloned from our original project and several changes and fetures were added.
+
 For any questions or suggestions, please do not hesitate to contact the project
 
 management team:
