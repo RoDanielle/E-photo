@@ -6,6 +6,20 @@
 
 This project is intended as a learning experience and practical application of web development concepts. It involves building an e-commerce platform for purchasing photos and incorporates modern design and development practices.
 
+## Project Description
+
+### **Model:**
+The project supports two user types: client users and administrator users. This distinction leads to the inclusion of additional pages and functionalities for administrator users. The model represents the underlying data structure and business logic. In this case, it encompasses user data, photo details, and purchase records.
+
+### **View:**
+The view is responsible for translating the data from the model into a user-friendly interface. It primarily consists of HTML pages. The source code of these pages dynamically populates content, allowing users to interact with the application. This interaction includes actions like browsing photos, making purchases, and viewing profiles.
+
+### **Controller:**
+The controller manages user input and responds to various events that occur in the view. It serves as an intermediary between the view and the model. When users interact with the interface, the controller processes their actions and may trigger changes in the model's data. It operates using predefined services and functions that facilitate these interactions.
+
+### **Installation:**
+The project is a web application developed using JavaScript, HTML, and CSS. To access the application, users need to run the server.
+
 ## Project Features
 
 ### **Admin User Features:**
@@ -25,20 +39,6 @@ This project is intended as a learning experience and practical application of w
 - **Google Maps Integration:** Displays the store locations on an interactive map, helping users find physical stores.
 - **Gmail API:** Sends emails through a contact form, ensuring secure communication between users and website administrators.
 - **Automated Real-time Chat (Socket.io/WebSockets):** Provides predefined automated responses to common user inquiries without admin intervention.
-
-## Project Description
-
-### **Model:**
-The project supports two user types: client users and administrator users. This distinction leads to the inclusion of additional pages and functionalities for administrator users. The model represents the underlying data structure and business logic. In this case, it encompasses user data, photo details, and purchase records.
-
-### **View:**
-The view is responsible for translating the data from the model into a user-friendly interface. It primarily consists of HTML pages. The source code of these pages dynamically populates content, allowing users to interact with the application. This interaction includes actions like browsing photos, making purchases, and viewing profiles.
-
-### **Controller:**
-The controller manages user input and responds to various events that occur in the view. It serves as an intermediary between the view and the model. When users interact with the interface, the controller processes their actions and may trigger changes in the model's data. It operates using predefined services and functions that facilitate these interactions.
-
-### **Installation:**
-The project is a web application developed using JavaScript, HTML, and CSS. To access the application, users need to run the server.
 
 ## Technologies Used:
 The project employs various technologies, including but not limited to:
