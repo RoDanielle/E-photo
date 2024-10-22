@@ -7,7 +7,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const customEnv = require('custom-env');
 const path = require('path'); 
-const emailRoutes = require('./routes/emailRoutes'); // Adjust the path as needed
+const emailRoutes = require('./routes/emailRoutes'); // Email routes
 customEnv.env(process.env.NODE_ENV, './config');
 
 // Initialize Express app
@@ -33,7 +33,6 @@ const C_location = require('./controllers/location');
 const C_products = require('./controllers/products');
 const C_users = require('./controllers/user');
 const C_orders = require('./controllers/order');
-
 
 // --- data paths ---
 const usersData = require('./data/user');
@@ -66,7 +65,6 @@ app.use(session({
   saveUninitialized: true
 }));
 
-
 // --- google map ---
 const fs = require('fs'); // Import the 'fs' module
 
@@ -76,17 +74,13 @@ app.use('/', (req, res, next) => {
     const apiKey = process.env.GOOGLE_MAPS_API_KEY; 
     const filePath = './views/contacts.html'; // Update with the correct file path
 
-    // Check if the file exists
     if (fs.existsSync(filePath)) {
-      // Read the contacts.html file with utf8 encoding
       fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
           console.error('Error reading HTML file:', err);
           res.status(500).send('Error reading HTML file.');
         } else {
-          // Replace the placeholder with the actual API key
           const modifiedData = data.replace('API_KEY_PLACEHOLDER', apiKey);
-          // Log the modified data (for debugging purposes)
           res.send(modifiedData);
         }
       });
@@ -104,11 +98,10 @@ app.use(express.static(__dirname + '/views/'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-//Analyst json data 
 app.use(bodyParser.json());
 
 // gmail
-app.use('/api', emailRoutes); // Adjust the path prefix as necessary
+app.use('/api', emailRoutes); // Email routes for Gmail API
 
 // Serve index.html
 app.get('/', function (req, res) {
@@ -173,7 +166,6 @@ app.get('/', function (req, res) {
   }
 })();
 
-
 // Routes
 app.use(R_AuthRoutes);
 app.use(R_Products);
@@ -189,7 +181,6 @@ app.use('/services', express.static('services'));
 app.use('/views/assets', express.static('assets'));
 app.use('/views/assets/js', express.static('js'));
 app.use(express.static('public'));
-
 
 // --- web socket - autoResponse ---
 const WebSocket = require('ws');
@@ -221,16 +212,15 @@ wss.on('connection', (ws) => {
 
 //autoResponse 
 function createAutoResponse(message) {
-
   if (message.toLowerCase().includes('order')) {
-      return 'You can place an order through our website or contact us for assistance with your order.';
+    return 'You can place an order through our website or contact us for assistance with your order.';
   } else if (message.toLowerCase().includes('product')) {
-      return 'We offer a wide range of products in our store!';
+    return 'We offer a wide range of products in our store!';
   } else if (message.toLowerCase().includes('shipping')) {
-      return 'We provide fast and convenient shipping services nationwide!';
+    return 'We provide fast and convenient shipping services nationwide!';
   } else if (message.toLowerCase().includes('cancel order')) {
-      return 'To cancel an order, please contact us and provide additional details.';
+    return 'To cancel an order, please contact us and provide additional details.';
   } else {
-      return "Please contact us at the following email address: e.photocont@gmail.com , with the relevant order details. Thank you";
+    return "Please contact us at the following email address: e.photocont@gmail.com , with the relevant order details. Thank you";
   }
 }
