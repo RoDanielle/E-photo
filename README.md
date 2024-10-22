@@ -56,6 +56,17 @@ The project employs various technologies, including but not limited to:
 - Facebook API for posting new products to the store's Facebook page
 - Socket.io/WebSockets for real-time automated chat functionality
 
+## Screenshots
+
+We have provided a set of images showcasing the website's interface and functionalities. You can find them in the `screenshots` folder within the project repository. 
+
+The following views are available:
+- **Products Page**
+- **Log In Page**
+- **Contact Page**
+
+To explore how the application looks, navigate to the `screenshots` folder.
+
 ## Authors
 
 For any questions or suggestions, feel free to contact:
