@@ -57,16 +57,11 @@ The project employs various technologies, including but not limited to:
 - Socket.io/WebSockets for real-time automated chat functionality
 
 ## Authors
-The project was collaboratively developed by several individuals. 
-The initial work can be found on GitHub at the link provided, which includes contributions from different team members. 
-We initially started writing the website in another project on GitHub, where you can see part of the work at the following link:
-https://github.com/ShirazSorijoun/Web_application-E.PHOTO
 
-The final project can be found at the following link:
-https://github.com/Danielhay016/E-photo
+For any questions or suggestions, feel free to contact:
 
-**NOTE**: This repository was cloned from our original project, and several changes and features were added.
+- **Danielle Rotem** - [GitHub](https://github.com/RoDanielle)
 
-For any questions or suggestions, please do not hesitate send a message:
+**NOTE**: This repository was cloned from our original project, with several updates and new features added.
 
-- Danielle Rotem - https://github.com/RoDanielle
+The project was collaboratively developed by multiple team members. The initial version can be found [here](https://github.com/ShirazSorijoun/Web_application-E.PHOTO), showcasing early contributions. The beta version, with the added features, is available at [this link](https://github.com/Danielhay016/E-photo).
