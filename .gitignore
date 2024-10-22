@@ -456,3 +456,7 @@ FodyWeavers.xsd
 *.sln.iml
 
 .idea/
+
+# gmail info
+credentials.json
+token.json
