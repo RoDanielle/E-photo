@@ -67,9 +67,6 @@ https://github.com/Danielhay016/E-photo
 
 **NOTE**: This repository was cloned from our original project, and several changes and features were added.
 
-For any questions or suggestions, please do not hesitate to contact the project management team:
+For any questions or suggestions, please do not hesitate send a message:
 
 - Danielle Rotem - https://github.com/RoDanielle
-- Daniel Hay - https://github.com/Danielhay016
-- Shiraz Sorijoun - https://github.com/ShirazSorijoun
-- Noya Ossi - https://github.com/noyaossi
