@@ -7,6 +7,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const customEnv = require('custom-env');
 const path = require('path'); 
+const emailRoutes = require('./routes/emailRoutes'); // Adjust the path as needed
 customEnv.env(process.env.NODE_ENV, './config');
 
 // Initialize Express app
@@ -106,11 +107,13 @@ app.use(express.json());
 //Analyst json data 
 app.use(bodyParser.json());
 
+// gmail
+app.use('/api', emailRoutes); // Adjust the path prefix as necessary
+
 // Serve index.html
 app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
-
 
 // Automatically add locations , users and products data if not already present
 //locations  

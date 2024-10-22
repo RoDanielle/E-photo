@@ -11,9 +11,7 @@
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/cart.css">
     <script async src="https://maps.googleapis.com/maps/api/js?key=API_KEY_PLACEHOLDER&callback=initMap"></script>
-    <script src="/views/assets/js/map.js"></script>
-    <script src="../views/assets/js/auth.js"></script>
-
+    <script src="assets/js/map.js"></script>
 </head>
 
 
@@ -60,16 +58,19 @@
                 <div class="col-md-6 col-xl-4">
                     <div>
                         <div id="messageDiv"></div>
-                        <form class="p-3 p-xl-4" method="post" data-bs-theme="light" action="/submit-form" id="contactForm">
-                            <div class="mb-3"><input class="form-control" type="text" id="name-1" name="name" placeholder="Name"></div>
+                        <form id="contactForm" class="mt-4">
                             <div class="mb-3">
-                                <input class="form-control" type="email" id="email-1" name="email" placeholder="Email">
-                                <div id="email-error" class="invalid-feedback">Please enter a valid email address.</div>
+                                <input type="text" name="name" class="form-control" placeholder="Your Name" required>
                             </div>
-                            <div class="mb-3"><textarea class="form-control" id="message-1" name="message" rows="6" placeholder="Message"></textarea></div>
-                            <div><button class="btn btn-primary shadow d-block w-100" type="submit" style="background: rgb(127,55,244);" onclick="validateForm()">Send</button></div>
-                        </form>                        
-                    </div>
+                            <div class="mb-3">
+                                <input type="email" name="email" class="form-control" placeholder="Your Email" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea name="message" class="form-control" placeholder="Your Message" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </form>             
+                     </div>
                 </div>
                 <div class="col-md-4 col-xl-4 d-flex justify-content-center justify-content-xl-start">
                     <div class="d-flex flex-wrap flex-md-column justify-content-md-start align-items-md-start h-100">
@@ -112,6 +113,8 @@
     <script src="assets/js/admin.js"></script>
     <script src="assets/js/cart.js"></script>
     <script src="assets/js/font-face.js"></script>
+    <script src="assets/js/gmail.js"></script>
+    <script src="assets/js/auth.js"></script>
 </body>
 
 </html>
