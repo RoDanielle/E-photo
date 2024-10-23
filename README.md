@@ -60,12 +60,12 @@ The project employs various technologies, including but not limited to:
 
 We have provided a set of images showcasing the website's interface and functionalities. You can find them in the `screenshots` folder within the project repository. 
 
-The following views are available:
+Below are a few examples:
 - **Products Page**
 - **Log In Page**
 - **Contact Page**
-
-To explore how the application looks, navigate to the `screenshots` folder.
+- **Admin Consol**
+- **User View**
 
 ## Authors
 
