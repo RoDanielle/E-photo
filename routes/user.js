@@ -109,4 +109,13 @@ router.get("/api/user-by-email/:email",userAuthMiddleware, (req, res) => {
     });
 });
 
+// Check if email exists
+router.post('/check-email', C_user.checkIfEmailExists);
+
+// Initiate password reset
+router.post('/initiate-password-reset', C_user.initiatePasswordReset);
+// Reset password
+router.post('/reset-password', C_user.resetPassword);
+
+
 module.exports = router;

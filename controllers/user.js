@@ -1,5 +1,6 @@
 const StoreUser = require('../models/user');
 const S_user = require('../services/user');
+const { sendPasswordResetEmail } = require('../services/emailService');
 
 const C_user = {
 
@@ -170,5 +171,52 @@ addUsersFromData: async (users) => {
   }
 },
 
+// Add this method to your existing C_user object
+checkIfEmailExists: async (req, res) => {
+  try {
+      const { email } = req.body;
+      const exists = await S_user.checkIfEmailExists(email);
+      res.json({ exists });
+  } catch (error) {
+      console.error('Error checking email:', error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+},
+
+initiatePasswordReset: async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await S_user.findUserByEmail(email);
+    if (!user) {
+      console.log(`Password reset requested for non-existent email: ${email}`);
+      // We don't want to reveal if the email exists or not for security reasons
+      return res.json({ message: 'If the email exists, a password reset link has been sent.' });
+    }
+    const resetToken = await S_user.createPasswordResetToken(user._id);
+    await sendPasswordResetEmail(email, resetToken);
+    res.json({ message: 'If the email exists, a password reset link has been sent.' });
+  } catch (error) {
+    console.error('Error initiating password reset:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+},
+
+resetPassword: async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    const user = await S_user.verifyPasswordResetToken(token);
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid or expired token' });
+    }
+    await S_user.resetPassword(user._id, newPassword);
+    res.json({ message: 'Password reset successful' });
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+},
+
 }
+
+
 module.exports = C_user;

@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const saltRounds = 10; 
 
 const S_user={
@@ -82,7 +83,35 @@ const S_user={
           console.error('Error fetching user by ID:', error);
           throw error;
         }
-      }, 
+      },
+
+    createPasswordResetToken: async (userId) => {
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        const hashedToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+        
+        const user = await User.findById(userId);
+        user.resetPasswordToken = hashedToken;
+        user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
+        await user.save();
+        
+        return resetToken;
+    },
+
+    verifyPasswordResetToken: async (token) => {
+        const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+        return await User.findOne({
+            resetPasswordToken: hashedToken,
+            resetPasswordExpires: { $gt: Date.now() }
+        });
+    },
+
+    resetPassword: async (userId, newPassword) => {
+        const user = await User.findById(userId);
+        user.password = await bcrypt.hash(newPassword, saltRounds);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
+    }, 
 }
 
 module.exports = S_user;

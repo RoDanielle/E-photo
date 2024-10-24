@@ -1,4 +1,4 @@
-const { sendEmail } = require('../services/emailService');
+const { sendEmail, sendPasswordResetEmail } = require('../services/emailService');
 
 const sendContactFormEmail = async (req, res) => {
   const { name, email, message } = req.body;
@@ -18,6 +18,20 @@ const sendContactFormEmail = async (req, res) => {
   }
 };
 
+// Add this new controller method
+const sendPasswordResetEmailController = async (req, res) => {
+  const { email, resetToken } = req.body;
+  try {
+    await emailService.sendPasswordResetEmail(email, resetToken);
+    res.status(200).json({ message: 'Password reset email sent successfully' });
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    res.status(500).json({ error: 'Failed to send password reset email' });
+  }
+};
+
+// Update the module.exports
 module.exports = {
   sendContactFormEmail,
+  sendPasswordResetEmailController
 };

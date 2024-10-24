@@ -134,8 +134,32 @@ async function refreshAccessTokenIfNeeded() {
     }
 }
 
-// Export the necessary components
+// Add this function to your emailService.js
+
+async function sendPasswordResetEmail(to, resetToken) {
+  const subject = 'Password Reset Request - E.Photo';
+  const resetUrl = `http://localhost:3330/password_restoration.html?token=${resetToken}`;
+  const message = `
+    You requested a password reset for your E.Photo account.
+    Please click on the following link to reset your password:
+    ${resetUrl}
+    
+    If you didn't request this, please ignore this email.
+    This link will expire in 1 hour for security reasons.
+  `;
+
+  try {
+    await sendEmail(to, subject, message);
+    console.log('Password reset email sent successfully');
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    throw error;
+  }
+}
+
+// Update the module.exports
 module.exports = {
   oAuth2Client,
   sendEmail,
+  sendPasswordResetEmail
 };
