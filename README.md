@@ -52,7 +52,7 @@ The project employs various technologies, including but not limited to:
 - Bootstrap for responsive and visually appealing design
 - Weather Web Service for fetching real-time weather data
 - Google Maps API for store location mapping
-- Gmail API for contact form integration
+- Gmail API for contact form integration and password restoration
 - Facebook API for posting new products to the store's Facebook page
 - Socket.io/WebSockets for real-time automated chat functionality
 
