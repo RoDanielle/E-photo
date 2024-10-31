@@ -100,56 +100,13 @@ async function fetchUserEmail() {
 }
 
 
-payButton.addEventListener('click', async () => {
-        const totalField = parseFloat(document.getElementById('cartTotal').textContent.replace('Total: $', ''));
+payButton.addEventListener('click', () => {
+    const totalField = parseFloat(document.getElementById('cartTotal').textContent.replace('Total: $', ''));
 
-        if(totalField === 0){
-            alert('Your cart is empty');
-        }
-        else{
-                // Get the current user's ID (email)
-        const currentUserId = await fetchUserEmail();
-
-        if(currentUserId)
-        {
-            const cartData = JSON.parse(localStorage.getItem('cart')) || {};
-
-            const shoppingCart = [];
-
-            for (const productId in cartData) {
-                const product = cartData[productId];
-                shoppingCart.push({ 
-                    productId: productId, 
-                    productName: product.name , 
-                    productPrice: product.price , 
-                    quantity: product.quantity
-                });
-            }
-            // try to create a new order
-            const response = await fetch ('/api/create', {
-                method: 'POST', headers: {'Content-Type': 'application/json'} ,
-                body: JSON.stringify({
-                    idUserOrdered: currentUserId,
-                    cost: totalField,
-                    productList: shoppingCart})
-            });
-
-            if (response.ok) {
-                // Order creation successful
-                const orderData = await response.json();
-                console.log('Order created:', orderData);
-                localStorage.removeItem('cart');
-                updateShoppingCart({});
-                alert('Order placed successfully!');
-                } else {
-                // Order creation failed
-                console.error( 'Failed to create order:', response.status, response.statusText);
-                alert('Failed to create the order. Please try again.');
-            }
-        }
-        else{
-            // The user is not logged in
-            alert('Please log in before placing an order.');
-        }
-        }   
+    if (totalField === 0) {
+        alert('Your cart is empty');
+    } else {
+        // Redirect to checkout page
+        window.location.href = '/checkout.html';
+    }
 });

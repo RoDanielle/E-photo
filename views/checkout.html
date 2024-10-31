@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html data-bs-theme="light" lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.reflowhq.com/v2/toolkit.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <link rel="stylesheet" href="assets/css/cart.css">
+    <script src="../views/assets/js/auth.js"></script>
+
+    <style>
+        .checkout-title {
+            font-size: 2.5rem; /* Adjust the size as needed */
+            color: rgb(167, 60, 230); /* Set the text color to purple */
+            font-weight: bold; /* Optional: make the text bold */
+            margin-bottom: 20px; /* Optional: add space below the title */
+        }
+        /* Optional: style the table */
+        .table img {
+            width: 50px; /* Set image size */
+            height: auto; /* Maintain aspect ratio */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-light navbar-expand-md sticky-top navbar-shrink py-3" id="mainNav">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href=""><img src="assets/img/logo3.jpg" width="172" height="82"></a>
+            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1">
+                <span class="visually-hidden">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navcol-1" style="padding-bottom: 0px;padding-left: 0px;padding-right: 0px;margin-right: 31px;">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contacts.html">Contacts</a></li>
+                    <li class="nav-item"><a class="nav-link" href="aboutus.html">About us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="WebSockt.html">Start Chat!</a></li>
+                    <li class="nav-item" id="storeInfoNavItem"><a class="nav-link" href="admin.html">Store Info</a></li>
+                </ul>
+                <a href="userProfile.html" class="btn btn-primary" style="display: none;"> My Account</a>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center;">
+                <a id="authButton" class="btn btn-primary" role="button">
+                    <span style="color: #fdfdfd;"></span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <aside id="shopping-cart" class="shopping-cart">
+        <h3>Shopping Cart</h3>
+        <ul id="cart-items"></ul>
+        <p id="cartTotal"></p>
+        <button id="payButton">Pay</button>
+    </aside>
+
+    <div class="container mt-4">
+        <h2 class="checkout-title">Checkout</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody id="checkout-items"></tbody> <!-- Populate this section dynamically -->
+        </table>
+        <p id="checkoutTotal" class="fs-5">Total: $0</p>
+        <button id="confirmOrderButton" class="btn btn-primary">Confirm Order</button>
+    </div>
+
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/cart.js"></script>
+    <script src="assets/js/checkout.js"></script>
+    <script src="assets/js/admin.js"></script>
+</body>
+</html>
