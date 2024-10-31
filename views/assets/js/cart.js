@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function updateShoppingCart(cartData) {
     const cartItemsList = document.getElementById('cart-items');
-    cartItemsList.innerHTML = '';
+    cartItemsList.innerHTML = ''; // Clear existing items
 
     let totalQuantity = 0;
     let totalPrice = 0;
@@ -23,26 +23,36 @@ function updateShoppingCart(cartData) {
     for (const productId in cartData) {
         const cartItem = document.createElement('li');
         const product = cartData[productId];
+
+        // Create an image element for the product
+        const img = document.createElement('img');
+        img.src = product.imageUrl; // Set the image source to the product's image
+        img.alt = product.name; // Alt text for accessibility
+        img.style.width = '50px'; // Set a specific width for the image
+        img.style.height = 'auto'; // Maintain aspect ratio
+
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';
         removeButton.addEventListener('click', () => removeFromCart(productId)); // Pass productId here
-        
-        cartItem.textContent = `${product.name} - $${product.price} (Quantity: ${product.quantity}) `;
-        cartItem.appendChild(removeButton);
-        
-        cartItemsList.appendChild(cartItem);
 
-        totalQuantity += product.quantity;
-        totalPrice += product.price * product.quantity;
+        // Combine text and image into the cart item
+        cartItem.appendChild(img); // Add the image
+        cartItem.appendChild(document.createTextNode(` ${product.name} - $${product.price} (Quantity: ${product.quantity}) `));
+        cartItem.appendChild(removeButton); // Add the remove button
+        
+        cartItemsList.appendChild(cartItem); // Add the cart item to the list
+
+        totalQuantity += product.quantity; // Calculate total quantity
+        totalPrice += product.price * product.quantity; // Calculate total price
     }
 
+    // Update cart quantity and total display
     const cartQuantityElement = document.getElementById('cartQuantity');
     cartQuantityElement.textContent = totalQuantity.toString();
     
     const totalField = document.getElementById('cartTotal');
-    totalField.textContent = `Total: $${totalPrice}`;
+    totalField.textContent = `Total: $${totalPrice.toFixed(2)}`; // Format total to two decimal places
 }
-
 
 
 function addToCart(product) {
@@ -57,6 +67,7 @@ function addToCart(product) {
             name: product.name,
             price: product.price,
             quantity: 1,
+            imageUrl: product.image
         };
     }
 

@@ -5,31 +5,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function updateCheckoutPage(cartData) {
     const checkoutItemsList = document.getElementById('checkout-items');
-    checkoutItemsList.innerHTML = '';
+    checkoutItemsList.innerHTML = ''; // Clear existing items
 
     let totalPrice = 0;
 
     for (const productId in cartData) {
         const product = cartData[productId];
-        
+
         // Create a new row for the table
         const row = document.createElement('tr');
+
+        // Create cell for product image
+        const imageCell = document.createElement('td');
+        const img = document.createElement('img');
+        img.src = product.imageUrl; // Set the image source to the product's image
+        img.alt = product.name; // Alt text for accessibility
+        img.style.width = '100px'; // Set a larger width for the image
+        img.style.height = 'auto'; // Maintain aspect ratio
+        imageCell.appendChild(img); // Add image to cell
+        row.appendChild(imageCell); // Append image cell to row
 
         // Create cell for product name
         const productCell = document.createElement('td');
         productCell.textContent = product.name; // Set product name
         row.appendChild(productCell);
-        
+
         // Create cell for price
         const priceCell = document.createElement('td');
         priceCell.textContent = `$${product.price.toFixed(2)}`; // Set formatted price
         row.appendChild(priceCell);
-        
+
         // Create cell for quantity
         const quantityCell = document.createElement('td');
         quantityCell.textContent = product.quantity; // Set quantity
         row.appendChild(quantityCell);
-        
+
         // Append the row to the table body
         checkoutItemsList.appendChild(row);
 
@@ -40,6 +50,8 @@ function updateCheckoutPage(cartData) {
     // Update the total price display
     document.getElementById('checkoutTotal').textContent = `Total: $${totalPrice.toFixed(2)}`; // Format total
 }
+
+
 
 async function fetchUserEmail() {
     try {
@@ -92,7 +104,10 @@ document.getElementById('confirmOrderButton').addEventListener('click', async ()
                 console.log('Order created:', orderData);
                 localStorage.removeItem('cart');
                 updateCheckoutPage({}); // Clear the checkout page
+                
+                // Show success message and redirect
                 alert('Order placed successfully!');
+                window.location.href = 'userProfile.html'; // Redirect to user profile page
             } else {
                 console.error('Failed to create order:', response.status, response.statusText);
                 alert('Failed to create the order. Please try again.');
@@ -105,3 +120,4 @@ document.getElementById('confirmOrderButton').addEventListener('click', async ()
         alert('Please log in before placing an order.');
     }
 });
+

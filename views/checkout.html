@@ -6,27 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Checkout</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.reflowhq.com/v2/toolkit.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="assets/css/bs-theme-overrides.css">
     <link rel="stylesheet" href="assets/css/animate.min.css">
     <link rel="stylesheet" href="assets/css/cart.css">
+    <link rel="stylesheet" href="assets/css/checkout.css">
     <script src="../views/assets/js/auth.js"></script>
-
-    <style>
-        .checkout-title {
-            font-size: 2.5rem; /* Adjust the size as needed */
-            color: rgb(167, 60, 230); /* Set the text color to purple */
-            font-weight: bold; /* Optional: make the text bold */
-            margin-bottom: 20px; /* Optional: add space below the title */
-        }
-        /* Optional: style the table */
-        .table img {
-            width: 50px; /* Set image size */
-            height: auto; /* Maintain aspect ratio */
-        }
-    </style>
+    <script src="assets/js/admin.js"></script>
 </head>
 
 <body>
@@ -55,20 +42,13 @@
             </div>
         </div>
     </nav>
-
-    <aside id="shopping-cart" class="shopping-cart">
-        <h3>Shopping Cart</h3>
-        <ul id="cart-items"></ul>
-        <p id="cartTotal"></p>
-        <button id="payButton">Pay</button>
-    </aside>
-
     <div class="container mt-4">
         <h2 class="checkout-title">Checkout</h2>
         <table class="table">
             <thead>
                 <tr>
-                    <th>Product</th>
+                    <th>Image</th>
+                    <th>Product Name</th>
                     <th>Price</th>
                     <th>Quantity</th>
                 </tr>
@@ -80,8 +60,7 @@
     </div>
 
     <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/cart.js"></script>
     <script src="assets/js/checkout.js"></script>
-    <script src="assets/js/admin.js"></script>
+    <script src="assets/js/font-face.js"></script>
 </body>
 </html>

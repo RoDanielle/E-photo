@@ -1,0 +1,15 @@
+.checkout-title {
+    font-size: 2.5rem; /* Adjust the size as needed */
+    color: rgb(167, 60, 230); /* Set the text color to purple */
+    font-weight: bold; /* make the text bold */
+    margin-bottom: 20px; /* add space below the title */
+}
+/* style the table */
+.table img {
+    width: 50px; /* Set image size */
+    height: auto; /* Maintain aspect ratio */
+}
+.product-image {
+    width: 100px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+}       
