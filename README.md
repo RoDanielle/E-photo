@@ -67,6 +67,12 @@ Below are a few examples:
 - **Admin Consol**
 - **User View**
 
+## License
+This project is licensed under the MIT License. You are free to use, modify, and distribute this project, as long as the original license and attribution are retained. For more details, see the [LICENSE](LICENSE) file.
+
+## Contributing
+Feel free to contribute by opening issues or creating pull requests.
+
 ## Authors
 
 For any questions or suggestions, feel free to contact:
